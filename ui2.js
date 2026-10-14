@@ -26,7 +26,7 @@ function cardHTML(k,attrs='',extra=''){const cd=CARDS[k];const tagn={S:'Ship',C:
 function bar(v,m,cls){return `<div class="hpbar ${cls||''}"><i style="width:${clamp(v/m*100,0,100)}%"></i></div>`}
 function gauge(ic,v,m,cls,tip){return `<div class="gauge ${cls}" data-tip="${tip}" title="${tip}"><span class="gi">${ic}</span><div class="gb"><i style="width:${clamp(v/m*100,0,100)}%"></i><span>${v}<small>/${m}</small></span></div></div>`}
 function hud(){const cp=CAPTAINS[S.cap];
- const offs=Object.keys(ROLES).map(r=>{const o=S.officers[r];const t=o?`${ROLES[r].n}: ${OFFICERS[o.id].n}${o.injured?' (injured)':''}. ${OFFICERS[o.id].passive}`:`${ROLES[r].n}: none (hire at a Recruit node)`;return `<span class="ofc ${o?(o.injured?'inj':'on'):'empty'}" data-tip="${t}" title="${t}">${ROLES[r].i}</span>`}).join('');
+ const offs=Object.keys(ROLES).map(r=>{const o=S.officers[r];const t=o?`${ROLES[r].n}: ${OFFICERS[o.id].n}${o.injured?' (injured)':''}. ${OFFICERS[o.id].passive}`:`${ROLES[r].n}: none (hire at a Recruit node)`;return `<span class="ofc ${o?(o.injured?'inj':'on'):'empty'}" data-tip="${t}" title="${t}">${o?`<img src="${OFFICERS[o.id].img}" alt="">`:ROLES[r].i}${o&&o.injured?'<em>🩹</em>':''}</span>`}).join('');
  const cargo=Object.keys(CARGO).filter(k=>S.cargo[k]>0||['powder','food','water'].includes(k)).map(k=>`<span class="cg ${['food','water','powder'].includes(k)&&S.cargo[k]<2?'low':''}" data-tip="${CARGO[k].n}: ${S.cargo[k]}" title="${CARGO[k].n}">${CARGO[k].i}${S.cargo[k]}</span>`).join('');
  return `<button class="menubtn" id="menu" onclick="showMenu()" aria-label="Rules">☰</button>
  <div class="hud"><img class="portrait sm" src="${cp.img}" data-tip="${cp.n}. ${cp.passive}" title="${cp.n}">

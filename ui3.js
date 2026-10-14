@@ -3,10 +3,12 @@
 const ART='img/art/';
 const PORT={blackbeard:'portrait-blackbeard',bellamy:'portrait-bellamy',vane:'portrait-vane',bonnyread:'portrait-bonny-read',rackham:'portrait-rackham'};
 Object.keys(PORT).forEach(k=>{if(CAPTAINS[k])CAPTAINS[k].img=ART+PORT[k]+'.webp'});
+const ROLEIMG={qm:'officer-quartermaster',bosun:'officer-bosun',gunner:'officer-gunner',nav:'officer-navigator'};
+Object.values(OFFICERS).forEach(o=>{o.img=ART+ROLEIMG[o.role]+'.webp'});
 if(ENEMIES.horn)ENEMIES.horn.img=ART+'portrait-hornigold.webp';
 const SHIPART={merchant:'enemy-merchant',rival:'enemy-pirate',privateer:'enemy-pirate',patrol:'enemy-navy',guarda:'enemy-galleon',hunter:'enemy-hunter',sqA:'enemy-navy',sqB:'enemy-navy',horn:'enemy-flagship'};
 const EVART={'A Drifting Wreck':'event-wreck','The 1715 Fleet Wrecks':'event-wreck','Storm on the Horizon':'enemy-flagship','An Officer Without a Ship':'event-tavern','Rum Smugglers':'event-tavern','Mutterings Below Deck':'event-tavern','Fishing Village':'event-wreck'};
-const SCRART={tavern:'event-tavern',recruit:'event-tavern',fence:'event-tavern',cove:'event-wreck',mutiny:'event-tavern',abandon:'enemy-flagship',extract:'event-wreck'};
+const SCRART={tavern:'event-tavern',recruit:'event-tavern',fence:'event-tavern',cove:'event-careening',port:'event-port',mutiny:'event-tavern',abandon:'enemy-flagship',extract:'event-wreck'};
 /* simpler one-line card text */
 const _iconize=iconize;
 iconize=function(d){let s=d
@@ -26,6 +28,7 @@ function dmgOverlay(dmg){if(dmg<=.25)return '';let s='<svg viewBox="0 0 160 90" 
 function artPass(){const a=$('app');if(!S)return;
  if(S.screen==='combat'&&S.combat){const c=C(),e=E(),el=a.querySelector('.eart');if(el){
   if(c.phase==='duel')el.innerHTML=`<img class="duelport" src="${ART}portrait-hornigold.webp" alt="Benjamin Hornigold">`;
+  else if(c.phase==='board'&&e.k!=='fort')el.innerHTML=`<div class="painted"><img src="${ART}event-boarding.webp" alt="Boarding"></div>`;
   else if(SHIPART[e.k])el.innerHTML=`<div class="painted"><img src="${ART+SHIPART[e.k]}.webp" alt="${e.n}">${dmgOverlay(c.phase==='ship'?1-e.hull/e.hullMax:0)}</div>`;
   el.classList.toggle('boardart',c.phase==='board')}}
  const scr=a.querySelector('.scr');if(!scr)return;
