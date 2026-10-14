@@ -1,46 +1,150 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#2a1a0e">
 <title>Free Nassau: a pirate deck builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Pirata+One&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#3b2a1a;--parch:#f1e2c0;--dark:#1d2b36;--sea:#24465a;--gold:#c9a24a;--red:#9b2d20}
+:root{--ink:#2e1f10;--parch:#f0dfb8;--parch2:#e4cc95;--wood:#4a2e17;--wood2:#2a1a0e;--brass:#c9a24a;--brass2:#8a6a24;--red:#8e2418;--sea:#1f4a5e;--rope:repeating-linear-gradient(45deg,#c8a467 0 4px,#8f6a35 4px 7px)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;font-family:Georgia,'Times New Roman',serif;color:var(--ink);background:var(--dark) url(img/nassau-day9.jpg) center/cover fixed;min-height:100vh}
-#app{max-width:760px;margin:0 auto;min-height:100vh;background:rgba(241,226,192,.95);padding:10px 10px 20px;box-shadow:0 0 40px #000;position:relative;border-left:4px double #7a5a2c;border-right:4px double #7a5a2c}
-h1,h2,h3{margin:.35em 0;font-variant:small-caps;letter-spacing:1px}h1{text-align:center;color:var(--red)}h2{border-bottom:1px solid #a88a52;padding-bottom:3px}
-button{font-family:inherit;font-size:15px;background:var(--sea);color:#f6ecd2;border:2px solid var(--gold);border-radius:8px;padding:9px 12px;margin:4px;cursor:pointer;min-height:44px}
-button:disabled{opacity:.45}button.gold{background:#7a4f12}button.mini{min-height:28px;padding:2px 6px;font-size:12px}
-.center{text-align:center}.small{font-size:12px;opacity:.85}.msg{background:#fff6;border-left:4px solid var(--gold);padding:6px;border-radius:4px}
+html,body{margin:0;height:100%}
+body{font-family:'IM Fell English',Georgia,serif;color:var(--ink);overflow:hidden;
+ background:#1a0f07 repeating-linear-gradient(90deg,#3b2312 0 46px,#2f1c0e 46px 48px,#432815 48px 96px,#2a190c 96px 98px);}
+h1,h2,h3{font-family:'Pirata One','IM Fell English SC',serif;font-weight:400;margin:.2em 0;letter-spacing:.5px}
+h1{font-size:44px;text-align:center;color:var(--red);text-shadow:1px 1px 0 #f7e9c7,2px 2px 0 #6b4a1f}
+h2{font-size:24px;color:var(--wood);border-bottom:2px solid transparent;border-image:var(--rope) 1;padding-bottom:2px}
+h3{font-size:19px;color:var(--red)}
+p{margin:.35em 0}
+#app{position:relative;max-width:760px;margin:0 auto;height:100vh;height:100dvh;display:flex;flex-direction:column;gap:6px;
+ padding:max(8px,env(safe-area-inset-top)) 10px max(6px,env(safe-area-inset-bottom));
+ background:radial-gradient(ellipse at 50% 40%,#f6e8c6 0%,#ecd6a4 60%,#d8ba7c 100%);
+ border-left:6px solid transparent;border-right:6px solid transparent;border-image:var(--rope) 6;box-shadow:0 0 0 3px var(--wood2),0 0 50px #000}
+#app::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.25;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .22 0 0 0 0 .08 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+.scr{flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:6px;scrollbar-width:thin}
+button{font-family:'IM Fell English SC',Georgia,serif;font-size:16px;color:#f7ecd0;cursor:pointer;min-height:44px;padding:8px 14px;margin:3px;
+ background:linear-gradient(#5b3a1e,#3a2410);border:2px solid var(--brass);border-radius:10px;box-shadow:inset 0 1px 0 #8a6338,0 3px 0 #1d1108,0 4px 6px rgba(0,0,0,.4);transition:transform .08s}
+button:active{transform:translateY(2px);box-shadow:inset 0 1px 0 #8a6338,0 1px 0 #1d1108}
+button:disabled{opacity:.45;filter:grayscale(.6)}
+button.gold,button.endturn{background:linear-gradient(#e2bd5e,#a77c26);color:#2a1a0e;border-color:#5a3e14;text-shadow:0 1px 0 #f5df9c}
+button.endturn{min-width:58%;font-size:19px}
+button.mini{min-height:30px;padding:1px 7px;font-size:13px;margin:0 2px}
+.center{text-align:center}.small{font-size:13px;opacity:.85}
+.msg{background:rgba(255,248,225,.55);border-left:4px solid var(--brass);padding:5px 8px;border-radius:4px;font-style:italic}
 .row{display:flex;align-items:center;gap:10px}
-.portrait{width:64px;height:64px;border-radius:50%;object-fit:cover;border:3px solid var(--gold);flex:none}.portrait.sm{width:44px;height:44px}
-.banner{width:100%;max-height:170px;object-fit:cover;border-radius:8px}
-.hud{background:#e3cf9f;border:1px solid #a88a52;border-radius:8px;padding:6px 8px;font-size:13px;margin-right:46px}
-.hpbar{height:7px;background:#5a1d14;border-radius:4px;overflow:hidden;margin:2px 0 3px}.hpbar i{display:block;height:100%;background:#c0392b}.hpbar.hull i{background:#7a5a2c}.hpbar.mor i{background:#3d6b34}
-.cargo{margin-top:3px}.cargo span{margin-right:4px}
-.offs{margin-top:3px}.chip{display:inline-block;font-size:11px;background:#fff7;border-radius:10px;padding:1px 6px;margin:1px}.chip.inj{background:#e9a89a}.chip.empty{opacity:.5}
-.menubtn{position:absolute;top:8px;right:8px;min-height:36px;padding:4px 10px;font-size:20px}
-.cards{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:8px 0}
-.card{width:31%;max-width:118px;min-height:122px;background:linear-gradient(#fbf3dd,#e8d4a4);border:2px solid #7a5a2c;border-radius:10px;padding:6px;font-size:11.5px;position:relative;cursor:pointer;box-shadow:2px 3px 6px rgba(0,0,0,.35);user-select:none}
-.card.tagS{border-color:var(--sea)}.card.tagC{border-color:var(--red)}.card.tagK{border-color:#b8860b;background:linear-gradient(#fff6d6,#ecd58e)}
-.card .cost{position:absolute;top:-8px;left:-8px;width:26px;height:26px;border-radius:50%;background:var(--gold);font-weight:bold;display:flex;align-items:center;justify-content:center;border:2px solid #5a3e14}
-.card .tg{font-size:9.5px;text-align:right;text-transform:uppercase;opacity:.75}.card .nm{font-weight:bold;font-size:12.5px;text-align:center;margin:3px 0}
-.card.off{opacity:.38;filter:grayscale(1)}.card.dim{opacity:.6}
-.cardwrap{width:31%;max-width:118px;display:flex;flex-direction:column}.cardwrap .card{width:100%;max-width:none;flex:1}.price{text-align:center;font-size:13px;font-weight:bold}
-.enemy{background:linear-gradient(#e3cb94,#cfb276);border:2px solid #6b4a1f;border-radius:10px;padding:8px;margin:6px 0}
-.intent{font-weight:bold;background:#fff5;padding:4px 8px;border-radius:6px;display:inline-block;margin-top:4px}
-.phase{background:var(--sea);color:#f6ecd2;border-radius:6px;padding:4px 8px;font-size:12.5px;margin-top:6px}
-.me{font-size:13.5px;margin-top:4px}
-.tag{font-size:11px;background:#fff6;border-radius:4px;padding:1px 4px;margin-left:3px}
-.log{font-size:12px;max-height:90px;overflow:auto;background:#fff5;border-radius:6px;padding:4px}
-.map{background:url(img/map-bahamas-florida-straits.jpg) center/cover;border:3px solid #6b4a1f;border-radius:10px;padding:6px}
-.maprow{display:flex;justify-content:space-around;margin:7px 0}
-.node{width:50px;height:50px;border-radius:50%;background:#f1e2c0;border:3px solid #6b4a1f;font-size:23px;display:flex;align-items:center;justify-content:center;opacity:.6}
-.node.avail{opacity:1;border-color:var(--gold);box-shadow:0 0 12px var(--gold);cursor:pointer;animation:pulse 1.2s infinite}.node.done{background:#9a8a6a}.node.cur{outline:3px solid var(--red)}.node.empty{visibility:hidden}
-@keyframes pulse{50%{transform:scale(1.08)}}
-.actions{display:flex;flex-wrap:wrap;justify-content:center;margin:14px 0 4px;padding:8px;border-top:2px dashed #a88a52}
-.choices{display:flex;flex-wrap:wrap;gap:2px}.choices button{flex:1 1 45%;text-align:left}
-.panel{background:#fff5;border:1px solid #a88a52;border-radius:8px;padding:8px;margin:8px 0}.dimmed{opacity:.55}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:9;padding:12px}
-.modal .box{background:var(--parch);border:3px solid var(--gold);border-radius:12px;max-width:540px;max-height:85vh;overflow:auto;padding:14px;font-size:13.5px}.modal dt{font-weight:bold;margin-top:6px}.modal dd{margin:0 0 4px 10px}
+.portrait{width:64px;height:64px;border-radius:50%;object-fit:cover;border:3px solid var(--brass);box-shadow:0 0 0 2px var(--wood);flex:none}
+.portrait.sm{width:46px;height:46px}
+.banner{width:100%;max-height:22vh;object-fit:cover;border-radius:8px;border:3px solid var(--wood);box-shadow:0 0 0 2px var(--brass)}
+/* HUD */
+.menubtn{position:absolute;top:max(8px,env(safe-area-inset-top));right:12px;z-index:3;min-height:40px;width:42px;padding:0;font-size:20px;margin:0}
+.hud{flex:none;display:grid;grid-template-columns:auto 1fr;gap:2px 8px;align-items:center;margin-right:46px;padding:5px 7px;border-radius:10px;
+ background:linear-gradient(#5b3a1e,#3a2410);border:2px solid var(--brass);color:#f3e6c6;box-shadow:0 3px 6px rgba(0,0,0,.35)}
+.hud .portrait{grid-row:span 2}
+.gauges{display:grid;grid-template-columns:1fr 1fr;gap:3px 8px}
+.gauge{display:flex;align-items:center;gap:3px;min-width:0}.gi{font-size:15px;width:20px;text-align:center}
+.gb{position:relative;flex:1;height:16px;background:#1d1108;border:1px solid #8a6a24;border-radius:8px;overflow:hidden}
+.gb i{position:absolute;inset:0 auto 0 0;background:linear-gradient(#e0574a,#9b2318);transition:width .4s}
+.g-hull .gb i{background:linear-gradient(#b98b4e,#6b4a1f)}.g-crew .gb i{background:linear-gradient(#5d8fb0,#24506c)}.g-mor .gb i{background:linear-gradient(#7fb069,#3d6b34)}
+.gb span{position:relative;display:block;text-align:center;font-size:12px;line-height:15px;color:#fff;text-shadow:0 1px 2px #000;font-weight:bold}.gb small{opacity:.7;font-weight:normal}
+.strip{grid-column:2;display:flex;flex-wrap:wrap;align-items:center;gap:2px 7px;font-size:13px}
+.strip .cg.low{color:#ff9d8a;font-weight:bold}.coin{color:#f5d77a;font-weight:bold}
+.offs{margin-left:auto;display:flex;gap:2px}.ofc{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:12px;border:1px solid var(--brass);background:#2a1a0e}
+.ofc.empty{opacity:.3;filter:grayscale(1)}.ofc.inj{background:#7a2318}.ofc.on{box-shadow:0 0 5px var(--brass)}
+/* cards */
+.cards{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:4px 0}
+.card{width:31%;max-width:118px;min-height:118px;position:relative;cursor:pointer;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;
+ padding:21px 4px 6px;border-radius:9px;font-size:13px;text-align:center;
+ background:linear-gradient(160deg,#fbf2da,#e9d3a0);border:3px solid #6b4a1f;box-shadow:0 0 0 1px #2a1a0e,2px 4px 7px rgba(0,0,0,.45);transition:transform .15s,box-shadow .15s}
+.card::after{content:'';position:absolute;inset:3px;border:1px dashed rgba(107,74,31,.45);border-radius:6px;pointer-events:none}
+.card.tagS{border-color:#1f4a5e;background:linear-gradient(160deg,#eef2ea,#cfd9cf)}
+.card.tagC{border-color:#8e2418;background:linear-gradient(160deg,#fbeee0,#e9c9ad)}
+.card.tagK{border-color:#a77c26;background:linear-gradient(160deg,#fff4d1,#e8cf86)}
+.card .cost{position:absolute;top:-9px;left:-9px;width:30px;height:30px;border-radius:50%;z-index:1;font:bold 17px Georgia,serif;display:flex;align-items:center;justify-content:center;
+ background:radial-gradient(circle at 35% 30%,#ffe9a0,#c9a24a 55%,#7a5a1a);border:2px solid #4a3410;color:#2a1a0e;box-shadow:0 2px 3px rgba(0,0,0,.5)}
+.card .tg{position:absolute;top:2px;right:5px;font-size:14px}
+.card .pw{position:absolute;top:3px;left:24px;font-size:10px;letter-spacing:-2px}
+.card .nm{font-family:'Pirata One',serif;font-size:15px;line-height:1.05;margin:2px 0 4px;color:#2a1a0e}
+.card .ds{font-size:13.5px;line-height:1.25}.card .ds b{font-size:16px;font-family:Georgia,serif}
+.card .xh{position:absolute;bottom:2px;right:5px;font-size:11px;color:var(--red)}
+.card.off{opacity:.4;filter:grayscale(1)}.card.dim{opacity:.62}
+.card.rw:hover,.hand .card:not(.off):hover{transform:translateY(-6px) rotate(-1deg);box-shadow:0 0 0 1px #2a1a0e,0 0 14px var(--brass)}
+.cardwrap{width:31%;max-width:118px;display:flex;flex-direction:column}.cardwrap .card{width:100%;max-width:none;flex:1}
+.price{text-align:center;font-weight:bold;color:var(--wood)}
+.hand{flex-wrap:nowrap;gap:0;justify-content:center;padding:10px 4px 0;margin:0;flex:none}
+.hand .card{flex:1 1 0;min-width:0;max-width:104px;margin:0 -3px;min-height:128px}
+.hand .card:nth-child(odd){transform:rotate(-1.5deg)}.hand .card:nth-child(even){transform:rotate(1.5deg) translateY(3px)}
+.card.deal{animation:deal .38s cubic-bezier(.2,1.3,.4,1) backwards}
+@keyframes deal{from{transform:translate(-60vw,30px) rotate(-25deg);opacity:0}}
+.card.nope{animation:nope .3s}@keyframes nope{25%{translate:-5px}75%{translate:5px}}
+.ghost{position:fixed;z-index:20;margin:0!important;pointer-events:none;transition:transform .38s cubic-bezier(.5,0,.7,.4),opacity .38s ease-in}
+/* combat */
+.sea{flex:none;border-radius:12px;padding:5px;border:3px solid var(--wood);box-shadow:0 0 0 2px var(--brass),inset 0 0 30px rgba(0,0,0,.35);
+ background:linear-gradient(#b8d3d6 0%,#e8dcc0 38%,#5f8fa0 62%,#24506c 100%)}
+.topline{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:14px}
+.phases{display:flex;gap:2px}.phases span{width:30px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:6px;background:rgba(42,26,14,.25);opacity:.5}.phases span.on{opacity:1;background:var(--brass);box-shadow:0 0 6px var(--brass)}
+.wx{background:rgba(255,248,225,.75);padding:2px 8px;border-radius:12px;cursor:help}
+.enemy{position:relative;margin-top:2px}
+.ename{font-family:'Pirata One',serif;font-size:19px;text-align:center;color:#2a1a0e;text-shadow:0 0 6px #f6ecd2}
+.ebody{display:flex;align-items:center;justify-content:center;gap:6px}
+.eart{width:min(48vw,230px)}.shipsvg{width:100%;height:auto;display:block}.shipsvg.flip{transform:scaleX(-1)}
+.bob{animation:bob 3.2s ease-in-out infinite}@keyframes bob{50%{transform:translateY(-3px) rotate(.8deg)}}
+.struck .eart{animation:struck .3s}@keyframes struck{30%{filter:brightness(2) sepia(1) hue-rotate(-30deg);transform:translateX(6px)}}
+.smoke{animation:smoke 2s infinite}@keyframes smoke{50%{transform:translateY(-4px);opacity:.6}}.fire{animation:smoke .5s infinite}
+.eside{display:flex;flex-direction:column;align-items:center;gap:4px}
+.intent{display:flex;align-items:center;gap:2px;padding:4px 10px;border-radius:14px;cursor:help;background:rgba(255,248,225,.92);border:2px solid var(--wood);box-shadow:0 2px 5px rgba(0,0,0,.4);animation:throb 1.6s ease-in-out infinite}
+.intent .ii{font-size:22px}.intent b{font:bold 22px Georgia,serif;color:var(--red)}.intent small{font-size:11px}
+.intent.t0{border-color:#24506c}.intent.t0 b{color:#24506c}.intent.t2 .ii{font-size:26px}.intent.t3 .ii{font-size:30px}.intent.t3{border-color:var(--red)}.intent.t4 .ii{font-size:34px}.intent.t4{border-color:var(--red);background:#ffd9cf}
+@keyframes throb{50%{transform:scale(1.06)}}
+.seq{display:flex;gap:1px;font-size:11px;background:rgba(255,248,225,.6);border-radius:8px;padding:1px 4px}.seq i{font-style:normal;opacity:.45}.seq i.nx{opacity:1;outline:1px solid var(--red);border-radius:4px}
+.estats{display:flex;gap:5px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:2px}.estats .gauge{width:min(60%,260px)}
+.tag{font-size:13px;background:rgba(255,248,225,.85);border:1px solid var(--wood);border-radius:10px;padding:0 6px;white-space:nowrap}.tag.big{font-size:16px;font-weight:bold}
+.boardrow{display:flex;align-items:center;justify-content:center;gap:4px;flex-wrap:wrap}.boardrow button{animation:throb 1s infinite}
+.mine{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:4px;position:relative}
+.nrg{width:38px;height:38px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font:bold 21px Georgia,serif;color:#2a1a0e;
+ background:radial-gradient(circle at 35% 30%,#fff3b0,#e2b33c 55%,#8a5a10);border:2px solid #4a3410;box-shadow:0 0 10px #f2c94c}
+.myship{width:64px;margin-left:auto}
+.log{flex:none;font-size:13px;max-height:2.7em;overflow:hidden;background:rgba(255,248,225,.5);border-radius:6px;padding:2px 6px;cursor:pointer;font-style:italic}
+.log .old{opacity:.6}.log.open{max-height:40vh;overflow:auto}
+.hint{text-align:center}
+/* map */
+.maphead{display:flex;align-items:baseline;justify-content:space-between}.maphead h2{flex:1}.leg{font-size:14px}
+.chart{position:relative;flex:1 1 auto;min-height:calc(var(--rows)*44px);border-radius:10px;border:3px solid var(--wood);box-shadow:0 0 0 2px var(--brass),inset 0 0 40px rgba(90,60,20,.55);
+ background:linear-gradient(rgba(240,223,184,.72),rgba(240,223,184,.72)),url(img/map-bahamas-florida-straits.jpg) center/cover,#e9d6a8}
+.chart::before{content:'';position:absolute;inset:0;border-radius:8px;opacity:.35;pointer-events:none;
+ background:repeating-conic-gradient(from 0deg at 82% 86%,transparent 0 11deg,rgba(107,74,31,.5) 11deg 11.4deg)}
+.routes{position:absolute;inset:0}.routes line{stroke:#6b4a1f;stroke-width:1.5;stroke-dasharray:4 5;opacity:.45}.routes line.walked{stroke:var(--red);stroke-width:3;stroke-dasharray:7 4;opacity:.9}
+.rose{position:absolute;right:4%;bottom:3%;width:62px;opacity:.6}
+.node{position:absolute;transform:translate(-50%,-50%);width:min(46px,calc(var(--rows)*0px + 46px));height:46px;border-radius:50%;font-size:22px;display:flex;align-items:center;justify-content:center;
+ background:radial-gradient(circle at 40% 35%,#fff6dc,#e2cb92);border:2px solid #6b4a1f;opacity:.75;transition:transform .2s}
+.node.avail{opacity:1;cursor:pointer;border:3px solid var(--red);box-shadow:0 0 0 3px rgba(201,162,74,.6),0 0 14px var(--brass);animation:beacon 1.3s ease-in-out infinite}
+@keyframes beacon{50%{box-shadow:0 0 0 7px rgba(201,162,74,.15),0 0 20px var(--brass)}}
+.node.done{filter:sepia(1) brightness(.8);opacity:.6}.node.cur{opacity:1;filter:none;border-color:var(--red)}
+.node.n-boss{width:60px;height:60px;font-size:30px;background:radial-gradient(circle,#ffe39a,#c9a24a)}.node.n-elite{background:radial-gradient(circle,#f2c7b8,#c98a72)}
+.you{position:absolute;bottom:-12px;right:-12px;font-size:20px;filter:drop-shadow(0 1px 1px #000)}
+.legend-line{margin-top:2px}
+/* panels, choices, modal */
+.actions{flex:none;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;padding:6px 0 0;border-top:2px solid transparent;border-image:var(--rope) 1}
+.choices{display:flex;flex-wrap:wrap;gap:2px}.choices button{flex:1 1 45%;text-align:left;font-family:'IM Fell English',serif;font-size:15px}
+.panel{background:rgba(255,248,225,.55);border:2px solid #a88a52;border-radius:10px;padding:7px;box-shadow:inset 0 0 12px rgba(107,74,31,.25)}
+.dimmed{opacity:.55}
+.modal{position:fixed;inset:0;background:rgba(10,5,2,.7);display:flex;align-items:center;justify-content:center;z-index:30;padding:12px}
+.modal .box{background:radial-gradient(#f6e8c6,#e3c98f);border:4px solid var(--wood);box-shadow:0 0 0 3px var(--brass);border-radius:12px;max-width:540px;max-height:86vh;overflow:auto;padding:14px;font-size:15px}
+.modal dt{font-family:'Pirata One',serif;font-size:18px;margin-top:6px;color:var(--red)}.modal dd{margin:0 0 4px 10px}
+#tip{position:fixed;z-index:40;display:none;background:#2a1a0e;color:#f6ecd2;border:2px solid var(--brass);border-radius:8px;padding:7px 9px;font-size:15px;box-shadow:0 4px 12px #000;pointer-events:none}
+.floater{position:fixed;z-index:35;pointer-events:none;font:bold 24px Georgia,serif;transform:translate(-50%,0);animation:float 1.05s ease-out forwards;text-shadow:0 2px 0 #000,0 0 6px #000}
+.floater.hit{color:#ffd166}.floater.ouch{color:#ff6b5b}.floater.gain{color:#9fe3ff}.floater.blk{color:#ddd}
+@keyframes float{0%{transform:translate(-50%,0) scale(.6);opacity:0}15%{transform:translate(-50%,-10px) scale(1.25);opacity:1}100%{transform:translate(-50%,-60px) scale(1);opacity:0}}
+.shake{animation:shake .35s}.shake2{animation:shake2 .45s}
+@keyframes shake{20%{transform:translate(-4px,2px)}40%{transform:translate(4px,-2px)}60%{transform:translate(-3px,1px)}80%{transform:translate(2px,0)}}
+@keyframes shake2{15%{transform:translate(-8px,3px) rotate(-.6deg)}35%{transform:translate(7px,-3px) rotate(.5deg)}55%{transform:translate(-5px,2px)}75%{transform:translate(3px,-1px)}}
 ul{padding-left:20px}
+.gb span,.tag,.strip,.intent b,.leg,.price,.card .ds b{font-family:Georgia,'Times New Roman',serif}
+#app[data-screen=combat] .scr{justify-content:space-between}
+#app[data-screen=combat] .sea{flex:1 1 auto;display:flex;flex-direction:column;justify-content:space-between}
+#app[data-screen=combat] .eart{width:min(56vw,300px)}
+.hand .card{min-height:clamp(118px,21vh,172px)}
+.hand .card .ds{font-size:clamp(12.5px,1.9vh,15px)}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+@media (min-width:700px){.hand .card{max-width:118px;min-height:140px}.eart{width:250px}}
+@media (max-height:700px){.hand .card{min-height:112px}.card .ds{font-size:12.5px}.eart{width:min(40vw,190px)}h2{font-size:21px}}
 </style></head><body><div id="app"></div><div id="modal"></div>
-<script src="game.js?v=2"></script><script src="ui.js?v=2"></script></body></html>
+<script src="game.js?v=3"></script><script src="ui.js?v=3"></script><script src="ui2.js?v=3"></script></body></html>
