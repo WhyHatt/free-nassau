@@ -167,7 +167,7 @@ body{background:#2a1a0e url(img/art/bg-desk.webp) center/cover fixed}
 .sea{background:linear-gradient(rgba(248,236,206,.55),rgba(220,200,160,.4));}
 .card .ds{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 #app[data-screen=port] .choices button,#app[data-screen=shipwright] .choices button{flex:1 1 30%;min-height:38px;padding:4px 6px;font-size:13.5px}
-#app[data-screen=port] .card,#app[data-screen=port] .cardwrap{min-height:0}#app[data-screen=port] .cards{flex-wrap:nowrap}#app[data-screen=port] .cardwrap{width:24%}
+#app[data-screen=port] .card,#app[data-screen=port] .cardwrap{min-height:0}#app[data-screen=port] .cards{flex-wrap:nowrap}#app[data-screen=port] .cardwrap{width:24%;flex:0 0 24%;min-width:0}.cardwrap .card{min-width:0}
 #app[data-screen=port] h3,#app[data-screen=shipwright] h3{font-size:16px;margin:0}
 #app[data-screen=capselect] .panel .small{display:none}#app[data-screen=capselect] .panel{padding:4px 7px}#app[data-screen=capselect] .panel p{font-size:13px;margin:.1em 0}
 #app[data-screen=capselect] .portrait{width:58px;height:58px}#app[data-screen=capselect] .capbtn{min-height:36px;padding:3px 10px}
@@ -186,5 +186,49 @@ body{background:#2a1a0e url(img/art/bg-desk.webp) center/cover fixed}
 .ofc img{width:100%;height:100%;border-radius:50%;object-fit:cover}
 .ofc.inj img{filter:grayscale(.8) sepia(.5)}.ofc em{position:absolute;right:-5px;bottom:-5px;font-size:11px;font-style:normal}
 #app[data-screen=port] .banner{max-height:9vh;object-fit:cover}
+
+/* ---- v2.4 refined cards ---- */
+.card{--tc:#8a6a2c;padding:0 0 4px;border:1px solid #3b2a14;border-radius:5px;text-align:center;font-family:'IM Fell English',Georgia,serif;
+ background:linear-gradient(rgba(250,240,212,.82),rgba(231,208,158,.86)),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.7' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 .4 0 0 0 0 .26 0 0 0 0 .1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+ box-shadow:0 0 0 1px rgba(201,162,74,.55),1px 3px 6px rgba(0,0,0,.45);overflow:hidden}
+.card::after{inset:2px;border:1px solid rgba(90,60,25,.55);border-radius:3px;outline:1px solid rgba(90,60,25,.18);outline-offset:-4px}
+.card.tagS{--tc:#2f6377;background-color:#dfe5d6}.card.tagC{--tc:#8e2d20}.card.tagK{--tc:#b08a2c}
+.card.tagS,.card.tagC,.card.tagK{border-color:#3b2a14}
+.chead{display:flex;align-items:center;gap:3px;padding:3px 4px 2px;background:linear-gradient(90deg,color-mix(in srgb,var(--tc) 55%,transparent),color-mix(in srgb,var(--tc) 12%,transparent));border-bottom:1px solid rgba(60,40,15,.5)}
+.card .cost{position:static;width:19px;height:19px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font:bold 12.5px 'IM Fell English',Georgia,serif;
+ background:#f6e9c6;color:#2a1a0e;border:1px solid #6b4a1f;box-shadow:0 0 0 1px rgba(201,162,74,.7);top:auto;left:auto}
+.ctype{flex:1;text-align:left;font:10.5px 'IM Fell English SC',serif;letter-spacing:.9px;color:#2a1a0e;text-transform:lowercase;font-variant:small-caps}
+.ctag{font-size:11px;opacity:.85}
+.card .nm{font:15px/1.05 'IM Fell English SC',Georgia,serif;margin:4px 3px 1px;color:#24150a;letter-spacing:.2px;min-height:2.1em;display:flex;align-items:center;justify-content:center}
+.card .vig{display:none;margin:2px auto;width:52px;height:38px;border-radius:50%/60%;border:1px solid #6b4a1f;box-shadow:0 0 0 2px #f1e1b8,0 0 0 3px rgba(107,74,31,.6);align-items:center;justify-content:center;font-size:22px;
+ background:radial-gradient(circle,#f8ecc9,#d8bc82);filter:sepia(.55) saturate(.8)}
+.card .rule{height:1px;margin:2px 14%;background:linear-gradient(90deg,transparent,#6b4a1f,transparent)}
+.card .ds{font-size:12.5px;line-height:1.2;padding:2px 5px;color:#2a1a0e;display:block;overflow:visible;-webkit-line-clamp:unset}
+.card .ds b{font:bold 13.5px 'IM Fell English',Georgia,serif;color:#7a1f14}
+.kw{white-space:nowrap;font-variant:small-caps;font-weight:bold;color:#3b2a14;border-bottom:1px dotted #6b4a1f;font-size:1.02em}
+.cfoot{display:flex;justify-content:center;gap:6px;font-size:10px;margin-top:auto;padding-top:1px;min-height:12px}.cfoot .kw{font-size:10px;color:#8e2418}
+.card{display:flex;flex-direction:column}
+.cards:not(.hand) .card .vig{display:flex}.cards:not(.hand) .card{min-height:158px}
+.cards:not(.hand) .card .ds{font-size:12.5px}
+.card.big{width:min(74vw,290px);max-width:none;min-height:0;cursor:default;transform:none!important;margin:0 auto}
+.card.big .vig{display:flex;width:96px;height:68px;font-size:40px;margin:6px auto}.card.big .nm{font-size:23px}.card.big .ds{font-size:17px;padding:4px 12px;line-height:1.25}.card.big .ds b{font-size:20px}
+.card.big .chead{padding:6px 8px}.card.big .cost{width:28px;height:28px;font-size:17px}.card.big .ctype{font-size:15px}.card.big .ctag{font-size:17px}.card.big .cfoot{font-size:15px;padding:4px 0 6px}.card.big .cfoot .kw{font-size:14px}
+.card.big::after{inset:4px}
+.modal.inspect{background:rgba(10,5,2,.78)}.ibox{display:flex;flex-direction:column;align-items:center;gap:8px;max-height:92vh;overflow:auto}
+.gloss{background:rgba(248,236,206,.95);border:1px solid #6b4a1f;border-radius:6px;padding:6px 9px;font-size:14px;width:min(86vw,330px)}.gloss div+div{margin-top:3px}
+.ibtns{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.card.off{opacity:.5;filter:grayscale(.85)}
+.hand{--ov:0px;padding-top:12px}
+.hand .card{margin:0 0 0 calc(-1*var(--ov));min-width:0;flex:1 1 0;max-width:112px;min-height:clamp(124px,22vh,176px);transform:rotate(var(--r,0deg)) translateY(var(--dy,0));transform-origin:50% 130%}
+.hand .card:first-child{margin-left:0}
+.hand .card:nth-child(odd),.hand .card:nth-child(even){transform:rotate(var(--r,0deg)) translateY(var(--dy,0))}
+.hand.fan{padding-left:26px;padding-right:26px}.hand.fan .card .ds{font-size:11px}.hand.fan .card .nm{font-size:13px}
+.hand .card:not(.off):hover{transform:rotate(0) translateY(-10px);z-index:5}
+.hand{padding-left:16px;padding-right:16px;margin-bottom:8px}.hand .card{transform-origin:50% 100%;min-height:clamp(132px,23vh,192px)}
+.hand .ctag{display:none}.hand .ctype{font-size:9.5px;letter-spacing:.3px}.hand .card .nm{font-size:12.5px;letter-spacing:0;margin:3px 1px 0;min-height:2.1em;line-height:1}
+.hand .card .ds{font-size:11.5px;padding:2px 3px;line-height:1.18}.hand .card .ds b{font-size:12.5px}.hand .chead{padding:2px 3px}.hand .card .cost{width:17px;height:17px;font-size:11.5px}
+.hand.fan{padding-left:26px;padding-right:26px}.hand.fan .card .ds{font-size:11px}.hand .card .nm,.hand.fan .card .nm{font:13px/1 'IM Fell English',Georgia,serif;font-weight:bold}
+#app[data-screen=combat]>.scr{padding-left:2px;padding-right:2px}.hand .card.off{opacity:.62}
+.hand .card .ds{font-size:clamp(11px,1.65vh,12.5px)}
 </style></head><body><div id="app"></div><div id="modal"></div>
-<script src="game.js?v=5"></script><script src="ui.js?v=5"></script><script src="ui2.js?v=5"></script><script src="sfx.js?v=5"></script><script src="ui3.js?v=5"></script></body></html>
+<script src="game.js?v=6"></script><script src="ui.js?v=6"></script><script src="ui2.js?v=6"></script><script src="sfx.js?v=6"></script><script src="ui3.js?v=6"></script><script src="ui4.js?v=6"></script></body></html>
