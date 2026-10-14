@@ -1,236 +1,46 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Free Nassau: The Endurance's Run</title>
+<title>Free Nassau: a pirate deck builder</title>
 <style>
 :root{--ink:#3b2a1a;--parch:#f1e2c0;--dark:#1d2b36;--sea:#24465a;--gold:#c9a24a;--red:#9b2d20}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{margin:0;font-family:Georgia,'Times New Roman',serif;color:var(--ink);background:var(--dark) url(img/nassau-day9.jpg) center/cover fixed;min-height:100vh}
-#app{max-width:760px;margin:0 auto;min-height:100vh;background:rgba(241,226,192,.94);padding:10px 10px 20px;box-shadow:0 0 40px #000}
-h1,h2,h3{margin:.3em 0;font-variant:small-caps;letter-spacing:1px}
-h1{text-align:center;color:var(--red)}
-button{font-family:inherit;font-size:16px;background:var(--sea);color:#f6ecd2;border:2px solid var(--gold);border-radius:8px;padding:10px 14px;margin:4px;cursor:pointer;min-height:44px}
-button:disabled{opacity:.45}
-.bar{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:14px;background:#e3cf9f;border:1px solid #a88a52;border-radius:8px;padding:6px 8px;align-items:center}
-.bar b{color:var(--red)}
-.portrait{width:64px;height:64px;border-radius:50%;object-fit:cover;border:3px solid var(--gold)}
+#app{max-width:760px;margin:0 auto;min-height:100vh;background:rgba(241,226,192,.95);padding:10px 10px 20px;box-shadow:0 0 40px #000;position:relative;border-left:4px double #7a5a2c;border-right:4px double #7a5a2c}
+h1,h2,h3{margin:.35em 0;font-variant:small-caps;letter-spacing:1px}h1{text-align:center;color:var(--red)}h2{border-bottom:1px solid #a88a52;padding-bottom:3px}
+button{font-family:inherit;font-size:15px;background:var(--sea);color:#f6ecd2;border:2px solid var(--gold);border-radius:8px;padding:9px 12px;margin:4px;cursor:pointer;min-height:44px}
+button:disabled{opacity:.45}button.gold{background:#7a4f12}button.mini{min-height:28px;padding:2px 6px;font-size:12px}
+.center{text-align:center}.small{font-size:12px;opacity:.85}.msg{background:#fff6;border-left:4px solid var(--gold);padding:6px;border-radius:4px}
 .row{display:flex;align-items:center;gap:10px}
-.cards{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:8px 0}
-.card{width:31%;max-width:118px;min-height:118px;background:linear-gradient(#fbf3dd,#e8d4a4);border:2px solid #7a5a2c;border-radius:10px;padding:6px;font-size:12px;position:relative;cursor:pointer;box-shadow:2px 3px 6px rgba(0,0,0,.35);user-select:none}
-.card.attack{border-color:var(--red)}.card.block{border-color:var(--sea)}.card.skill{border-color:#3d6b34}
-.card .cost{position:absolute;top:-8px;left:-8px;width:26px;height:26px;border-radius:50%;background:var(--gold);color:#000;font-weight:bold;display:flex;align-items:center;justify-content:center;border:2px solid #5a3e14}
-.card .nm{font-weight:bold;font-size:13px;text-align:center;margin:6px 0 4px}
-.card .ty{font-size:10px;text-align:center;text-transform:uppercase;opacity:.7}
-.card.unplayable{opacity:.5}
-.card:active{transform:translateY(-4px)}
-.enemy{background:#d9c08a;border:2px solid #6b4a1f;border-radius:10px;padding:8px;margin:8px 0}
-.hpbar{height:12px;background:#5a1d14;border-radius:6px;overflow:hidden;margin:4px 0}
-.hpbar i{display:block;height:100%;background:#c0392b}
-.intent{font-weight:bold;background:#fff4;padding:4px 8px;border-radius:6px;display:inline-block}
-.log{font-size:12px;max-height:70px;overflow:auto;background:#fff5;border-radius:6px;padding:4px;margin-top:6px}
-.map{background:url(img/map-bahamas-florida-straits.jpg) center/cover;border:3px solid #6b4a1f;border-radius:10px;padding:8px;position:relative}
-.maprow{display:flex;justify-content:space-around;margin:10px 0}
-.node{width:56px;height:56px;border-radius:50%;background:#f1e2c0;border:3px solid #6b4a1f;font-size:26px;display:flex;align-items:center;justify-content:center;opacity:.55}
-.node.avail{opacity:1;border-color:var(--gold);box-shadow:0 0 12px var(--gold);cursor:pointer;animation:pulse 1.2s infinite}
-.node.done{opacity:.9;background:#9a8a6a}.node.empty{visibility:hidden}
-@keyframes pulse{50%{transform:scale(1.08)}}
-.ship{width:100%;max-height:170px;object-fit:cover;border-radius:8px}
-.actions{display:flex;flex-wrap:wrap;justify-content:center;margin:14px 0 4px;padding:8px;border-top:2px dashed #a88a52}
+.portrait{width:64px;height:64px;border-radius:50%;object-fit:cover;border:3px solid var(--gold);flex:none}.portrait.sm{width:44px;height:44px}
+.banner{width:100%;max-height:170px;object-fit:cover;border-radius:8px}
+.hud{background:#e3cf9f;border:1px solid #a88a52;border-radius:8px;padding:6px 8px;font-size:13px;margin-right:46px}
+.hpbar{height:7px;background:#5a1d14;border-radius:4px;overflow:hidden;margin:2px 0 3px}.hpbar i{display:block;height:100%;background:#c0392b}.hpbar.hull i{background:#7a5a2c}.hpbar.mor i{background:#3d6b34}
+.cargo{margin-top:3px}.cargo span{margin-right:4px}
+.offs{margin-top:3px}.chip{display:inline-block;font-size:11px;background:#fff7;border-radius:10px;padding:1px 6px;margin:1px}.chip.inj{background:#e9a89a}.chip.empty{opacity:.5}
 .menubtn{position:absolute;top:8px;right:8px;min-height:36px;padding:4px 10px;font-size:20px}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:9;padding:12px}
-.modal .box{background:var(--parch);border:3px solid var(--gold);border-radius:12px;max-width:520px;max-height:85vh;overflow:auto;padding:14px;font-size:14px}
-.modal dt{font-weight:bold;margin-top:6px}.modal dd{margin:0 0 4px 10px}
-.card .rar{position:absolute;top:4px;right:6px;font-size:10px;color:#8a6a1a}
-.card.uncommon{background:linear-gradient(#f3f6ff,#cfd9ee)}.card.rare{background:linear-gradient(#fff6d6,#e9c96a);box-shadow:0 0 10px #c9a24a}
-#app{position:relative;border-left:4px double #7a5a2c;border-right:4px double #7a5a2c}
-h2{border-bottom:1px solid #a88a52;padding-bottom:3px}
-.floor{font-size:12px;opacity:.8}
-.card{transition:transform .12s}
-.enemy{background:linear-gradient(#e3cb94,#cfb276);box-shadow:inset 0 0 12px rgba(90,60,20,.4)}
+.cards{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:8px 0}
+.card{width:31%;max-width:118px;min-height:122px;background:linear-gradient(#fbf3dd,#e8d4a4);border:2px solid #7a5a2c;border-radius:10px;padding:6px;font-size:11.5px;position:relative;cursor:pointer;box-shadow:2px 3px 6px rgba(0,0,0,.35);user-select:none}
+.card.tagS{border-color:var(--sea)}.card.tagC{border-color:var(--red)}.card.tagK{border-color:#b8860b;background:linear-gradient(#fff6d6,#ecd58e)}
+.card .cost{position:absolute;top:-8px;left:-8px;width:26px;height:26px;border-radius:50%;background:var(--gold);font-weight:bold;display:flex;align-items:center;justify-content:center;border:2px solid #5a3e14}
+.card .tg{font-size:9.5px;text-align:right;text-transform:uppercase;opacity:.75}.card .nm{font-weight:bold;font-size:12.5px;text-align:center;margin:3px 0}
+.card.off{opacity:.38;filter:grayscale(1)}.card.dim{opacity:.6}
+.cardwrap{width:31%;max-width:118px;display:flex;flex-direction:column}.cardwrap .card{width:100%;max-width:none;flex:1}.price{text-align:center;font-size:13px;font-weight:bold}
+.enemy{background:linear-gradient(#e3cb94,#cfb276);border:2px solid #6b4a1f;border-radius:10px;padding:8px;margin:6px 0}
+.intent{font-weight:bold;background:#fff5;padding:4px 8px;border-radius:6px;display:inline-block;margin-top:4px}
+.phase{background:var(--sea);color:#f6ecd2;border-radius:6px;padding:4px 8px;font-size:12.5px;margin-top:6px}
+.me{font-size:13.5px;margin-top:4px}
 .tag{font-size:11px;background:#fff6;border-radius:4px;padding:1px 4px;margin-left:3px}
-.dice{font-size:22px}
-.center{text-align:center}
-.relic{display:inline-flex;align-items:center;gap:4px;background:#fff6;border-radius:6px;padding:2px 6px;font-size:12px}
-.relic img{width:22px;height:22px;border-radius:4px;object-fit:cover}
+.log{font-size:12px;max-height:90px;overflow:auto;background:#fff5;border-radius:6px;padding:4px}
+.map{background:url(img/map-bahamas-florida-straits.jpg) center/cover;border:3px solid #6b4a1f;border-radius:10px;padding:6px}
+.maprow{display:flex;justify-content:space-around;margin:7px 0}
+.node{width:50px;height:50px;border-radius:50%;background:#f1e2c0;border:3px solid #6b4a1f;font-size:23px;display:flex;align-items:center;justify-content:center;opacity:.6}
+.node.avail{opacity:1;border-color:var(--gold);box-shadow:0 0 12px var(--gold);cursor:pointer;animation:pulse 1.2s infinite}.node.done{background:#9a8a6a}.node.cur{outline:3px solid var(--red)}.node.empty{visibility:hidden}
+@keyframes pulse{50%{transform:scale(1.08)}}
+.actions{display:flex;flex-wrap:wrap;justify-content:center;margin:14px 0 4px;padding:8px;border-top:2px dashed #a88a52}
+.choices{display:flex;flex-wrap:wrap;gap:2px}.choices button{flex:1 1 45%;text-align:left}
+.panel{background:#fff5;border:1px solid #a88a52;border-radius:8px;padding:8px;margin:8px 0}.dimmed{opacity:.55}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:9;padding:12px}
+.modal .box{background:var(--parch);border:3px solid var(--gold);border-radius:12px;max-width:540px;max-height:85vh;overflow:auto;padding:14px;font-size:13.5px}.modal dt{font-weight:bold;margin-top:6px}.modal dd{margin:0 0 4px 10px}
+ul{padding-left:20px}
 </style></head><body><div id="app"></div><div id="modal"></div>
-<script>
-"use strict";
-const SAVE='freeNassauDeckRunV11';
-const rnd=n=>Math.floor(Math.random()*n);
-const d6=()=>{let r=1+rnd(6);if(S.relics.includes('doubloon')&&r<2)r=2;return r};
-const pick=a=>a[rnd(a.length)];
-const CARDS={
- strike:{n:'Cutlass Strike',t:'attack',c:1,d:'Deal 6 damage.',f:g=>hit(6)},
- defend:{n:'Brace',t:'block',c:1,d:'Gain 5 Block.',f:g=>blk(5)},
- broadside:{r:'u',n:'Broadside',t:'attack',c:2,d:'Deal 14 damage.',f:g=>hit(14)},
- flurry:{r:'c',n:'Cutlass Flurry',t:'attack',c:1,d:'Deal 3 damage 3 times.',f:g=>{hit(3);hit(3);hit(3)}},
- chain:{r:'c',n:'Chain Shot',t:'attack',c:1,d:'Deal 5 damage. Enemy Weak 2 (deals 25% less).',f:g=>{hit(5);E().weak+=2}},
- grape:{r:'c',n:'Grapeshot',t:'attack',c:1,d:'Deal 4 damage. Apply 2 Vulnerable (takes 50% more).',f:g=>{hit(4);E().vuln+=2}},
- keg:{r:'u',n:'Powder Keg',t:'attack',c:2,d:'Roll 2 dice. Deal the total ×2 damage.',f:g=>{const a=d6(),b=d6();log(`🎲 ${a} + ${b}`);hit((a+b)*2)}},
- lucky:{r:'c',n:'Lucky Shot',t:'attack',c:0,d:'Roll a die. Deal that much damage; on a 6 deal 15.',f:g=>{const r=d6();log(`🎲 ${r}`);hit(r==6?15:r)}},
- hooks:{r:'c',n:'Boarding Hooks',t:'attack',c:1,d:'Deal 7 damage. +5 if the enemy has no Block.',f:g=>hit(E().block>0?7:12)},
- charge:{r:'u',n:'Gunpowder Charge',t:'attack',c:1,d:'Deal 13 damage. Take 3 damage.',f:g=>{hit(13);S.hp-=3}},
- volley:{r:'r',n:'Musket Volley',t:'attack',c:2,d:'Deal 5 damage 4 times.',f:g=>{for(let i=0;i<4;i++)hit(5)}},
- sails:{r:'c',n:'Hoist Sails',t:'block',c:1,d:'Gain 7 Block. Draw 1 card.',f:g=>{blk(7);draw(1)}},
- timber:{r:'c',n:'Timber Patch',t:'block',c:2,d:'Gain 13 Block.',f:g=>blk(13)},
- fortune:{r:'c',n:'Dice of Fortune',t:'block',c:1,d:'Roll a die. Gain 3× that in Block.',f:g=>{const r=d6();log(`🎲 ${r}`);blk(r*3)}},
- rope:{r:'u',n:'Rope & Rigging',t:'block',c:1,d:'Gain 4 Block. Next turn, gain 4 Block.',f:g=>{blk(4);C().nextBlock+=4}},
- rum:{r:'c',n:'Rum Ration',t:'skill',c:0,d:'Heal 4 HP. Exhaust.',x:1,f:g=>heal(4)},
- kidd:{r:'r',n:"Kidd's Counsel",t:'skill',c:1,d:'James advises: draw 2, gain 1 energy. Exhaust.',x:1,f:g=>{draw(2);C().energy+=1}},
- sight:{r:'c',n:'Spyglass Sighting',t:'skill',c:0,d:'Draw 1 card.',f:g=>draw(1)},
- resolve:{r:'r',n:"Captain's Resolve",t:'skill',c:1,d:'Gain 2 Strength (attacks +2 per hit). Exhaust.',x:1,f:g=>{C().str+=2}},
- rally:{r:'u',n:'Rally the Crew',t:'skill',c:1,d:'Gain 1 Strength and 5 Block.',f:g=>{C().str+=1;blk(5)}},
-};
-const REWARD_POOL=Object.keys(CARDS).filter(k=>k!='strike'&&k!='defend');
-const RAR={c:'common',u:'uncommon',r:'rare'};
-function rollRarity(kind){const t=kind=='elite'?[45,40,15]:kind=='shop'?[54,37,9]:[57,37,6];const x=rnd(100);return x<t[0]?'c':x<t[0]+t[1]?'u':'r'}
-function rollCards(n,kind){const out=[];let guard=0;while(out.length<n&&guard++<200){const r=rollRarity(kind);const pool=REWARD_POOL.filter(k=>CARDS[k].r==r&&!out.includes(k));if(pool.length)out.push(pick(pool))}return out}
-const PRICE={c:[45,55],u:[68,82],r:[135,165]};
-const RELICS={
- spyglass:{n:"James's Spyglass",img:'img/james-spyglass.jpg',d:'Draw 2 extra cards on the first turn of each fight.'},
- colors:{n:"Fair Wind's Colors",img:'img/endurance.jpg',d:'Start each fight with 6 Block.'},
- doubloon:{n:'Lucky Doubloon',img:'img/nassau-day9.jpg',d:'Dice never roll below 2.'},
- cask:{n:'Rum Cask',img:'img/nassau-day9.jpg',d:'Heal 5 HP after each fight.'},
- hull:{n:'Tarred Hull',img:'img/endurance.jpg',d:'+10 max HP (applied when gained).'},
- monkey:{n:'Powder Monkey',img:'img/endurance.jpg',d:'Your first attack each fight deals +6 damage.'},
- chest:{n:'Prize Ledger',img:'img/map-bahamas-florida-straits.jpg',d:'+10 coin after every fight.'},
-};
-const ENEMIES={
- pirates:{n:'Rival Pirates',hp:34,img:'img/endurance.jpg',pat:[['atk',7],['blk',6],['atk',4,2]]},
- navy:{n:'Navy Frigate',hp:46,img:'img/endurance.jpg',pat:[['atk',11],['buf',2],['atk',6],['blk',10]]},
- boarders:{n:'Boarding Party',hp:28,img:'img/endurance.jpg',pat:[['atk',3,3],['atk',5,2],['debuf',2]]},
- boss:{n:"Navy Man-o'-War",hp:110,img:'img/endurance.jpg',boss:1,pat:[['atk',8,2],['blk',15],['atk',22],['buf',3],['atk',5,4]]},
-};
-const ICON={fight:'⚔️',merchant:'💰',rest:'🍺',event:'❓',elite:'☠️',boss:'⛵',treasure:'🧰'};
-const NAME={treasure:'Treasure',fight:'Fight',merchant:'Merchant',rest:'Tavern',event:'Strange Sail',elite:'Navy Frigate',boss:"Man-o'-War"};
-let S=null;
-function newRun(){
- S={hp:60,maxHp:60,coin:99,cargo:{silver:0,timber:1,food:2,water:2,gunpowder:1,rum:1,wine:0,rope:1},
-  deck:['strike','strike','strike','strike','strike','defend','defend','defend','defend','lucky','sails'],
-  relics:['spyglass'],map:genMap(),row:-1,col:-1,screen:'map',combat:null,msg:'',stats:{fights:0}};
- save();render();
-}
-function wpick(w){let tot=0;for(const k in w)tot+=w[k];let x=Math.random()*tot;for(const k in w){x-=w[k];if(x<0)return k}return 'fight'}
-function genMap(){
- // 9 legs + boss. Weights adapted from Slay the Spire: ~45% fight, 22% event, 12% rest, 10% elite, 8% merchant, 3% treasure.
- const rows=[];
- for(let r=0;r<9;r++){const row=[];for(let c=0;c<3;c++){let t;
-  if(r==0)t='fight';else if(r==4)t='treasure';else if(r==8)t='rest';
-  else{const w={fight:45,event:22,rest:r>=2?12:0,elite:r>=2?10:0,merchant:8,treasure:3};
-   if(r==7)w.rest=0;t=wpick(w);
-   const prev=rows[r-1][c].t;if(['elite','rest','merchant'].includes(t)&&t==prev)t=r%2?'event':'fight'}
-  row.push({t,done:0})}
-  if((r==2||r==6)&&!row.some(n=>n.t=='merchant'))row[rnd(3)].t='merchant';
-  if(r==5&&!row.some(n=>n.t=='elite'))row[rnd(3)].t='elite';
-  rows.push(row)}
- rows.push([{t:'empty'},{t:'boss',done:0},{t:'empty'}]);return rows;
-}
-function avail(r,c){if(S.screen!='map')return false;
- if(r==S.row+1){if(r==S.map.length-1)return c==1; if(S.row<0)return true; return Math.abs(c-S.col)<=1}return false}
-function save(){try{localStorage.setItem(SAVE,JSON.stringify(S))}catch(e){}}
-function load(){try{const j=localStorage.getItem(SAVE);if(j)return JSON.parse(j)}catch(e){}return null}
-const C=()=>S.combat, E=()=>S.combat.enemy;
-function log(m){C().log.unshift(m);if(C().log.length>30)C().log.pop()}
-function hit(n){const c=C(),e=E();let d=n+c.str;if(S.relics.includes('monkey')&&!c.monk){c.monk=1;d+=6}if(c.pweak>0)d=Math.floor(d*.75);if(e.vuln>0)d=Math.floor(d*1.5);
- const ab=Math.min(e.block,d);e.block-=ab;e.hp-=d-ab;log(`You hit for ${d}${ab?` (${ab} blocked)`:''}.`)}
-function blk(n){C().block+=n}
-function heal(n){S.hp=Math.min(S.maxHp,S.hp+n)}
-function draw(n){const c=C();for(let i=0;i<n;i++){if(!c.draw.length){c.draw=shuffle(c.disc);c.disc=[]}if(!c.draw.length)return;if(c.hand.length>=10)return;c.hand.push(c.draw.pop())}}
-function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=rnd(i+1);[a[i],a[j]]=[a[j],a[i]]}return a}
-function startFight(kind){
- const base=ENEMIES[kind];const scale=1+Math.max(0,S.row)*0.05;
- const e={k:kind,n:base.n,max:Math.round(base.hp*(base.boss?1:scale)),block:0,str:0,weak:0,vuln:0,i:rnd(base.pat.length)};e.hp=e.max;
- S.combat={enemy:e,draw:shuffle(S.deck),disc:[],hand:[],exh:[],energy:3,block:0,str:0,pweak:0,turn:0,nextBlock:0,log:[`${e.n} sighted!`]};
- if(S.relics.includes('colors'))S.combat.block=6;
- S.screen='combat';startTurn();
-}
-function startTurn(){const c=C();c.turn++;c.energy=3;if(c.turn>1)c.block=0;c.block+=c.nextBlock;c.nextBlock=0;
- draw(5+(c.turn==1&&S.relics.includes('spyglass')?2:0));save();render()}
-function play(i){const c=C();const k=c.hand[i];const cd=CARDS[k];if(cd.c>c.energy)return;
- c.energy-=cd.c;c.hand.splice(i,1);cd.f();(cd.x?c.exh:c.disc).push(k);
- if(!checkEnd()){save();render()}}
-function intent(e){const p=ENEMIES[e.k].pat[e.i];const s=e.str;let w=x=>e.weak>0?Math.floor(x*.75):x;
- if(p[0]=='atk')return{ic:'⚔️',tx:`Attack ${w(p[1]+s)}${p[2]?' × '+p[2]:''}`};
- if(p[0]=='blk')return{ic:'🛡️',tx:`Defend ${p[1]}`};if(p[0]=='buf')return{ic:'💪',tx:`Load guns (+${p[1]} Str)`};return{ic:'🌀',tx:`Weaken you (${p[1]})`}}
-function endTurn(){const c=C(),e=E();c.disc.push(...c.hand);c.hand=[];
- e.block=0;const p=ENEMIES[e.k].pat[e.i];
- if(p[0]=='atk'){for(let t=0;t<(p[2]||1);t++){let d=p[1]+e.str;if(e.weak>0)d=Math.floor(d*.75);const ab=Math.min(c.block,d);c.block-=ab;S.hp-=d-ab;log(`${e.n} hits for ${d}${ab?` (${ab} blocked)`:''}.`)}}
- else if(p[0]=='blk'){e.block+=p[1];log(`${e.n} braces (+${p[1]} Block).`)}
- else if(p[0]=='buf'){e.str+=p[1];log(`${e.n} loads heavier shot.`)}
- else {c.pweak+=p[1];log(`${e.n} rattles your crew (Weak ${p[1]}).`)}
- e.i=(e.i+1)%ENEMIES[e.k].pat.length;if(e.weak>0)e.weak--;if(e.vuln>0)e.vuln--;if(c.pweak>0)c.pweak--;
- if(!checkEnd())startTurn()}
-function checkEnd(){const e=E();
- if(S.hp<=0){S.hp=0;S.screen='lose';S.combat=null;save();render();return true}
- if(e.hp<=0){const boss=ENEMIES[e.k].boss,elite=e.k=='navy';S.combat=null;S.stats.fights++;
-  if(boss){S.screen='win';save();render();return true}
-  let coin=elite?30+rnd(11):15+rnd(11);if(S.relics.includes('chest'))coin+=10;S.coin+=coin;const cg=pick(Object.keys(S.cargo));const cn=elite?2:1;S.cargo[cg]+=cn;
-  if(S.relics.includes('cask'))heal(5);
-  let msg=`Victory! +${coin} coin, +${cn} ${cg}.`;
-  if(elite){const g=grantRelic();if(g)msg+=` Relic taken: ${RELICS[g].n}!`;heal(6);msg+=' The crew patches up (+6 HP).'}
-  S.reward={msg,cards:rollCards(elite?4:3,elite?'elite':'normal')};S.screen='reward';save();render();return true}
- return false}
-function grantRelic(){const r=Object.keys(RELICS).filter(k=>!S.relics.includes(k));if(!r.length){S.coin+=60;return null}const g=pick(r);S.relics.push(g);if(g=='hull'){S.maxHp+=10;S.hp+=10}return g}
-function takeReward(k){if(k)S.deck.push(k);S.reward=null;S.screen='map';save();render()}
-function go(r,c){if(!avail(r,c))return;S.row=r;S.col=c;const n=S.map[r][c];n.done=1;
- if(n.t=='fight')startFight(pick(['pirates','boarders']));
- else if(n.t=='elite')startFight('navy');else if(n.t=='boss')startFight('boss');
- else if(n.t=='merchant'){S.shop={cards:rollCards(5,'shop').map(k=>{const p=PRICE[CARDS[k].r];return{k,p:p[0]+rnd(p[1]-p[0]+1)}}),removed:S.removedTotal||0,relic:pick(Object.keys(RELICS).filter(k=>!S.relics.includes(k)).concat(['']))};const sale=rnd(S.shop.cards.length);S.shop.cards[sale].p=Math.floor(S.shop.cards[sale].p/2);S.shop.cards[sale].sale=1;S.screen='merchant'}
- else if(n.t=='rest')S.screen='rest';
- else if(n.t=='treasure'){const g=grantRelic();const coin=25+rnd(26);S.coin+=coin;S.msg=`🧰 A buried chest! ${g?'Relic: '+RELICS[g].n+'. ':''}+${coin} coin.`;S.screen='map'}
- else if(n.t=='event'){if(Math.random()<0.1){startFight(pick(['pirates','boarders']));C().log.unshift('Ambush! It was a trap.')}else{S.ev=rnd(EVENTS.length);S.screen='event'}}
- save();render()}
-const EVENTS=[
- {t:'A Drifting Wreck',d:'A merchant wreck wallows on the swell, her hold half-flooded.',o:[['Salvage the hold (lose 6 HP, +2 silver, +1 timber)',()=>{S.hp=Math.max(1,S.hp-6);S.cargo.silver+=2;S.cargo.timber++}],['Leave her to the sea',()=>{}]]},
- {t:'Ren and James at the Rail',d:'James Kidd lowers the spyglass. "Calm water ahead, Ren. Or we could try the shoals and save a day."',o:[['Take the calm water (heal 10)',()=>heal(10)],['Run the shoals (+1 Strength card: Captain\'s Resolve)',()=>S.deck.push('resolve')]]},
- {t:'A Merchant in Distress',d:'A Merchant has lost her mast and begs for help.',o:[['Give rope and timber (-1 rope, -1 timber, +45 coin)',()=>{if(S.cargo.rope>0&&S.cargo.timber>0){S.cargo.rope--;S.cargo.timber--;S.coin+=45}else S.msg='Not enough cargo; you sail on.'}],['Take her rum (+2 rum, add a Rum Ration)',()=>{S.cargo.rum+=2;S.deck.push('rum')}]]},
- {t:'The Fair Wind Signals',d:'The captured Dutch snow, the Fair Wind, runs up a signal: she has spare powder.',o:[['Take on gunpowder (+2 gunpowder, add Powder Keg)',()=>{S.cargo.gunpowder+=2;S.deck.push('keg')}],['Trade it for coin (+30 coin)',()=>S.coin+=30]]},
-];
-function sellCargo(k){const val={silver:25,wine:12,rum:8,gunpowder:10,timber:6,rope:5,food:4,water:3}[k];if(S.cargo[k]>0){S.cargo[k]--;S.coin+=val;save();render()}}
-function buy(i){const it=S.shop.cards[i];if(!it||it.sold||S.coin<it.p)return;S.coin-=it.p;it.sold=1;S.deck.push(it.k);save();render()}
-function buyRelic(){if(!S.shop.relic||S.coin<120)return;S.coin-=120;const g=S.shop.relic;S.relics.push(g);if(g=='hull'){S.maxHp+=10;S.hp+=10}S.shop.relic='';save();render()}
-function removeCard(i){if(S.shop.didRemove)return;const cost=50+25*S.shop.removed;if(S.coin<cost||S.deck.length<=5)return;S.coin-=cost;S.shop.removed++;S.removedTotal=S.shop.removed;S.shop.didRemove=1;S.deck.splice(i,1);S.screen='merchant';save();render()}
-const $=id=>document.getElementById(id);
-function cardHTML(k,attrs='',extra=''){const c=CARDS[k];const rr=RAR[c.r]||'basic';return `<div class="card ${c.t} ${rr} ${extra}" ${attrs}><div class="cost">${c.c}</div><div class="rar">${c.r=='r'?'★★★':c.r=='u'?'★★':c.r=='c'?'★':''}</div><div class="nm">${c.n}</div><div class="ty">${c.t}</div><div>${c.d}</div></div>`}
-function topBar(){const cg=Object.entries(S.cargo).filter(x=>x[1]>0).map(([k,v])=>`${k} ${v}`).join(' · ');
- return `<button class="menubtn" id="menu" onclick="showMenu()" title="Rules & status effects">☰</button><div class="bar" style="padding-right:50px"><img class="portrait" src="img/ren.jpg" style="width:40px;height:40px"><span>Ren ❤️ <b>${S.hp}/${S.maxHp}</b></span><span>💰 <b>${S.coin}</b></span><span>🃏 ${S.deck.length}</span><span style="font-size:12px">📦 ${cg||'empty hold'}</span>
- <span>${S.relics.map(r=>`<span class="relic" title="${RELICS[r].d}" onclick="alert('${RELICS[r].n}: ${RELICS[r].d.replace(/'/g,"\\'")}')"><img src="${RELICS[r].img}">${RELICS[r].n}</span>`).join(' ')}</span></div>`}
-function render(){const a=$('app');let foot='';
- if(!S){const sv=load();a.innerHTML=`<h1>Free Nassau</h1><h3 class="center">The Endurance's Run</h3><img class="ship" src="img/endurance.jpg"><p>Captain Ren sails the sloop <i>Endurance</i> out of Nassau, with James Kidd at his side. Chart a course across the islands, fight, trade, and break the Navy Man-o'-War that threatens the free city.</p><div class="center">${sv?'<button id="cont" onclick="S=load();render()">Continue Voyage</button>':''}<button id="new" onclick="newRun()">New Voyage</button></div><p style="font-size:13px"><b>How to play:</b> tap nodes on the map to sail. In fights, tap cards to play them (each costs ⚡ energy, 3 per turn), then tap End Turn. Read the enemy's intent to know when to Block. Your run saves automatically.</p>`;return}
- let h=topBar();
- if(S.screen=='map'){h+=`<h2>Chart Your Course <span class="floor">· leg ${S.row+1} of ${S.map.length}</span></h2>${S.msg?`<p><i>${S.msg}</i></p>`:''}<div class="map">`;S.msg='';
-  for(let r=S.map.length-1;r>=0;r--){h+='<div class="maprow">';S.map[r].forEach((n,c)=>{const av=avail(r,c);h+=n.t=='empty'?'<div class="node empty"></div>':`<div class="node ${av?'avail':''} ${n.done?'done':''} ${r==S.row&&c==S.col?'done':''}" data-r="${r}" data-c="${c}" title="${NAME[n.t]}" onclick="go(${r},${c})">${ICON[n.t]}</div>`});h+='</div>'}
-  h+=`</div><p style="font-size:12px">⚔️ Fight · ☠️ Elite (relic!) · 🧰 Treasure · 💰 Merchant · 🍺 Tavern · ❓ Event · ⛵ Boss · ☰ rules</p>`;
-  foot=`<button onclick="showDeck()">View Deck</button><button onclick="if(confirm('Abandon this voyage?')){localStorage.removeItem(SAVE);S=null;render()}">Abandon</button>`}
- else if(S.screen=='combat'){const c=C(),e=E(),it=intent(e);
-  h+=`<div class="enemy"><div class="row"><img class="portrait" src="${ENEMIES[e.k].img}"><div style="flex:1"><h3>${e.n}</h3><div class="hpbar"><i style="width:${Math.max(0,e.hp)/e.max*100}%"></i></div>${Math.max(0,e.hp)}/${e.max} ${e.block?`<span class="tag">🛡️ ${e.block}</span>`:''}${e.str?`<span class="tag">💪 ${e.str}</span>`:''}${e.weak?`<span class="tag">Weak ${e.weak}</span>`:''}${e.vuln?`<span class="tag">Vuln ${e.vuln}</span>`:''}</div></div><div class="intent" id="intent">Intent: ${it.ic} ${it.tx}</div></div>
-  <div class="row"><img class="portrait" src="img/ren.jpg"><div><b>Ren</b> ❤️ ${S.hp}/${S.maxHp} <span class="tag">🛡️ ${c.block}</span>${c.str?`<span class="tag">💪 ${c.str}</span>`:''}${c.pweak?`<span class="tag">Weak ${c.pweak}</span>`:''}<br>⚡ Energy <b id="energy">${c.energy}</b>/3 · Draw ${c.draw.length} · Discard ${c.disc.length}</div></div>
-  <div class="cards" id="hand">${c.hand.map((k,i)=>cardHTML(k,`data-i="${i}" onclick="play(${i})"`,CARDS[k].c>c.energy?'unplayable':'')).join('')}</div>
-  <div class="log">${c.log.join('<br>')}</div>`;
-  foot=`<button id="endturn" onclick="endTurn()">End Turn ⏳</button>`}
- else if(S.screen=='reward'){h+=`<h2>${S.reward.msg}</h2><p>Choose a card to add to your deck:</p><div class="cards">${S.reward.cards.map(k=>cardHTML(k,`onclick="takeReward('${k}')"`,'rw')).join('')}</div><div class="center"><button id="skip" onclick="takeReward()">Skip</button></div>`}
- else if(S.screen=='merchant'){const sh=S.shop,rc=50+25*sh.removed;
-  h+=`<h2>💰 The Merchant</h2><img class="ship" src="img/nassau-day9.jpg"><h3>Cards</h3><div class="cards">${sh.cards.map((it,i)=>it.sold?'':`<div>${cardHTML(it.k,`onclick="buy(${i})"`,S.coin<it.p?'unplayable':'')}<div class="center">${it.sale?'🏷️ SALE ':''}${it.p} coin</div></div>`).join('')}</div>
-  ${sh.relic?`<h3>Relic</h3><button onclick="buyRelic()" ${S.coin<120?'disabled':''}>${RELICS[sh.relic].n}: ${RELICS[sh.relic].d} (120 coin)</button>`:''}
-  <h3>Sell Cargo</h3>${Object.entries(S.cargo).filter(x=>x[1]>0).map(([k,v])=>`<button onclick="sellCargo('${k}')">Sell ${k} (${v})</button>`).join('')||'Hold is empty.'}
-  <h3>Remove a card</h3><button onclick="S.screen='remove';render()" ${S.coin<rc||sh.didRemove?'disabled':''}>Remove a card (${rc} coin, once per visit)</button>`;
-  foot=`<button id="leave" onclick="S.screen='map';save();render()">Set Sail</button>`}
- else if(S.screen=='remove'){h+=`<h2>Remove which card?</h2><div class="cards">${S.deck.map((k,i)=>cardHTML(k,`onclick="removeCard(${i})"`)).join('')}</div>`;foot=`<button onclick="S.screen='merchant';render()">Back</button>`}
- else if(S.screen=='rest'){h+=`<h2>🍺 A Quiet Tavern</h2><img class="ship" src="img/nassau-day9.jpg"><p>Ren and James Kidd share a bottle while the crew sleeps ashore.</p><button id="rest" onclick="heal(Math.ceil(S.maxHp*.3));S.screen='map';save();render()">Rest (heal ${Math.ceil(S.maxHp*.3)})</button><button onclick="S.maxHp+=5;S.hp+=5;S.screen='map';save();render()">Drill the crew (+5 max HP)</button><button onclick="S.reward={msg:'James Kidd trades stories with old hands at the bar.',cards:rollCards(3,'normal')};S.screen='reward';save();render()">Swap tales (pick a card)</button>`}
- else if(S.screen=='event'){const ev=EVENTS[S.ev];h+=`<h2>❓ ${ev.t}</h2><img class="ship" src="img/${S.ev==1?'james-kidd':'endurance'}.jpg" style="${S.ev==1?'max-height:220px;object-fit:contain':''}"><p>${ev.d}</p>${ev.o.map((o,i)=>`<button class="evopt" onclick="EVENTS[${S.ev}].o[${i}][1]();S.screen='map';save();render()">${o[0]}</button>`).join('<br>')}`}
- else if(S.screen=='win'||S.screen=='lose'){const w=S.screen=='win';h=`<h1>${w?'Victory!':'The Endurance Founders'}</h1><img class="ship" src="img/${w?'nassau-day9':'endurance'}.jpg"><p class="center">${w?"The Man-o'-War strikes her colours. Nassau stays free, and Ren sails home with James Kidd at his side.":'Ren goes down fighting. Nassau will need another captain... or another run.'}</p><p class="center">Fights won: ${S.stats.fights} · Coin: ${S.coin}</p><div class="center"><button id="again" onclick="localStorage.removeItem(SAVE);newRun()">New Voyage</button></div>`}
- a.innerHTML=h+(foot?`<div class="actions">${foot}</div>`:'')}
-function showDeck(){const a=$('app');a.innerHTML=topBar()+`<h2>Your Deck</h2><div class="cards">${S.deck.slice().sort().map(k=>cardHTML(k)).join('')}</div>`;a.innerHTML+=`<div class="actions"><button onclick="render()">Back</button></div>`}
-function showMenu(){$('modal').innerHTML=`<div class="modal" id="legend" onclick="if(event.target===this)$('modal').innerHTML=''"><div class="box"><h2>☰ Captain's Log: Rules</h2><dl>
-<dt>⚡ Energy</dt><dd>3 per turn. Each card costs the number in its gold coin.</dd>
-<dt>🛡️ Block</dt><dd>Stops that much incoming damage. Clears at the start of your next turn.</dd>
-<dt>💪 Strength</dt><dd>Every hit of your attacks deals +1 damage per Strength, for the rest of the fight.</dd>
-<dt>Weak</dt><dd>A Weak fighter deals 25% less attack damage. Counts down 1 each turn.</dd>
-<dt>Vulnerable</dt><dd>A Vulnerable fighter takes 50% more attack damage. Counts down 1 each turn.</dd>
-<dt>Exhaust</dt><dd>The card is gone for the rest of this fight (it comes back next fight).</dd>
-<dt>🎲 Dice</dt><dd>Some cards roll a six-sided die. The Lucky Doubloon makes every roll at least 2.</dd>
-<dt>Intent</dt><dd>Shows what the enemy will do next turn: ⚔️ attack, 🛡️ defend, 💪 power up, 🌀 weaken you.</dd>
-<dt>★ Rarity</dt><dd>★ common, ★★ uncommon, ★★★ rare. Elites and the merchant offer more rare cards.</dd>
-<dt>Map</dt><dd>⚔️ Fight · ☠️ Elite (harder, but drops a relic, more coin and a 4-card pick) · 🧰 Treasure (free relic + coin) · 💰 Merchant · 🍺 Tavern · ❓ Event (sometimes an ambush) · ⛵ Boss</dd>
-</dl><div class="center"><button onclick="$('modal').innerHTML=''">Close</button></div></div></div>`}
-render();
-</script></body></html>
+<script src="game.js?v=2"></script><script src="ui.js?v=2"></script></body></html>

@@ -1,21 +1,22 @@
 const {chromium}=require('playwright');
-(async()=>{const b=await chromium.launch();const errs=[];
-for(const [label,god] of [['win',true],['lose',false],['normal',false]]){
-const p=await b.newPage({viewport:{width:390,height:844}});p.on('pageerror',e=>errs.push(label+': '+e.message));
-await p.goto('file://'+process.cwd()+'/index.html');await p.click('#new');
-if(label=='lose')await p.evaluate(()=>{S.hp=1;S.maxHp=1});
-let steps=0,res;
-while(steps++<3000){res=await p.evaluate(god=>{if(god)S.hp=Math.max(S.hp,500);
- if(S.screen=='map'){const n=document.querySelector('.node.avail');if(!n)return 'STUCK '+S.row+','+S.col+' '+document.getElementById('app').innerText.slice(0,200);n.click();return 'map'}
- if(S.screen=='combat'){const c=S.combat;const i=c.hand.findIndex(k=>CARDS[k].c<=c.energy);if(i>=0)play(i);else endTurn();return 'combat'}
- if(S.screen=='reward'){document.querySelector('.rw').click();return 'r'}
- if(S.screen=='merchant'){document.querySelector('#leave').click();return 'm'}
- if(S.screen=='rest'){document.querySelector('#rest').click();return 'rest'}
- if(S.screen=='event'){document.querySelector('.evopt').click();return 'e'}
- return S.screen},god);if(res=='win'||res=='lose'||res.startsWith('STUCK'))break;
- if(label=='normal'&&steps==40)await p.screenshot({path:'screenshot-combat.png'}).catch(()=>{});}
-if(label=='normal'){await p.reload();console.log('after reload screen:',await p.evaluate(()=>!!document.querySelector('#cont')));}
-console.log(label,'->',res,'steps',steps);await p.screenshot({path:`screenshot-${label}.png`});}
-const p=await b.newPage({viewport:{width:390,height:844}});p.on('pageerror',e=>errs.push('ui: '+e.message));await p.goto('file://'+process.cwd()+'/index.html');await p.click('#new');await p.screenshot({path:'screenshot-map.png',fullPage:true});await p.click('#menu');console.log('legend shown',await p.isVisible('#legend'));await p.screenshot({path:'screenshot-legend.png'});await p.evaluate(()=>$('modal').innerHTML='');
-await p.evaluate(()=>document.querySelector('.node.avail').click());await p.screenshot({path:'screenshot-fight.png'});await p.screenshot({path:'screenshot-fight-full.png',fullPage:true});console.log('endturn position',await p.evaluate(()=>getComputedStyle(document.getElementById('endturn').parentElement).position));
-console.log('errors',errs);await b.close()})();
+(async()=>{const b=await chromium.launch();const errs=[];let ok=0,fail=0;const t=(c,m)=>{c?ok++:(fail++,console.log('FAIL',m))};
+const p=await b.newPage({viewport:{width:390,height:844}});p.on('pageerror',e=>errs.push(e.message));p.on('console',m=>{if(m.type()==='error')errs.push(m.text())});
+await p.goto('file://'+process.cwd()+'/index.html');await p.evaluate(()=>localStorage.clear());await p.reload();
+await p.click('#new');t(await p.$('#cap-blackbeard'),'capselect');t(!(await p.$('#cap-rackham'))||await p.$eval('#cap-rackham',e=>e.disabled),'rackham locked');
+await p.click('#cap-blackbeard');t(await p.$('.map'),'map');t(await p.evaluate(()=>Object.keys(S.officers).length===0),'no officers '+await p.evaluate(()=>S.ship.type+JSON.stringify(S.officers)));
+await p.click('.node.avail',{force:true});t(await p.$('.card'),'combat cards');t(await p.$('#endturn'),'end turn');
+const inFlow=await p.$eval('#endturn',e=>getComputedStyle(e).position!=='fixed');t(inFlow,'endturn inline');
+await p.screenshot({path:'screenshot-v2-combat.png',fullPage:true});
+await p.click('.menubtn');t(await p.$('.modal'),'legend');await p.mouse.click(3,3);await p.waitForTimeout(100);t(!(await p.$('.modal')),'legend closes');
+// shop layout: open port
+await p.evaluate(()=>{S.combat=null;S.coin=999;enterNode({t:'port'});});await p.waitForTimeout(100);
+const w=await p.$$eval('.cardwrap .card',a=>a.map(e=>e.getBoundingClientRect().width));t(w.length&&w.every(x=>x>90),'shop card width '+w.join(','));
+await p.screenshot({path:'screenshot-v2-port.png',fullPage:true});
+await p.evaluate(()=>{S.screen='map';render()});await p.screenshot({path:'screenshot-v2-map.png',fullPage:true});
+// full bot runs + meta persistence
+await p.addScriptTag({path:'bot.js'});const r=await p.evaluate(()=>{const o=[];for(let i=0;i<8;i++)o.push(botRun('vane').kind);return o});t(r.every(k=>['death','win','extract'].includes(k)),'bot runs '+r);
+const ex=await p.evaluate(()=>{const before=M.banked;botRun('bellamy',{extract:true});return [S.end.kind,M.banked>before,M.unlocked.rackham]});console.log('extract run',ex);
+await p.reload();t(await p.evaluate(()=>JSON.parse(localStorage.getItem('fnv2meta')).banked>0),'meta persisted');
+await p.click('#nassau');t(await p.$('button'),'nassau screen');
+const txt=await p.evaluate(()=>document.documentElement.outerHTML+[...document.scripts].map(s=>s.src).join());
+t(errs.length===0,'errors '+errs.join('|'));console.log(`pass ${ok} fail ${fail}`);await b.close();process.exit(fail?1:0)})();
