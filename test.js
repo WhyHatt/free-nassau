@@ -13,7 +13,7 @@ await p.screenshot({path:'screenshot-v2-combat.png'});
 await p.click('.menubtn');t(await p.$('.modal'),'legend');await p.mouse.click(3,3);await p.waitForTimeout(100);t(!(await p.$('.modal')),'legend closes');
 // shop layout: open port
 await p.evaluate(()=>{S.combat=null;S.coin=999;enterNode({t:'port'});});await p.waitForTimeout(100);
-const w=await p.$$eval('.cardwrap .card',a=>a.map(e=>e.getBoundingClientRect().width));t(w.length&&w.every(x=>x>90),'shop card width '+w.join(','));
+const w=await p.$$eval('.cardwrap .card',a=>a.map(e=>e.getBoundingClientRect().width));t(w.length&&w.every(x=>x>70&&Math.abs(x-w[0])<1),'shop card width '+w.join(','));
 await p.screenshot({path:'screenshot-v2-port.png',fullPage:true});
 
 // full bot runs + meta persistence

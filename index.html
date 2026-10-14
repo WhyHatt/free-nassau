@@ -137,6 +137,41 @@ button.mini{min-height:30px;padding:1px 7px;font-size:13px;margin:0 2px}
 @keyframes shake{20%{transform:translate(-4px,2px)}40%{transform:translate(4px,-2px)}60%{transform:translate(-3px,1px)}80%{transform:translate(2px,0)}}
 @keyframes shake2{15%{transform:translate(-8px,3px) rotate(-.6deg)}35%{transform:translate(7px,-3px) rotate(.5deg)}55%{transform:translate(-5px,2px)}75%{transform:translate(3px,-1px)}}
 ul{padding-left:20px}
+/* ---- v2.2 captain's desk frame ---- */
+body{background:#2a1a0e url(img/art/bg-desk.webp) center/cover fixed}
+#app{background:rgba(30,18,8,.18);border-image:none;border-left:0;border-right:0;box-shadow:none}
+#app::before{opacity:.12}
+#app>.scr{background:radial-gradient(ellipse at 50% 35%,#f8ecce 0%,#efdcb0 65%,#dcc08a 100%);border-radius:4px 4px 10px 10px;padding:6px 8px;
+ box-shadow:0 6px 18px rgba(0,0,0,.55),inset 0 0 28px rgba(120,80,30,.35);border:1px solid #b79659}
+#app[data-screen=map]>.scr{background:transparent;box-shadow:none;border:0;padding:0}
+.hud{background:linear-gradient(90deg,#3e1a12 0,#5a2618 6%,#6b2e1c 50%,#5a2618 94%,#3e1a12 100%);border:0;border-radius:6px 12px 12px 6px;
+ outline:2px dashed rgba(230,200,140,.45);outline-offset:-6px;box-shadow:0 4px 10px rgba(0,0,0,.6),inset 0 0 14px rgba(0,0,0,.5);padding:8px 10px}
+.hud::after{content:'';position:absolute;left:44px;top:-3px;width:10px;height:64px;background:linear-gradient(#9b2d20,#6d1d14);clip-path:polygon(0 0,100% 0,100% 100%,50% 85%,0 100%);opacity:.9}
+.hud{position:relative}
+.maphead{background:rgba(248,236,206,.92);padding:0 8px;border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+.chart{transform:rotate(-.6deg);border:0;border-radius:3px;box-shadow:0 10px 24px rgba(0,0,0,.6),inset 0 0 50px rgba(110,70,25,.6);
+ background:linear-gradient(rgba(244,228,190,.62),rgba(236,214,166,.62)),url(img/map-bahamas-florida-straits.jpg) center/cover,#e9d6a8}
+.chart::after{content:'';position:absolute;inset:-2px;pointer-events:none;background:
+ radial-gradient(circle at 10px 10px,#e8c76a 0 4px,#7a5a1a 5px,transparent 6px),radial-gradient(circle at calc(100% - 10px) 10px,#e8c76a 0 4px,#7a5a1a 5px,transparent 6px),
+ radial-gradient(circle at 10px calc(100% - 10px),#e8c76a 0 4px,#7a5a1a 5px,transparent 6px),radial-gradient(circle at calc(100% - 10px) calc(100% - 10px),#e8c76a 0 4px,#7a5a1a 5px,transparent 6px)}
+.legend-line{background:rgba(248,236,206,.85);border-radius:6px}
+.actions{border-image:none;border-top:0;background:linear-gradient(rgba(42,26,14,0),rgba(42,26,14,.55));border-radius:10px}
+.banner{max-height:17vh;display:block;margin:0 auto}
+.painted{position:relative;border-radius:8px;overflow:hidden;box-shadow:0 0 0 2px #6b4a1f,0 4px 10px rgba(0,0,0,.5)}
+.painted img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
+.dmgsvg{position:absolute;inset:0;width:100%;height:100%}
+.boardart .painted img{filter:sepia(.35) contrast(1.1)}
+.eart{width:min(64vw,320px)}#app[data-screen=combat] .eart{width:min(66vw,330px)}
+.duelport{width:min(44vw,190px);aspect-ratio:1;border-radius:50%;object-fit:cover;border:4px solid var(--brass);box-shadow:0 0 0 3px var(--wood),0 0 22px #000}
+.bob .painted{animation:bob 3.2s ease-in-out infinite}.eart.bob{animation:none}
+.sea{background:linear-gradient(rgba(248,236,206,.55),rgba(220,200,160,.4));}
+.card .ds{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+#app[data-screen=port] .choices button,#app[data-screen=shipwright] .choices button{flex:1 1 30%;min-height:38px;padding:4px 6px;font-size:13.5px}
+#app[data-screen=port] .card,#app[data-screen=port] .cardwrap{min-height:0}#app[data-screen=port] .cards{flex-wrap:nowrap}#app[data-screen=port] .cardwrap{width:24%}
+#app[data-screen=port] h3,#app[data-screen=shipwright] h3{font-size:16px;margin:0}
+#app[data-screen=capselect] .panel .small{display:none}#app[data-screen=capselect] .panel{padding:4px 7px}#app[data-screen=capselect] .panel p{font-size:13px;margin:.1em 0}
+#app[data-screen=capselect] .portrait{width:58px;height:58px}#app[data-screen=capselect] .capbtn{min-height:36px;padding:3px 10px}
+
 .gb span,.tag,.strip,.intent b,.leg,.price,.card .ds b{font-family:Georgia,'Times New Roman',serif}
 #app[data-screen=combat] .scr{justify-content:space-between}
 #app[data-screen=combat] .sea{flex:1 1 auto;display:flex;flex-direction:column;justify-content:space-between}
@@ -147,4 +182,4 @@ ul{padding-left:20px}
 @media (min-width:700px){.hand .card{max-width:118px;min-height:140px}.eart{width:250px}}
 @media (max-height:700px){.hand .card{min-height:112px}.card .ds{font-size:12.5px}.eart{width:min(40vw,190px)}h2{font-size:21px}}
 </style></head><body><div id="app"></div><div id="modal"></div>
-<script src="game.js?v=3"></script><script src="ui.js?v=3"></script><script src="ui2.js?v=3"></script></body></html>
+<script src="game.js?v=4"></script><script src="ui.js?v=4"></script><script src="ui2.js?v=4"></script><script src="sfx.js?v=4"></script><script src="ui3.js?v=4"></script></body></html>

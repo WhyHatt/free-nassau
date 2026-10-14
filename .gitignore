@@ -1,3 +1,4 @@
 node_modules/
 *.png.bak
 screenshot-*.png
+img/art/*.jpg
