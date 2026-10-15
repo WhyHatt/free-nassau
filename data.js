@@ -9,7 +9,7 @@ let S=null, M=null;
 const FXQ=[];
 function fx(t,d){if(window.NOFX||window.__prev||FXQ.length>80)return;FXQ.push(Object.assign({t},d||{}))}
 /* Balance dials (tuned with sim.js). dmg[act]: normal-enemy damage multiplier on top of the act scale; bd/bs: boss damage / size by act. */
-const TUNE={dmg:[0,3.0,3.3,3.1],hull:1.8,crew:1.3,bd:[0,1.8,2.1,1.45],bs:[0,1.5,1.7,1.0],sc:[0,1,1.15,1.15]};
+const TUNE={dmg:[0,3.0,3.3,3.1],hull:1.8,crew:1.3,bd:[0,1.8,2.1,1.55],bs:[0,1.4,1.45,1.0],sc:[0,1,1.15,1.15]};
 /* Ships: heavier hulls give less Block from Sail cards (sail). */
 const SHIPS={
  periagua:{n:'Periagua',hull:30,crew:25,guns:2,price:0,sail:2,perk:'Tiny and nimble: +3 Block each ship turn; Sail cards +2 Block.'},
@@ -117,7 +117,7 @@ const CAPTAINS={
  blackbeard:{n:'Edward “Blackbeard” Teach',short:'Blackbeard',hp:78,crew:34,order:'litfuse',
   deck:['broadside','broadside','swivel','swivel','tack','tack','cutlass','cutlass','fear','smoke'],
   passive:'Terror: enemy crews start boarding with 8% fewer men.',id:'Intimidation and boarding.'},
- bellamy:{n:'“Black Sam” Bellamy',short:'Bellamy',hp:72,crew:40,order:'fairshare',
+ bellamy:{n:'“Black Sam” Bellamy',short:'Bellamy',hp:80,crew:40,order:'fairshare',
   deck:['broadside','broadside','swivel','tack','tack','cutlass','cutlass','cutlass','rally','shares'],
   passive:'Prince of Pirates: starts with Henry Jennings as Quartermaster; +30% silver from fights; hires cost 25% less.',id:'Crew and plunder.'},
  vane:{n:'Charles Vane',short:'Vane',hp:62,crew:34,order:'noquarter',
