@@ -1,0 +1,180 @@
+{
+ "cap": "bonnyread",
+ "not": 3,
+ "taps": 857,
+ "screens": {
+  "map": 29,
+  "combat": 436,
+  "reward": 6,
+  "recruit": 5,
+  "prize": 1,
+  "cove": 4,
+  "extract": 2,
+  "abandon": 7,
+  "port": 1,
+  "end": 1
+ },
+ "fights": [
+  {
+   "act": 1,
+   "row": 0,
+   "en": "rival",
+   "turns": 5,
+   "taps": 51,
+   "dhull": 1,
+   "dhp": 0,
+   "dcrew": 0
+  },
+  {
+   "act": 1,
+   "row": 2,
+   "en": "privateer",
+   "turns": 5,
+   "taps": 49,
+   "dhull": 8,
+   "dhp": 0,
+   "dcrew": 2
+  },
+  {
+   "act": 1,
+   "row": 3,
+   "en": "rival",
+   "turns": 4,
+   "taps": 42,
+   "dhull": -6,
+   "dhp": 0,
+   "dcrew": 0
+  },
+  {
+   "act": 1,
+   "row": 4,
+   "en": "rival",
+   "turns": 2,
+   "taps": 26,
+   "dhull": 0,
+   "dhp": 0,
+   "dcrew": 12
+  },
+  {
+   "act": 1,
+   "row": 7,
+   "en": "merchant",
+   "turns": 3,
+   "taps": 30,
+   "dhull": 4,
+   "dhp": 0,
+   "dcrew": 1
+  },
+  {
+   "act": 1,
+   "row": 10,
+   "en": "sqA",
+   "turns": 14,
+   "taps": 134,
+   "dhull": 27,
+   "dhp": 7,
+   "dcrew": 29
+  },
+  {
+   "act": 2,
+   "row": 0,
+   "en": "privateer",
+   "turns": 6,
+   "taps": 58,
+   "dhull": 24,
+   "dhp": 2,
+   "dcrew": 0
+  },
+  {
+   "act": 2,
+   "row": 1,
+   "en": "guarda",
+   "turns": 6,
+   "taps": 52,
+   "dhull": 1,
+   "dhp": 4,
+   "dcrew": 0
+  },
+  {
+   "act": 2,
+   "row": 2,
+   "en": "capitana",
+   "turns": 5,
+   "taps": 41,
+   "dhull": 0,
+   "dhp": 2,
+   "dcrew": 0
+  },
+  {
+   "act": 2,
+   "row": 5,
+   "en": "galleon",
+   "turns": 3,
+   "taps": 23,
+   "dhull": 0,
+   "dhp": 0,
+   "dcrew": 1
+  },
+  {
+   "act": 2,
+   "row": 7,
+   "en": "fort",
+   "turns": 8,
+   "taps": 68,
+   "dhull": 0,
+   "dhp": 43,
+   "dcrew": 0
+  },
+  {
+   "act": 3,
+   "row": 0,
+   "en": "privateer",
+   "turns": 5,
+   "taps": 37,
+   "dhull": 11,
+   "dhp": 2,
+   "dcrew": 0
+  },
+  {
+   "act": 3,
+   "row": 1,
+   "en": "galleon",
+   "turns": 5,
+   "taps": 37,
+   "dhull": 0,
+   "dhp": 0,
+   "dcrew": 0
+  },
+  {
+   "act": 3,
+   "row": 5,
+   "en": "hunter",
+   "turns": 3,
+   "taps": 23,
+   "dhull": 0,
+   "dhp": 0,
+   "dcrew": 5
+  },
+  {
+   "act": 3,
+   "row": 7,
+   "en": "horn",
+   "turns": 5,
+   "taps": 47,
+   "dhull": 0,
+   "dhp": 0,
+   "dcrew": 0
+  }
+ ],
+ "overflow": [],
+ "events": [],
+ "decisions": 29,
+ "shots": 0,
+ "result": {
+  "kind": "death",
+  "act": 3,
+  "banked": 1
+ },
+ "errs": [],
+ "steps": 492
+}

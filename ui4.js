@@ -1,7 +1,7 @@
 "use strict";
 /* v2.4 card redesign: descriptive text + refined parchment cards, inspect view, fanned hand. Presentation only. */
-const KW={Evasion:['🌀','Absorbs hull damage this turn.'],Guard:['🛡️','Absorbs boarding damage this turn.'],Block:['🛡️','Absorbs damage this turn, in any phase.'],Weak:['😵','Deals 25% less damage; counts down each turn.'],
- Burns:['🔥','Loses that much hull each turn; fades by 1.'],Advantage:['⭐','Extra cards when you board (max 3).'],Strength:['💪','Adds to all your damage.'],Exhaust:['✖','Removed for the rest of the fight.']};
+const KW={Block:['🛡️','Absorbs damage this turn, in any phase.'],Weak:['😵','Deals 25% less damage; counts down each turn.'],
+ Burn:['🔥','Loses that much hull each turn; fades by 1.'],Advantage:['⭐','Extra cards when you board (max 3).'],Exhaust:['✖','Removed for the rest of the fight.']};
 const kw=w=>`<span class="kw" data-kw="${w}">${KW[w][0]}${w}</span>`;
 const GN=()=>{try{return ship().guns+S.ship.upg.guns}catch(e){return 0}};
 const CT={
@@ -9,19 +9,19 @@ const CT={
  swivel:()=>`<b>${3+GN()}</b> hull damage. No powder.`,
  chain:()=>`<b>${4+GN()}</b> damage. Enemy is ${kw('Weak')} 2.`,
  grape:()=>`<b>${2+GN()}</b> hull damage and kill <b>6</b> enemy crew.`,
- raking:()=>`<b>${4+2*GN()}</b> damage. No ${kw('Evasion')}? +6 and 1 ${kw('Advantage')}.`,
- tack:()=>`Gain <b>7</b> ${kw('Evasion')}.`,crowd:()=>`Gain <b>4</b> ${kw('Evasion')}. Draw 1.`,weather:()=>`Gain <b>3</b> ${kw('Evasion')} and 1 ${kw('Advantage')}.`,
- fireship:()=>`Enemy ${kw('Burns')} for <b>5</b> each turn.`,
- cutlass:()=>`Boarders kill <b>6</b> enemy crew.`,pistols:()=>`Kill <b>4</b> enemy crew. Enemy is ${kw('Weak')} 1.`,axes:()=>`Kill <b>13</b> enemy crew.`,
- hold:()=>`Gain <b>6</b> ${kw('Guard')}.`,rally:()=>`Gain <b>4</b> ${kw('Guard')}. +5 morale.`,grenades:()=>`Kill <b>9</b> enemy crew.`,
- fear:()=>`Enemy crew −10% and ${kw('Weak')} 2.`,command:()=>`Draw 2 cards.`,parry:()=>`Gain <b>7</b> ${kw('Block')}, in any phase.`,pistolshot:()=>`Deal <b>6</b> to the current target.`,
- resolve:()=>`Gain 1 energy and draw 1.`,smoke:()=>`Gain <b>5</b> ${kw('Block')}. Enemy is ${kw('Weak')} 2.`,shares:()=>`+8 morale and draw 1.`,
- defiance:()=>`+2 ${kw('Strength')} this fight.`,twin:()=>`Strike twice for <b>4</b> each.`,getaway:()=>`Gain <b>8</b> ${kw('Block')} and draw 1.`,
- fairshares:()=>`+12 morale and gain <b>5</b> ${kw('Guard')}.`,ledger:()=>`Draw 2 cards.`,allhands:()=>`Repair 6 hull. Gain 4 ${kw('Evasion')}.`,
- splice:()=>`Gain <b>5</b> ${kw('Evasion')}.`,doubleshot:()=>`<b>${10+3*GN()}</b> damage.`,hotshot:()=>`<b>${5+GN()}</b> damage. Enemy ${kw('Burns')} 3.`,
- readwind:()=>`Weather Gauge is yours. Draw 1.`,shoal:()=>`Gain <b>11</b> ${kw('Evasion')}.`};
+ raking:()=>`<b>${4+2*GN()}</b> damage. No ${kw('Block')}? +6 and 1 ${kw('Advantage')}.`,
+ tack:()=>`Gain <b>7</b> ${kw('Block')}.`,crowd:()=>`Gain <b>4</b> ${kw('Block')}. Draw 1.`,weather:()=>`Gain <b>5</b> ${kw('Block')} and 1 ${kw('Advantage')}.`,
+ fireship:()=>`Enemy ${kw('Burn')} for <b>5</b> each turn.`,
+ cutlass:()=>`Boarders kill <b>6</b> enemy crew.`,pistols:()=>`Kill <b>4</b> enemy crew. Enemy is ${kw('Weak')} 1.`,axes:()=>`Kill <b>16</b> enemy crew.`,
+ hold:()=>`Gain <b>6</b> ${kw('Block')}.`,rally:()=>`Gain <b>4</b> ${kw('Block')}. Restore 3 crew.`,grenades:()=>`Kill <b>9</b> enemy crew.`,
+ fear:()=>`Enemy crew −10% and ${kw('Weak')} 2.`,parry:()=>`Gain <b>7</b> ${kw('Block')}, in any phase.`,pistolshot:()=>`Deal <b>6</b> to the current target.`,
+ resolve:()=>`Gain 1 energy and draw 1.`,smoke:()=>`Gain <b>5</b> ${kw('Block')}. Enemy is ${kw('Weak')} 2.`,shares:()=>`Restore 6 crew. Draw 1.`,
+ defiance:()=>`Gain <b>5</b> ${kw('Block')}. All your damage +2 this fight.`,twin:()=>`Strike twice for <b>4</b> each.`,getaway:()=>`Gain <b>8</b> ${kw('Block')} and draw 1.`,
+ fairshares:()=>`Restore 5 crew. Gain <b>6</b> ${kw('Block')}.`,ledger:()=>`Draw 2 cards.`,allhands:()=>`Repair 6 hull (a 🔧 kit if you have one). Gain 4 ${kw('Block')}.`,
+ splice:()=>`Gain <b>5</b> ${kw('Block')}.`,doubleshot:()=>`<b>${10+3*GN()}</b> damage.`,hotshot:()=>`<b>${5+GN()}</b> damage. Enemy ${kw('Burn')} 3.`,
+ readwind:()=>`Weather Gauge is yours. Draw 1.`,shoal:()=>`Gain <b>11</b> ${kw('Block')}.`};
 const CI={broadside:'💥',swivel:'🔫',chain:'⛓️',grape:'🔫',raking:'🎯',tack:'⛵',crowd:'⛵',weather:'🌬️',fireship:'🔥',cutlass:'⚔️',pistols:'🔫',axes:'🪓',hold:'🛡️',rally:'📣',grenades:'💣',fear:'💀',
- command:'📜',parry:'🗡️',pistolshot:'🔫',resolve:'⚓',smoke:'🌫️',shares:'💰',defiance:'🏴‍☠️',twin:'⚔️',getaway:'💨',fairshares:'🪙',ledger:'📒',allhands:'🔧',splice:'🪢',doubleshot:'💥',hotshot:'🔥',readwind:'🧭',shoal:'🌊'};
+ parry:'🗡️',pistolshot:'🔫',resolve:'⚓',smoke:'🌫️',shares:'💰',defiance:'🏴‍☠️',twin:'⚔️',getaway:'💨',fairshares:'🪙',ledger:'📒',allhands:'🔧',splice:'🪢',doubleshot:'💥',hotshot:'🔥',readwind:'🧭',shoal:'🌊'};
 const TAGN={S:'Ship',C:'Crew',K:'Captain'};
 cardHTML=function(k,attrs='',extra=''){const cd=CARDS[k];const cv=S&&S.combat?cost(k):cd.c;const txt=(CT[k]?CT[k]():iconize(cd.d));
  if(/data-i="(\d+)"/.test(attrs)){const i=attrs.match(/data-i="(\d+)"/)[1];attrs=`data-i="${i}" onclick="tapHand(${i})"`}
@@ -51,7 +51,7 @@ function dtext(k){return CT[k]?CT[k]():iconize(CARDS[k].d)}
 function detailBody(k,cv,hint,btns){const cd=CARDS[k];return `<div class="dhead"><span class="cost">${cv}</span><b class="dn">${cd.n}</b><span class="dtype">${TAGN[cd.tag]}${cd.pw?' · '+'💥'.repeat(cd.pw):''}</span><button class="dx" onclick="deselect()" aria-label="Cancel">✕</button></div>
  <div class="dtxt">${dtext(k)}</div><div class="dgl">${glossary(k)}</div><div class="dfoot"><span class="dhint">${hint}</span>${btns||''}</div>`}
 function applySel(){document.querySelectorAll('.card.sel').forEach(e=>e.classList.remove('sel'));const old=$('detailOv');if(old)old.remove();const d=$('detail');
- if(!SEL){if(d){d.className='detail empty';d.innerHTML='Tap a card to read it. Tap it again to play.'}return}
+ if(!SEL){if(d){d.className='detail empty';const c=S.combat;const off=c&&S.screen==='combat'&&c.hand.some(k=>!playable(k));d.innerHTML=off?'Tap a card to read it, again to play. Grey cards are for the other phase: select one to swap it'+(c.swap?'.':' (used this turn).'):'Tap a card to read it. Tap it again to play.'}return}
  if(SEL.type==='hand'){const c=C();const el=document.querySelector(`#hand .card[data-i="${SEL.i}"]`);if(!c||!el||!d){SEL=null;return}el.classList.add('sel');const k=SEL.k,ok=playable(k),aff=cost(k)<=c.energy;
   d.className='detail';
   const hint=ok?(aff?'<b>Tap again to play</b>':'Not enough energy'):'Wrong phase for this card';
@@ -77,7 +77,6 @@ showDeck=function(){const a=$('app');a.dataset.screen='deck';
 /* v2.5 extra art: Nassau base, Surgeon and Boarding Master portraits */
 const _r5=render;render=function(){_r5();if(!S)return;const a=$('app');const face=(f,t)=>`<img class="mini-face" src="img/art/${f}.webp" alt="" title="${t}">`;
  if(S.screen==='nassau'||S.screen==='title'||S.screen==='end'&&S.end&&S.end.kind!=='death'){a.querySelectorAll('img.banner').forEach(i=>i.src='img/art/bg-nassau-base.webp')}
- if(S.screen==='tavern'){const h=$('heal');if(h&&!h.querySelector('img'))h.insertAdjacentHTML('afterbegin',face('officer-surgeon','The ship\'s surgeon'))}
  if(S.screen==='cove'){const h=$('rest');if(h&&!h.querySelector('img'))h.insertAdjacentHTML('afterbegin',face('officer-surgeon','The ship\'s surgeon'))}
  if(S.screen==='recruit'){const b=[...a.querySelectorAll('button')].find(x=>/Hire 5 crew/.test(x.textContent));if(b&&!b.querySelector('img'))b.insertAdjacentHTML('afterbegin',face('officer-boarding-master','Boarding master'))}};
 render();

@@ -1,0 +1,79 @@
+{
+ "cap": "bellamy",
+ "not": 0,
+ "taps": 461,
+ "screens": {
+  "map": 13,
+  "combat": 232,
+  "reward": 4,
+  "prize": 4,
+  "recruit": 3,
+  "port": 1,
+  "cove": 2,
+  "abandon": 1,
+  "end": 1
+ },
+ "fights": [
+  {
+   "act": 1,
+   "row": 0,
+   "en": "rival",
+   "turns": 5,
+   "taps": 56,
+   "dhull": 2,
+   "dhp": 0,
+   "dcrew": 0
+  },
+  {
+   "act": 1,
+   "row": 2,
+   "en": "rival",
+   "turns": 5,
+   "taps": 58,
+   "dhull": 7,
+   "dhp": 2,
+   "dcrew": 0
+  },
+  {
+   "act": 1,
+   "row": 4,
+   "en": "rival",
+   "turns": 3,
+   "taps": 40,
+   "dhull": 3,
+   "dhp": 0,
+   "dcrew": 0
+  },
+  {
+   "act": 1,
+   "row": 8,
+   "en": "salvager",
+   "turns": 2,
+   "taps": 33,
+   "dhull": 1,
+   "dhp": 2,
+   "dcrew": -4
+  },
+  {
+   "act": 1,
+   "row": 10,
+   "en": "sqA",
+   "turns": 17,
+   "taps": 157,
+   "dhull": 27,
+   "dhp": 4,
+   "dcrew": 28
+  }
+ ],
+ "overflow": [],
+ "events": [],
+ "decisions": 13,
+ "shots": 0,
+ "result": {
+  "kind": "death",
+  "act": 1,
+  "banked": 3
+ },
+ "errs": [],
+ "steps": 261
+}

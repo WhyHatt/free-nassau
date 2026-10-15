@@ -1,0 +1,172 @@
+{
+ "cap": "blackbeard",
+ "not": 0,
+ "taps": 1111,
+ "screens": {
+  "map": 29,
+  "combat": 582,
+  "reward": 9,
+  "prize": 1,
+  "recruit": 6,
+  "event": 1,
+  "cove": 4,
+  "extract": 2,
+  "abandon": 3,
+  "end": 1
+ },
+ "fights": [
+  {
+   "act": 1,
+   "row": 0,
+   "en": "rival",
+   "turns": 4,
+   "taps": 35,
+   "dhull": 9,
+   "dhp": 2,
+   "dcrew": 2
+  },
+  {
+   "act": 1,
+   "row": 2,
+   "en": "rival",
+   "turns": 2,
+   "taps": 20,
+   "dhull": 5,
+   "dhp": 0,
+   "dcrew": 5
+  },
+  {
+   "act": 1,
+   "row": 4,
+   "en": "rival",
+   "turns": 5,
+   "taps": 43,
+   "dhull": 13,
+   "dhp": 2,
+   "dcrew": 2
+  },
+  {
+   "act": 1,
+   "row": 7,
+   "en": "rival",
+   "turns": 4,
+   "taps": 38,
+   "dhull": 0,
+   "dhp": 0,
+   "dcrew": 0
+  },
+  {
+   "act": 1,
+   "row": 8,
+   "en": "privateer",
+   "turns": 11,
+   "taps": 93,
+   "dhull": 14,
+   "dhp": 2,
+   "dcrew": 2
+  },
+  {
+   "act": 1,
+   "row": 10,
+   "en": "sqA",
+   "turns": 21,
+   "taps": 191,
+   "dhull": -1,
+   "dhp": 0,
+   "dcrew": 3
+  },
+  {
+   "act": 2,
+   "row": 0,
+   "en": "galleon",
+   "turns": 20,
+   "taps": 164,
+   "dhull": 3,
+   "dhp": 0,
+   "dcrew": 9
+  },
+  {
+   "act": 2,
+   "row": 2,
+   "en": "salvager",
+   "turns": 4,
+   "taps": 40,
+   "dhull": 12,
+   "dhp": 0,
+   "dcrew": 2
+  },
+  {
+   "act": 2,
+   "row": 5,
+   "en": "salvager",
+   "turns": 4,
+   "taps": 36,
+   "dhull": 17,
+   "dhp": 2,
+   "dcrew": 3
+  },
+  {
+   "act": 2,
+   "row": 7,
+   "en": "fort",
+   "turns": 9,
+   "taps": 79,
+   "dhull": 0,
+   "dhp": 18,
+   "dcrew": 1
+  },
+  {
+   "act": 3,
+   "row": 0,
+   "en": "privateer",
+   "turns": 8,
+   "taps": 68,
+   "dhull": 21,
+   "dhp": 4,
+   "dcrew": 0
+  },
+  {
+   "act": 3,
+   "row": 2,
+   "en": "hunter",
+   "turns": 11,
+   "taps": 91,
+   "dhull": 44,
+   "dhp": 4,
+   "dcrew": 5
+  },
+  {
+   "act": 3,
+   "row": 5,
+   "en": "guarda",
+   "turns": 1,
+   "taps": 9,
+   "dhull": 0,
+   "dhp": 0,
+   "dcrew": 1
+  },
+  {
+   "act": 3,
+   "row": 7,
+   "en": "horn",
+   "turns": 7,
+   "taps": 53,
+   "dhull": 11,
+   "dhp": 4,
+   "dcrew": 0
+  }
+ ],
+ "overflow": [],
+ "events": [
+  "An Officer Without a Ship"
+ ],
+ "decisions": 29,
+ "shots": 0,
+ "result": {
+  "kind": "death",
+  "act": 3,
+  "banked": 1
+ },
+ "errs": [],
+ "steps": 638
+}

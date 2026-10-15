@@ -1,0 +1,129 @@
+{
+ "cap": "rackham",
+ "not": 1,
+ "taps": 1086,
+ "screens": {
+  "map": 19,
+  "combat": 576,
+  "reward": 8,
+  "prize": 1,
+  "recruit": 4,
+  "cove": 2,
+  "extract": 1,
+  "abandon": 1,
+  "end": 1
+ },
+ "fights": [
+  {
+   "act": 1,
+   "row": 0,
+   "en": "rival",
+   "turns": 5,
+   "taps": 54,
+   "dhull": 6,
+   "dhp": 0,
+   "dcrew": 1
+  },
+  {
+   "act": 1,
+   "row": 2,
+   "en": "privateer",
+   "turns": 6,
+   "taps": 64,
+   "dhull": 8,
+   "dhp": 0,
+   "dcrew": 6
+  },
+  {
+   "act": 1,
+   "row": 3,
+   "en": "rival",
+   "turns": 6,
+   "taps": 58,
+   "dhull": 0,
+   "dhp": 0,
+   "dcrew": 0
+  },
+  {
+   "act": 1,
+   "row": 7,
+   "en": "rival",
+   "turns": 8,
+   "taps": 74,
+   "dhull": -14,
+   "dhp": 0,
+   "dcrew": 0
+  },
+  {
+   "act": 1,
+   "row": 8,
+   "en": "privateer",
+   "turns": 9,
+   "taps": 81,
+   "dhull": 0,
+   "dhp": 0,
+   "dcrew": 2
+  },
+  {
+   "act": 1,
+   "row": 10,
+   "en": "sqA",
+   "turns": 22,
+   "taps": 206,
+   "dhull": 4,
+   "dhp": 4,
+   "dcrew": 7
+  },
+  {
+   "act": 2,
+   "row": 0,
+   "en": "galleon",
+   "turns": 27,
+   "taps": 233,
+   "dhull": 7,
+   "dhp": 0,
+   "dcrew": 10
+  },
+  {
+   "act": 2,
+   "row": 2,
+   "en": "salvager",
+   "turns": 10,
+   "taps": 92,
+   "dhull": 20,
+   "dhp": 2,
+   "dcrew": 5
+  },
+  {
+   "act": 2,
+   "row": 4,
+   "en": "salvager",
+   "turns": 11,
+   "taps": 97,
+   "dhull": 18,
+   "dhp": 2,
+   "dcrew": 0
+  },
+  {
+   "act": 2,
+   "row": 5,
+   "en": "guarda",
+   "turns": 1,
+   "taps": 9,
+   "dhull": -7,
+   "dhp": 0,
+   "dcrew": 0
+  }
+ ],
+ "overflow": [],
+ "events": [],
+ "decisions": 19,
+ "shots": 0,
+ "result": {
+  "kind": "death",
+  "act": 2,
+  "banked": 13
+ },
+ "errs": [],
+ "steps": 613
+}

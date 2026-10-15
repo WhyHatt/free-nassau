@@ -1,0 +1,162 @@
+{
+ "cap": "blackbeard",
+ "not": 4,
+ "taps": 1330,
+ "screens": {
+  "map": 29,
+  "combat": 703,
+  "reward": 10,
+  "recruit": 6,
+  "event": 2,
+  "cove": 4,
+  "extract": 2,
+  "abandon": 2,
+  "end": 1
+ },
+ "fights": [
+  {
+   "act": 1,
+   "row": 0,
+   "en": "merchant",
+   "turns": 1,
+   "taps": 14,
+   "dhull": 0,
+   "dhp": 0,
+   "dcrew": 0
+  },
+  {
+   "act": 1,
+   "row": 2,
+   "en": "patrol",
+   "turns": 8,
+   "taps": 62,
+   "dhull": 23,
+   "dhp": 2,
+   "dcrew": 5
+  },
+  {
+   "act": 1,
+   "row": 4,
+   "en": "privateer",
+   "turns": 6,
+   "taps": 56,
+   "dhull": 19,
+   "dhp": 2,
+   "dcrew": 4
+  },
+  {
+   "act": 1,
+   "row": 7,
+   "en": "rival",
+   "turns": 6,
+   "taps": 62,
+   "dhull": 0,
+   "dhp": 0,
+   "dcrew": 4
+  },
+  {
+   "act": 1,
+   "row": 8,
+   "en": "salvager",
+   "turns": 7,
+   "taps": 65,
+   "dhull": 0,
+   "dhp": 0,
+   "dcrew": 0
+  },
+  {
+   "act": 1,
+   "row": 10,
+   "en": "sqA",
+   "turns": 22,
+   "taps": 200,
+   "dhull": 7,
+   "dhp": 5,
+   "dcrew": 6
+  },
+  {
+   "act": 2,
+   "row": 0,
+   "en": "guarda",
+   "turns": 18,
+   "taps": 164,
+   "dhull": 1,
+   "dhp": 0,
+   "dcrew": 0
+  },
+  {
+   "act": 2,
+   "row": 4,
+   "en": "salvager",
+   "turns": 3,
+   "taps": 35,
+   "dhull": 4,
+   "dhp": 0,
+   "dcrew": 0
+  },
+  {
+   "act": 2,
+   "row": 7,
+   "en": "fort",
+   "turns": 11,
+   "taps": 97,
+   "dhull": 0,
+   "dhp": 7,
+   "dcrew": 1
+  },
+  {
+   "act": 3,
+   "row": 0,
+   "en": "cutter",
+   "turns": 13,
+   "taps": 105,
+   "dhull": 24,
+   "dhp": 6,
+   "dcrew": 1
+  },
+  {
+   "act": 3,
+   "row": 2,
+   "en": "cutter",
+   "turns": 13,
+   "taps": 107,
+   "dhull": 35,
+   "dhp": 6,
+   "dcrew": 1
+  },
+  {
+   "act": 3,
+   "row": 5,
+   "en": "warship",
+   "turns": 2,
+   "taps": 16,
+   "dhull": -4,
+   "dhp": 2,
+   "dcrew": 1
+  },
+  {
+   "act": 3,
+   "row": 7,
+   "en": "horn",
+   "turns": 24,
+   "taps": 200,
+   "dhull": 20,
+   "dhp": 4,
+   "dcrew": 0
+  }
+ ],
+ "overflow": [],
+ "events": [
+  "The 1715 Fleet Wrecks",
+  "A Straggler from the Plate Fleet"
+ ],
+ "decisions": 29,
+ "shots": 0,
+ "result": {
+  "kind": "death",
+  "act": 3,
+  "banked": 0
+ },
+ "errs": [],
+ "steps": 759
+}

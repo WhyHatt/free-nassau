@@ -1,0 +1,92 @@
+{
+ "cap": "vane",
+ "not": 0,
+ "taps": 276,
+ "screens": {
+  "map": 13,
+  "combat": 135,
+  "reward": 5,
+  "prize": 4,
+  "recruit": 1,
+  "event": 2,
+  "cove": 2,
+  "abandon": 1,
+  "end": 1
+ },
+ "fights": [
+  {
+   "act": 1,
+   "row": 0,
+   "en": "rival",
+   "turns": 1,
+   "taps": 18,
+   "dhull": 0,
+   "dhp": 0,
+   "dcrew": 0
+  },
+  {
+   "act": 1,
+   "row": 2,
+   "en": "salvager",
+   "turns": 0,
+   "taps": 11,
+   "dhull": 0,
+   "dhp": 0,
+   "dcrew": 0
+  },
+  {
+   "act": 1,
+   "row": 3,
+   "en": "salvager",
+   "turns": 2,
+   "taps": 23,
+   "dhull": 0,
+   "dhp": 0,
+   "dcrew": 2
+  },
+  {
+   "act": 1,
+   "row": 7,
+   "en": "rival",
+   "turns": 2,
+   "taps": 22,
+   "dhull": 12,
+   "dhp": 0,
+   "dcrew": 3
+  },
+  {
+   "act": 1,
+   "row": 8,
+   "en": "salvager",
+   "turns": 2,
+   "taps": 27,
+   "dhull": 0,
+   "dhp": 0,
+   "dcrew": 0
+  },
+  {
+   "act": 1,
+   "row": 10,
+   "en": "sqA",
+   "turns": 12,
+   "taps": 90,
+   "dhull": 27,
+   "dhp": 2,
+   "dcrew": 18
+  }
+ ],
+ "overflow": [],
+ "events": [
+  "Storm on the Horizon",
+  "The 1715 Fleet Wrecks"
+ ],
+ "decisions": 13,
+ "shots": 0,
+ "result": {
+  "kind": "death",
+  "act": 1,
+  "banked": 13
+ },
+ "errs": [],
+ "steps": 164
+}

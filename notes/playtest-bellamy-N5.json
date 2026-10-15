@@ -1,0 +1,153 @@
+{
+ "cap": "bellamy",
+ "not": 5,
+ "taps": 807,
+ "screens": {
+  "map": 29,
+  "combat": 403,
+  "reward": 4,
+  "prize": 4,
+  "recruit": 6,
+  "event": 1,
+  "port": 2,
+  "cove": 4,
+  "extract": 2,
+  "abandon": 6,
+  "end": 1
+ },
+ "fights": [
+  {
+   "act": 1,
+   "row": 0,
+   "en": "privateer",
+   "turns": 5,
+   "taps": 50,
+   "dhull": 11,
+   "dhp": 3,
+   "dcrew": 0
+  },
+  {
+   "act": 1,
+   "row": 2,
+   "en": "rival",
+   "turns": 3,
+   "taps": 38,
+   "dhull": 8,
+   "dhp": 4,
+   "dcrew": -14
+  },
+  {
+   "act": 1,
+   "row": 3,
+   "en": "merchant",
+   "turns": 0,
+   "taps": 19,
+   "dhull": 0,
+   "dhp": 0,
+   "dcrew": -1
+  },
+  {
+   "act": 1,
+   "row": 10,
+   "en": "sqA",
+   "turns": 15,
+   "taps": 155,
+   "dhull": 56,
+   "dhp": 8,
+   "dcrew": -12
+  },
+  {
+   "act": 2,
+   "row": 0,
+   "en": "privateer",
+   "turns": 7,
+   "taps": 68,
+   "dhull": 10,
+   "dhp": 0,
+   "dcrew": 0
+  },
+  {
+   "act": 2,
+   "row": 4,
+   "en": "guarda",
+   "turns": 2,
+   "taps": 20,
+   "dhull": -4,
+   "dhp": 2,
+   "dcrew": 35
+  },
+  {
+   "act": 2,
+   "row": 5,
+   "en": "salvager",
+   "turns": 3,
+   "taps": 27,
+   "dhull": 0,
+   "dhp": 2,
+   "dcrew": 11
+  },
+  {
+   "act": 2,
+   "row": 7,
+   "en": "fort",
+   "turns": 15,
+   "taps": 139,
+   "dhull": 0,
+   "dhp": 20,
+   "dcrew": -15
+  },
+  {
+   "act": 3,
+   "row": 0,
+   "en": "hunter",
+   "turns": 9,
+   "taps": 83,
+   "dhull": 11,
+   "dhp": 4,
+   "dcrew": 13
+  },
+  {
+   "act": 3,
+   "row": 2,
+   "en": "galleon",
+   "turns": 3,
+   "taps": 29,
+   "dhull": 0,
+   "dhp": 0,
+   "dcrew": -3
+  },
+  {
+   "act": 3,
+   "row": 5,
+   "en": "guarda",
+   "turns": 3,
+   "taps": 31,
+   "dhull": 0,
+   "dhp": 2,
+   "dcrew": -3
+  },
+  {
+   "act": 3,
+   "row": 7,
+   "en": "horn",
+   "turns": 4,
+   "taps": 40,
+   "dhull": 0,
+   "dhp": 0,
+   "dcrew": -4
+  }
+ ],
+ "overflow": [],
+ "events": [
+  "An Officer Without a Ship"
+ ],
+ "decisions": 29,
+ "shots": 0,
+ "result": {
+  "kind": "death",
+  "act": 3,
+  "banked": 0
+ },
+ "errs": [],
+ "steps": 462
+}

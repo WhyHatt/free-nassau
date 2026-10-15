@@ -1,0 +1,88 @@
+{
+ "cap": "vane",
+ "not": 2,
+ "taps": 374,
+ "screens": {
+  "map": 13,
+  "combat": 191,
+  "reward": 5,
+  "prize": 1,
+  "recruit": 3,
+  "abandon": 2,
+  "cove": 2,
+  "end": 1
+ },
+ "fights": [
+  {
+   "act": 1,
+   "row": 0,
+   "en": "rival",
+   "turns": 2,
+   "taps": 25,
+   "dhull": 0,
+   "dhp": 0,
+   "dcrew": 5
+  },
+  {
+   "act": 1,
+   "row": 2,
+   "en": "patrol",
+   "turns": 4,
+   "taps": 40,
+   "dhull": 15,
+   "dhp": 2,
+   "dcrew": 13
+  },
+  {
+   "act": 1,
+   "row": 3,
+   "en": "privateer",
+   "turns": 5,
+   "taps": 47,
+   "dhull": 19,
+   "dhp": 2,
+   "dcrew": 3
+  },
+  {
+   "act": 1,
+   "row": 7,
+   "en": "privateer",
+   "turns": 5,
+   "taps": 41,
+   "dhull": 9,
+   "dhp": 2,
+   "dcrew": 2
+  },
+  {
+   "act": 1,
+   "row": 8,
+   "en": "patrol",
+   "turns": 3,
+   "taps": 21,
+   "dhull": -1,
+   "dhp": 2,
+   "dcrew": 12
+  },
+  {
+   "act": 1,
+   "row": 10,
+   "en": "sqA",
+   "turns": 10,
+   "taps": 78,
+   "dhull": 9,
+   "dhp": 0,
+   "dcrew": 5
+  }
+ ],
+ "overflow": [],
+ "events": [],
+ "decisions": 13,
+ "shots": 0,
+ "result": {
+  "kind": "death",
+  "act": 1,
+  "banked": 2
+ },
+ "errs": [],
+ "steps": 218
+}

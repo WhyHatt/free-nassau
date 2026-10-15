@@ -6,18 +6,18 @@ Object.keys(PORT).forEach(k=>{if(CAPTAINS[k])CAPTAINS[k].img=ART+PORT[k]+'.webp'
 const ROLEIMG={qm:'officer-quartermaster',bosun:'officer-bosun',gunner:'officer-gunner',nav:'officer-navigator'};
 Object.values(OFFICERS).forEach(o=>{o.img=ART+ROLEIMG[o.role]+'.webp'});
 if(ENEMIES.horn)ENEMIES.horn.img=ART+'portrait-hornigold.webp';
-const SHIPART={merchant:'enemy-merchant',rival:'enemy-pirate',privateer:'enemy-pirate',patrol:'enemy-navy',guarda:'enemy-galleon',hunter:'enemy-hunter',sqA:'enemy-navy',sqB:'enemy-navy',horn:'enemy-flagship'};
-const EVART={'A Drifting Wreck':'event-wreck','The 1715 Fleet Wrecks':'event-wreck','Storm on the Horizon':'enemy-flagship','An Officer Without a Ship':'event-tavern','Rum Smugglers':'event-tavern','Mutterings Below Deck':'event-tavern','Fishing Village':'event-wreck'};
-const SCRART={tavern:'event-tavern',recruit:'event-tavern',fence:'event-tavern',cove:'event-careening',port:'event-port',mutiny:'event-tavern',abandon:'enemy-flagship',extract:'event-wreck'};
+const SHIPART={merchant:'enemy-merchant',rival:'enemy-pirate',privateer:'enemy-pirate',patrol:'enemy-navy',salvager:'enemy-pirate',galleon:'enemy-galleon',capitana:'enemy-galleon',warship:'enemy-navy',cutter:'enemy-navy',guarda:'enemy-galleon',hunter:'enemy-hunter',sqA:'enemy-navy',sqB:'enemy-navy',horn:'enemy-flagship'};
+const EVART={'A Drifting Wreck':'event-wreck','The 1715 Fleet Wrecks':'event-wreck','Storm on the Horizon':'enemy-flagship','An Officer Without a Ship':'event-tavern','Powder Smugglers':'event-tavern','Fishing Village':'event-wreck','A Straggler from the Plate Fleet':'enemy-merchant','Fever Aboard':'event-careening','A Powder Hulk':'event-wreck','The King’s Pardon':'event-tavern','An Informant in Port':'event-port','Navy Press Gang':'event-port'};
+const SCRART={recruit:'event-tavern',cove:'event-careening',port:'event-port',abandon:'enemy-flagship',extract:'event-wreck'};
 /* simpler one-line card text */
 const _iconize=iconize;
 iconize=function(d){let s=d
  .replace(/^Fire the guns: /,'').replace(/^Light gun: /,'').replace(/ No powder\./,' · no 💥')
- .replace(/if the enemy has no Evasion, \+6 and gain 1 Advantage/,'vs no 🌀: +6 ⭐1')
+ .replace(/if the enemy has no Block, \+6 and gain 1 Advantage/,'vs no 🌀: +6 ⭐1')
  .replace(/Enemy crew loses 10% of its number and is Weak 2/,'👥−10% · 😵2')
  .replace(/weather becomes Weather Gauge \(yours\)/,'🌬️ gauge is yours')
  .replace(/ \(any phase\)/,'').replace(/ \(deals 25% less\)/,'').replace(/ this fight/,'')
- .replace(/\(uses 1 🪵 if you have it, else 3\)/,'(🪵)');
+ .replace(/\(uses 1 🔧 if you have one, else 3\)/,'(🔧)');
  return _iconize(s).replace(/ · $/,'')};
 /* ship art with code-drawn damage on top */
 function dmgOverlay(dmg){if(dmg<=.25)return '';let s='<svg viewBox="0 0 160 90" class="dmgsvg" aria-hidden="true">';

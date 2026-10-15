@@ -162,7 +162,7 @@ body{background:#2a1a0e url(img/art/bg-desk.webp) center/cover fixed}
 .dmgsvg{position:absolute;inset:0;width:100%;height:100%}
 .boardart .painted img{filter:sepia(.35) contrast(1.1)}
 .eart{width:min(64vw,320px)}#app[data-screen=combat] .eart{width:min(66vw,330px)}
-.duelport{width:min(44vw,190px);aspect-ratio:1;border-radius:50%;object-fit:cover;border:4px solid var(--brass);box-shadow:0 0 0 3px var(--wood),0 0 22px #000}
+.duelport{width:min(36vw,150px);aspect-ratio:1;border-radius:50%;object-fit:cover;border:4px solid var(--brass);box-shadow:0 0 0 3px var(--wood),0 0 22px #000}
 .bob .painted{animation:bob 3.2s ease-in-out infinite}.eart.bob{animation:none}
 .sea{background:linear-gradient(rgba(248,236,206,.55),rgba(220,200,160,.4));}
 .card .ds{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
@@ -219,7 +219,7 @@ body{background:#2a1a0e url(img/art/bg-desk.webp) center/cover fixed}
 .ibtns{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
 .card.off{opacity:.5;filter:grayscale(.85)}
 .hand{--ov:0px;padding-top:12px}
-.hand .card{margin:0 0 0 calc(-1*var(--ov));min-width:0;flex:1 1 0;max-width:112px;min-height:clamp(124px,22vh,176px);transform:rotate(var(--r,0deg)) translateY(var(--dy,0));transform-origin:50% 130%}
+.hand .card{margin:0 0 0 calc(-1*var(--ov));min-width:0;flex:1 1 0;max-width:112px;min-height:clamp(124px,20vh,160px);transform:rotate(var(--r,0deg)) translateY(var(--dy,0));transform-origin:50% 130%}
 .hand .card:first-child{margin-left:0}
 .hand .card:nth-child(odd),.hand .card:nth-child(even){transform:rotate(var(--r,0deg)) translateY(var(--dy,0))}
 .hand.fan{padding-left:26px;padding-right:26px}.hand.fan .card .ds{font-size:11px}.hand.fan .card .nm{font-size:13px}
@@ -246,5 +246,16 @@ body{background:#2a1a0e url(img/art/bg-desk.webp) center/cover fixed}
 .detail .cost{position:static;width:19px;height:19px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:bold 12.5px 'IM Fell English',serif;background:#f6e9c6;border:1px solid #6b4a1f}
 #app[data-screen=combat] .eart,.eart{width:min(46vw,210px)!important}
 .mini-face{width:34px;height:34px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:8px;border:2px solid var(--brass)}
+/* v3 */
+.boardrow{flex-wrap:nowrap;min-height:0}.boardrow button{min-height:34px;padding:1px 12px;font-size:16px}.boardrow .small{font-size:12px;line-height:1.1;max-width:150px}
+.log{min-height:35px}
+.choices button small{display:block;font-size:11.5px;opacity:.85;font-style:italic;margin-top:1px;line-height:1.15}
+#app[data-screen=port] .choices.three button{flex:1 1 30%;text-align:center;font-size:18px;min-height:46px}
+#app[data-screen=port] .choices.three button small{font-size:13px;font-style:normal;font-weight:bold}
+#app[data-screen=port] .choices.svc button{flex:1 1 30%;font-size:14px;text-align:center;min-height:48px}#app[data-screen=port] .choices.svc button small{font-size:11px;font-weight:normal;font-style:italic}
+#app[data-screen=cove] .choices button{flex:1 1 100%;padding:10px 12px;min-height:84px;font-size:15px}
+#app[data-screen=cove] .choices button b{font-size:19px;display:block;margin-bottom:3px}
+#app[data-screen=cove] .choices button small{font-size:13.5px}
+.notp{margin:4px 0}.notp .choices button{text-align:center;flex:1 1 45%;min-height:34px}
 </style></head><body><div id="app"></div><div id="modal"></div>
-<script src="game.js?v=8"></script><script src="ui.js?v=8"></script><script src="ui2.js?v=8"></script><script src="sfx.js?v=8"></script><script src="ui3.js?v=8"></script><script src="ui4.js?v=8"></script></body></html>
+<script src="game.js?v=9"></script><script src="ui.js?v=9"></script><script src="ui2.js?v=9"></script><script src="sfx.js?v=9"></script><script src="ui3.js?v=9"></script><script src="ui4.js?v=9"></script></body></html>

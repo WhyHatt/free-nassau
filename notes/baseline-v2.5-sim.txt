@@ -1,0 +1,8 @@
+{ win: 60, 'death act1': 19, 'death act2': 15, 'death act3': 146 }
+{
+  blackbeard: { w: 20, n: 60 },
+  bellamy: { w: 6, n: 60 },
+  vane: { w: 10, n: 60 },
+  bonnyread: { w: 24, n: 60 }
+}
+pageerrors []

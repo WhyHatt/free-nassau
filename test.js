@@ -45,6 +45,40 @@ await p.evaluate(()=>{S.combat=null;S.coin=999;enterNode({t:'port'});});await p.
 const w=await p.$$eval('.cardwrap .card',a=>a.map(e=>e.getBoundingClientRect().width));t(w.length&&w.every(x=>x>70&&Math.abs(x-w[0])<3),'shop card width '+w.join(','));
 await p.screenshot({path:'screenshot-v2-port.png',fullPage:true});
 
+// ---- v3 simplification checks ----
+t(await p.evaluate(()=>S.morale===undefined&&typeof moraleChange==='undefined'&&typeof drinkRum==='undefined'),'v3: no morale or rum left in the engine');
+t(await p.evaluate(()=>!('food' in S.cargo)&&!('water' in S.cargo)&&S.cargo.rations>0),'v3: food and water merged into rations');
+t(await p.evaluate(()=>Object.keys(S.cargo).sort().join()==='kits,powder,rations'),'v3: exactly three consumables');
+t(await p.evaluate(()=>Object.keys(KW).sort().join()==='Advantage,Block,Burn,Exhaust,Weak'),'v3: five keywords');
+t(await p.evaluate(()=>{S.screen='map';S.combat=null;render();return document.querySelectorAll('.hud .gauge').length===3&&document.querySelectorAll('.hud .cg').length<=3}),'v3: HUD has 3 gauges and at most 3 supply icons');
+t(await p.evaluate(()=>{const o=['fence','tavern','wreck'];for(let a=1;a<=3;a++){for(let i=0;i<20;i++){const m=genMap(a);if(m.some(r=>r.some(n=>o.includes(n.t))))return false}}return true}),'v3: removed node types never generate');
+t(await p.evaluate(()=>[1,2,3].every(a=>EVENTS.filter(e=>e.a.includes(a)).length>=5)),'v3: at least 5 events per act');
+t(await p.evaluate(()=>{S.act=2;const seen=new Set();for(let i=0;i<30;i++)seen.add(pickEvent());S.act=1;return seen.size>=5}),'v3: act II draws varied events');
+// rations upkeep
+t(await p.evaluate(()=>{S.officers={};S.leg=1;S.cargo.rations=3;const c=S.crew;upkeep();const a=S.cargo.rations===2;S.cargo.rations=0;upkeep();return a&&S.crew===c-4}),'v3: one ration per leg, 4 crew starve with none');
+// cove: choose one
+await p.evaluate(()=>{S.combat=null;S.ship.hull=10;S.hp=10;enterNode({t:'cove'})});await p.waitForTimeout(100);
+t(await p.$('#repair')&&await p.$('#rest'),'v3: cove offers repair or rest');
+t(await p.$eval('#app .scr',e=>e.scrollHeight<=e.clientHeight+2),'v3: cove fits');
+await p.screenshot({path:'screenshot-v3-cove.png'});
+await clk('#rest');t(await p.evaluate(()=>S.hp>10&&S.ship.hull===10&&S.screen==='map'),'v3: resting heals the captain only');
+await p.evaluate(()=>{coveRepair()});t(await p.evaluate(()=>S.ship.hull===10),'v3: cove can only be used once');
+// port: surgeon and supplies
+await p.evaluate(()=>{S.shop=null;S.coin=300;S.hp=20;enterNode({t:'port'})});await p.waitForTimeout(100);
+t(await p.$$eval('.sup',a=>a.length===3),'v3: port has three supply buttons');
+t(await p.$eval('#app .scr',e=>e.scrollHeight<=e.clientHeight+2),'v3: port fits '+await p.$eval('#app .scr',e=>e.scrollHeight+'/'+e.clientHeight));
+await p.screenshot({path:'screenshot-v3-port.png'});
+await clk('#heal');t(await p.evaluate(()=>S.hp>20&&S.coin<300),'v3: port surgeon heals for silver');
+// every screen fits without scrolling
+for(const sc of ['recruit','event','shipwright','prize','extract','abandon']){await p.evaluate(sc=>{S.combat=null;S.shop=null;S.coin=999;if(sc==='event'){S.act=3;S.ev=EVENTS.findIndex(e=>e.a.includes(3)&&e.o.length>=2);S.screen='event'}else if(sc==='recruit')enterNode({t:'recruit',role:'qm'});else if(sc==='prize'){S.reward={msg:'x',prize:'snow',officer:'jennings'};S.screen='prize'}else if(sc==='extract'){S.act=2;S.reward={msg:'Boarded and taken. Trophy.'};S.screen='extract'}else S.screen=sc;render()},sc);await p.waitForTimeout(80);
+ t(await p.$eval('#app .scr',e=>e.scrollHeight<=e.clientHeight+2),'screen fits: '+sc+' '+await p.$eval('#app .scr',e=>e.scrollHeight+'/'+e.clientHeight))}
+// Notoriety: hidden until a win, then selectable
+await p.evaluate(()=>{M.maxNot=0;S=null;renderCapSelect()});t(!(await p.$('#notup')),'v3: no Notoriety picker before the first win');
+await p.evaluate(()=>{M.maxNot=2;M.selNot=0;renderCapSelect()});t(await p.$('#notup'),'v3: Notoriety picker after a win');await clk('#notup');t(await p.evaluate(()=>M.selNot===1),'v3: Notoriety can be raised');
+t(await p.evaluate(()=>{newRun('vane');const n=S.not;S=null;return n===1}),'v3: new run uses selected Notoriety');await p.evaluate(()=>{M.maxNot=0;M.selNot=0});
+t(await p.evaluate(()=>{newRun('blackbeard',0);const a=mkEnemy('privateer').crewMax;S.not=2;const b=mkEnemy('privateer').crewMax;return b>a}),'v3: Notoriety 2 enlarges enemy crews');
+await p.evaluate(()=>{S=null;localStorage.removeItem('fnv2run');render()});
+
 // full bot runs + meta persistence
 await p.addScriptTag({path:'bot.js'});const r=await p.evaluate(()=>{const o=[];for(let i=0;i<8;i++)o.push(botRun('vane').kind);return o});t(r.every(k=>['death','win','extract'].includes(k)),'bot runs '+r);
 const ex=await p.evaluate(()=>{const before=M.banked;botRun('bellamy',{extract:true});return [S.end.kind,M.banked>before,M.unlocked.rackham]});console.log('extract run',ex);
