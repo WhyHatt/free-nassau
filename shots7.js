@@ -1,0 +1,15 @@
+const {chromium}=require('playwright');
+const only=process.argv[2];
+(async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844},deviceScaleFactor:2});const errs=[];p.on('pageerror',e=>errs.push(e.message));p.on('console',m=>{if(m.type()==='error')errs.push(m.text())});
+await p.goto('file://'+process.cwd()+'/index.html');await p.evaluate(()=>{localStorage.clear()});await p.reload();
+const shot=async n=>{if(only&&only!==n)return;await p.waitForTimeout(450);await p.screenshot({path:'/tmp/s-'+n+'.png'})};
+await p.evaluate(()=>{window.NOFX=1;M.maxNot=2;newRun('vane',0)});
+await p.evaluate(()=>{S.row=2;S.col=1;S.map.slice(0,3).forEach(r=>r.forEach(n=>n.done=n.t!=='empty'?1:0));S.coin=134;S.cargo.powder=6;S.cargo.rations=5;S.cargo.kits=2;S.screen='map';render()});await shot('map');
+await p.evaluate(()=>{S.row=1;startFight(['rival'],'normal');E().hull=17;C().hand=['broadside','tack','cutlass','swivel','chain','hold'];C().energy=3;render()});await shot('combat0');
+await p.evaluate(()=>document.querySelector('#hand .card[data-i="3"]').click());await shot('combat');
+await p.evaluate(()=>{showMenu('crew')});await shot('menu-crew');
+await p.evaluate(()=>{bkTab('supplies')});await shot('menu-sup');
+await p.evaluate(()=>{bkTab('deck')});await shot('menu-deck');
+await p.evaluate(()=>{bkTab('legend')});await shot('menu-legend');
+await p.evaluate(()=>{bkTab('settings')});await shot('menu-set');
+console.log(errs.join('\n')||'no errors');await b.close()})();

@@ -67,7 +67,7 @@ document.addEventListener('click',e=>{if(!SEL)return;if(!e.target.closest('.card
 const _r4=render;render=function(){_r4();
  if(SEL&&(SEL.screen!==S.screen||(SEL.type==='hand'&&(!S.combat||C().hand[SEL.i]!==SEL.k))))SEL=null;
  const h=document.querySelector('#hand');
- if(h){const mine=document.querySelector('.sea .mine');if(mine&&!$('detail')){const d=document.createElement('div');d.id='detail';d.className='detail empty';mine.before(d)}}
+ if(h){const mine=document.querySelector('.mine');if(mine&&!$('detail')){const d=document.createElement('div');d.id='detail';d.className='detail empty';mine.before(d)}}
  applySel();if(!h)return;const cs=[...h.children],n=cs.length;
  const ov=n<=4?0:n===5?6:n===6?14:n===7?22:n===8?28:32;h.style.setProperty('--ov',ov+'px');h.classList.toggle('fan',n>=7);
  cs.forEach((c,i)=>{const m=(n-1)/2,d=i-m;const rot=n>=5?d*(n>=7?1.3:1.2):(i%2?1:-1);c.style.setProperty('--r',rot+'deg');c.style.setProperty('--dy',(n>=5?Math.abs(d)*Math.abs(d)*(n>=7?1.4:1):0)+'px')})};
