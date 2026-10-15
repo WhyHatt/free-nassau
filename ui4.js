@@ -1,9 +1,9 @@
 "use strict";
 /* v2.4 card redesign: descriptive text + refined parchment cards, inspect view, fanned hand. Presentation only. */
 const KW={Block:['🛡️','Absorbs damage this turn, in any phase.'],Weak:['😵','Deals 25% less damage; counts down each turn.'],
- Burn:['🔥','Loses that much hull each turn; fades by 1.'],Advantage:['⭐','Extra cards when you board (max 3).'],Exhaust:['✖','Removed for the rest of the fight.']};
+ Burn:['🔥','Loses that much hull each turn; fades by 1.'],Advantage:['⭐','Extra cards when you board (max 3).'],Exhaust:['✖','Removed for the rest of the fight.'],'Weather Gauge':['🧭','Your first cannon card each turn deals +3. Cards and orders can win it from the enemy.'],Order:['📯','One free captain\'s order per turn; each has a cooldown.']};
 const kw=w=>`<span class="kw" data-kw="${w}">${KW[w][0]}${w}</span>`;
-const GN=()=>{try{return ship().guns+S.ship.upg.guns}catch(e){return 0}};
+const ctext=k=>{try{return CARDS[k].d(P(k),GN())}catch(e){return ''}};
 const CT={
  broadside:()=>`<b>${6+2*GN()}</b> damage to the hull.`,
  swivel:()=>`<b>${3+GN()}</b> hull damage. No powder.`,
@@ -23,14 +23,14 @@ const CT={
 const CI={broadside:'💥',swivel:'🔫',chain:'⛓️',grape:'🔫',raking:'🎯',tack:'⛵',crowd:'⛵',weather:'🌬️',fireship:'🔥',cutlass:'⚔️',pistols:'🔫',axes:'🪓',hold:'🛡️',rally:'📣',grenades:'💣',fear:'💀',
  parry:'🗡️',pistolshot:'🔫',resolve:'⚓',smoke:'🌫️',shares:'💰',defiance:'🏴‍☠️',twin:'⚔️',getaway:'💨',fairshares:'🪙',ledger:'📒',allhands:'🔧',splice:'🪢',doubleshot:'💥',hotshot:'🔥',readwind:'🧭',shoal:'🌊'};
 const TAGN={S:'Ship',C:'Crew',K:'Captain'};
-cardHTML=function(k,attrs='',extra=''){const cd=CARDS[k];const cv=S&&S.combat?cost(k):cd.c;const txt=(CT[k]?CT[k]():iconize(cd.d));
+cardHTML=function(k,attrs='',extra=''){const cd=CARDS[k];const cv=S&&S.combat?cost(k):cd.c;const txt=iconize(ctext(k));
  if(/data-i="(\d+)"/.test(attrs)){const i=attrs.match(/data-i="(\d+)"/)[1];attrs=`data-i="${i}" onclick="tapHand(${i})"`}
  else{const m=attrs.match(/onclick="([^"]*)"/);attrs=m?`data-act="${m[1]}" onclick="tapCard(this)"`:`onclick="tapCard(this)"`}
  return `<div class="card tag${cd.tag} ${extra}" ${attrs} data-k="${k}"><div class="chead"><span class="cost">${cv}</span><span class="ctype">${TAGN[cd.tag]}</span><span class="ctag">${TAGI[cd.tag]}</span></div>
- <div class="nm">${cd.n}</div><div class="vig"><span>${CI[k]||'⚓'}</span></div><div class="rule"></div><div class="ds">${txt}</div>
+ <div class="nm">${cd.n}</div><div class="vig"><span>${cd.i||CI[k]||'⚓'}</span></div><div class="rule"></div><div class="ds">${txt}</div>
  <div class="cfoot">${cd.pw?`<span title="Gunpowder">${'💥'.repeat(cd.pw)}</span>`:''}${cd.x?`<span class="xh">${kw('Exhaust')}</span>`:''}</div></div>`};
 /* inspect view */
-function glossary(k){const cd=CARDS[k];const txt=(CT[k]?CT[k]():'')+(cd.x?' Exhaust':'')+(cd.d||'');const found=Object.keys(KW).filter(w=>new RegExp(w).test(txt));
+function glossary(k){const cd=CARDS[k];const txt=ctext(k)+(cd.x?' Exhaust':'')+(cd.pw?' Weather':'');const found=Object.keys(KW).filter(w=>new RegExp(w).test(txt));
  const extra=[];if(cd.pw)extra.push(['💥 Powder',`Uses ${cd.pw} gunpowder; with none the shot deals half damage.`]);
  return found.map(w=>[KW[w][0]+' '+w,KW[w][1]]).concat(extra).map(([a,b])=>`<div><b>${a}</b> ${b}</div>`).join('')}
 /* ---- select, then confirm ---- */
@@ -47,7 +47,7 @@ function tapCard(el){const els=cardEls(),n=els.indexOf(el),k=el.dataset.k;
 function commitCard(el){const act=el.dataset.act;SEL=null;applySel();new Function(act)()}
 function actLabel(el){const a=el.dataset.act||'';const pr=el.parentElement&&el.parentElement.querySelector('.price');
  if(/^takeCard/.test(a))return 'Take this card';if(/^buyCard/.test(a))return 'Buy'+(pr?' ('+pr.textContent.trim()+')':'');if(/^removeCard/.test(a))return 'Remove this card';return a?'Choose':''}
-function dtext(k){return CT[k]?CT[k]():iconize(CARDS[k].d)}
+function dtext(k){return iconize(ctext(k))}
 function detailBody(k,cv,hint,btns){const cd=CARDS[k];return `<div class="dhead"><span class="cost">${cv}</span><b class="dn">${cd.n}</b><span class="dtype">${TAGN[cd.tag]}${cd.pw?' · '+'💥'.repeat(cd.pw):''}</span><button class="dx" onclick="deselect()" aria-label="Cancel">✕</button></div>
  <div class="dtxt">${dtext(k)}</div><div class="dgl">${glossary(k)}</div><div class="dfoot"><span class="dhint">${hint}</span>${btns||''}</div>`}
 function applySel(){document.querySelectorAll('.card.sel').forEach(e=>e.classList.remove('sel'));const old=$('detailOv');if(old)old.remove();const d=$('detail');

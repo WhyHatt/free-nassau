@@ -3,12 +3,11 @@
 const ART='img/art/';
 const PORT={blackbeard:'portrait-blackbeard',bellamy:'portrait-bellamy',vane:'portrait-vane',bonnyread:'portrait-bonny-read',rackham:'portrait-rackham'};
 Object.keys(PORT).forEach(k=>{if(CAPTAINS[k])CAPTAINS[k].img=ART+PORT[k]+'.webp'});
-const ROLEIMG={qm:'officer-quartermaster',bosun:'officer-bosun',gunner:'officer-gunner',nav:'officer-navigator'};
-Object.values(OFFICERS).forEach(o=>{o.img=ART+ROLEIMG[o.role]+'.webp'});
-if(ENEMIES.horn)ENEMIES.horn.img=ART+'portrait-hornigold.webp';
-const SHIPART={merchant:'enemy-merchant',rival:'enemy-pirate',privateer:'enemy-pirate',patrol:'enemy-navy',salvager:'enemy-pirate',galleon:'enemy-galleon',capitana:'enemy-galleon',warship:'enemy-navy',cutter:'enemy-navy',guarda:'enemy-galleon',hunter:'enemy-hunter',sqA:'enemy-navy',sqB:'enemy-navy',horn:'enemy-flagship'};
-const EVART={'A Drifting Wreck':'event-wreck','The 1715 Fleet Wrecks':'event-wreck','Storm on the Horizon':'enemy-flagship','An Officer Without a Ship':'event-tavern','Powder Smugglers':'event-tavern','Fishing Village':'event-wreck','A Straggler from the Plate Fleet':'enemy-merchant','Fever Aboard':'event-careening','A Powder Hulk':'event-wreck','The King’s Pardon':'event-tavern','An Informant in Port':'event-port','Navy Press Gang':'event-port'};
-const SCRART={recruit:'event-tavern',cove:'event-careening',port:'event-port',abandon:'enemy-flagship',extract:'event-wreck'};
+
+ENEMIES.horn.img=ART+'portrait-hornigold.webp';
+const SHIPART={merchant:'enemy-merchant',schooner:'enemy-merchant',rival:'enemy-pirate',corsair:'enemy-pirate',rover:'enemy-pirate',privateer:'enemy-hunter',patrol:'enemy-navy',salvager:'enemy-pirate',galleon:'enemy-galleon',plate:'enemy-flagship',capitana:'enemy-galleon',warship:'enemy-navy',vengeance:'enemy-hunter',cutter:'enemy-navy',guarda:'enemy-galleon',brulot:'enemy-flagship',hunter:'enemy-hunter',sqA:'enemy-navy',sqB:'enemy-navy',horn:'enemy-flagship'};
+const EVART={'A Drifting Wreck':'event-wreck','The 1715 Fleet Wrecks':'event-wreck','Storm on the Horizon':'enemy-flagship','An Officer Without a Ship':'event-tavern','Powder Smugglers':'event-tavern','Fishing Village':'event-wreck','A Straggler from the Plate Fleet':'enemy-merchant','Fever Aboard':'event-careening','A Powder Hulk':'event-wreck','The King’s Pardon':'event-tavern','An Informant in Port':'event-port','Navy Press Gang':'event-port','The Old Gunner’s Lesson':'event-tavern','Ballast Overboard':'event-careening','A Page from a Navigator’s Journal':'event-port','Becalmed':'event-careening','Turtle Hunters':'event-wreck','A Mutinous Murmur':'event-boarding','Dice in a Back Room':'event-tavern','A Rival Captain Offers a Share':'enemy-pirate','A Burning Merchantman':'event-wreck','The Gibbets at Port Royal':'event-port','A Marooned Man on a Cay':'event-wreck'};
+const SCRART={smuggler:'event-tavern',upgrade:'event-careening',remove:'event-careening',recruit:'event-tavern',cove:'event-careening',port:'event-port',abandon:'enemy-flagship',extract:'event-wreck'};
 /* simpler one-line card text */
 const _iconize=iconize;
 iconize=function(d){let s=d
