@@ -230,5 +230,21 @@ body{background:#2a1a0e url(img/art/bg-desk.webp) center/cover fixed}
 .hand.fan{padding-left:26px;padding-right:26px}.hand.fan .card .ds{font-size:11px}.hand .card .nm,.hand.fan .card .nm{font:13px/1 'IM Fell English',Georgia,serif;font-weight:bold}
 #app[data-screen=combat]>.scr{padding-left:2px;padding-right:2px}.hand .card.off{opacity:.62}
 .hand .card .ds{font-size:clamp(11px,1.65vh,12.5px)}
+
+/* ---- v2.5 select then confirm ---- */
+.card.sel{z-index:30!important;box-shadow:0 0 0 2px #e2b33c,0 0 18px 4px rgba(226,179,60,.85),0 8px 14px rgba(0,0,0,.5)}
+.hand .card.sel,.hand .card.sel:hover{transform:translateY(-14px) scale(1.18) rotate(0deg)!important;opacity:1;filter:none}
+.cards:not(.hand) .card.sel{transform:translateY(-4px) scale(1.04)}
+.detail{flex:none;height:112px;margin-top:4px;padding:3px 8px 4px;overflow:auto;text-align:left;background:linear-gradient(rgba(250,240,212,.97),rgba(236,216,168,.97));border:1px solid #6b4a1f;border-radius:6px;box-shadow:inset 0 0 0 2px rgba(201,162,74,.55);font-size:14px}
+.detail.empty{display:flex;align-items:center;justify-content:center;text-align:center;opacity:.7;font-style:italic;font-size:13.5px}
+.detail.over{position:absolute;left:12px;right:12px;bottom:68px;height:auto;max-height:44vh;z-index:25;box-shadow:0 8px 20px rgba(0,0,0,.6),inset 0 0 0 2px rgba(201,162,74,.55)}
+.dhead{display:flex;align-items:center;gap:6px}.dn{font:16px 'IM Fell English SC',serif;flex:1}.dtype{font:12px 'IM Fell English SC',serif;color:#6b4a1f}
+.dx{min-height:24px;width:24px;padding:0;margin:0;font-size:12px;border-radius:50%}
+.dtxt{font-size:15px;line-height:1.2;margin:1px 0}.dtxt b{color:#7a1f14}
+.dgl{font-size:11.5px;line-height:1.2;color:#3b2a14}.dgl div{display:inline;margin-right:8px}
+.dfoot{display:flex;align-items:center;gap:6px;margin-top:1px}.dhint{flex:1;font-size:12.5px;color:#7a1f14}
+.detail .cost{position:static;width:19px;height:19px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:bold 12.5px 'IM Fell English',serif;background:#f6e9c6;border:1px solid #6b4a1f}
+#app[data-screen=combat] .eart,.eart{width:min(46vw,210px)!important}
+.mini-face{width:34px;height:34px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:8px;border:2px solid var(--brass)}
 </style></head><body><div id="app"></div><div id="modal"></div>
-<script src="game.js?v=6"></script><script src="ui.js?v=6"></script><script src="ui2.js?v=6"></script><script src="sfx.js?v=6"></script><script src="ui3.js?v=6"></script><script src="ui4.js?v=6"></script></body></html>
+<script src="game.js?v=8"></script><script src="ui.js?v=8"></script><script src="ui2.js?v=8"></script><script src="sfx.js?v=8"></script><script src="ui3.js?v=8"></script><script src="ui4.js?v=8"></script></body></html>

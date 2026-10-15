@@ -1,0 +1,7 @@
+Remaining art prompts (use the template in prompts.txt; subject and composition vary):
+1) card-vignettes (1:1 or 4:3 small framed vignettes, sepia-leaning, one per common card): broadside cannon firing; chain shot; grapeshot; swivel gun; tacking sloop; fireship burning; cutlass duel; boarding axes; pistol volley; rally speech; captain's parry
+2) enemy-specific vignettes for card frames/intents (4:3): rival pirate sloop; privateer brig; Spanish guarda costa; Navy patrol frigate; pirate-hunter
+3) tag icons (1:1, simple engraved-ink on parchment): ship wheel (Ship), crossed cutlasses (Crew), tricorn hat (Captain)
+4) boss/stage art (16:9): Act II Guarda Costa stockade assault; Act I squadron of three Navy ships
+5) event scenes (3:2): mutiny below deck; fishing village; rum smugglers' cove; 1715 fleet wreck at dawn
+6) title screen (9:16 portrait): Nassau harbor at golden hour seen from the sea, ships at anchor, fort on the hill

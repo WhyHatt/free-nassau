@@ -24,7 +24,8 @@ const CI={broadside:'💥',swivel:'🔫',chain:'⛓️',grape:'🔫',raking:'�
  command:'📜',parry:'🗡️',pistolshot:'🔫',resolve:'⚓',smoke:'🌫️',shares:'💰',defiance:'🏴‍☠️',twin:'⚔️',getaway:'💨',fairshares:'🪙',ledger:'📒',allhands:'🔧',splice:'🪢',doubleshot:'💥',hotshot:'🔥',readwind:'🧭',shoal:'🌊'};
 const TAGN={S:'Ship',C:'Crew',K:'Captain'};
 cardHTML=function(k,attrs='',extra=''){const cd=CARDS[k];const cv=S&&S.combat?cost(k):cd.c;const txt=(CT[k]?CT[k]():iconize(cd.d));
- if(/data-i="(\d+)"/.test(attrs)){const i=attrs.match(/data-i="(\d+)"/)[1];attrs=`data-i="${i}" onclick="inspectHand(${i})"`}
+ if(/data-i="(\d+)"/.test(attrs)){const i=attrs.match(/data-i="(\d+)"/)[1];attrs=`data-i="${i}" onclick="tapHand(${i})"`}
+ else{const m=attrs.match(/onclick="([^"]*)"/);attrs=m?`data-act="${m[1]}" onclick="tapCard(this)"`:`onclick="tapCard(this)"`}
  return `<div class="card tag${cd.tag} ${extra}" ${attrs} data-k="${k}"><div class="chead"><span class="cost">${cv}</span><span class="ctype">${TAGN[cd.tag]}</span><span class="ctag">${TAGI[cd.tag]}</span></div>
  <div class="nm">${cd.n}</div><div class="vig"><span>${CI[k]||'⚓'}</span></div><div class="rule"></div><div class="ds">${txt}</div>
  <div class="cfoot">${cd.pw?`<span title="Gunpowder">${'💥'.repeat(cd.pw)}</span>`:''}${cd.x?`<span class="xh">${kw('Exhaust')}</span>`:''}</div></div>`};
@@ -32,25 +33,51 @@ cardHTML=function(k,attrs='',extra=''){const cd=CARDS[k];const cv=S&&S.combat?co
 function glossary(k){const cd=CARDS[k];const txt=(CT[k]?CT[k]():'')+(cd.x?' Exhaust':'')+(cd.d||'');const found=Object.keys(KW).filter(w=>new RegExp(w).test(txt));
  const extra=[];if(cd.pw)extra.push(['💥 Powder',`Uses ${cd.pw} gunpowder; with none the shot deals half damage.`]);
  return found.map(w=>[KW[w][0]+' '+w,KW[w][1]]).concat(extra).map(([a,b])=>`<div><b>${a}</b> ${b}</div>`).join('')}
-function openInspect(k,btns){const m=$('modal');m.innerHTML=`<div class="modal inspect" onclick="if(event.target===this)closeInspect()"><div class="ibox">${cardHTML(k,'','big')}<div class="gloss">${glossary(k)}</div><div class="ibtns">${btns}</div></div></div>`}
-function closeInspect(){$('modal').innerHTML=''}
-function inspectHand(i){const c=C();if(!c)return;const k=c.hand[i];if(!k)return;const ok=playable(k),aff=cost(k)<=c.energy;let b='';
- if(ok&&aff)b+=`<button class="gold" id="insPlay" onclick="closeInspect();play(${i})">Play</button>`;
- else if(ok)b+=`<button disabled>Not enough energy</button>`;
- else b+=c.swap?`<button id="insSwap" onclick="closeInspect();swapCard(${i})">Swap for a new card</button>`:`<button disabled>Wrong phase (swap used)</button>`;
- b+=`<button onclick="closeInspect()">Close</button>`;openInspect(k,b)}
-/* long-press / tap on non-hand cards */
-let lpT=null,lpFired=false;
-document.addEventListener('pointerdown',e=>{const el=e.target.closest('.card');if(!el||el.closest('#modal'))return;lpFired=false;clearTimeout(lpT);
- lpT=setTimeout(()=>{lpFired=true;if(el.closest('.hand'))inspectHand(+el.dataset.i);else openInspect(el.dataset.k,'<button onclick="closeInspect()">Close</button>')},450)},true);
-['pointerup','pointercancel'].forEach(ev=>document.addEventListener(ev,()=>clearTimeout(lpT),true));
-document.addEventListener('pointermove',e=>{if(Math.abs(e.movementX)+Math.abs(e.movementY)>8)clearTimeout(lpT)},true);
-document.addEventListener('click',e=>{if(lpFired){lpFired=false;e.stopPropagation();e.preventDefault();return}
- const el=e.target.closest('.card');if(el&&!el.closest('#modal')&&!el.hasAttribute('onclick')&&el.dataset.k)openInspect(el.dataset.k,'<button onclick="closeInspect()">Close</button>')},true);
+/* ---- select, then confirm ---- */
+let SEL=null;
+const cardEls=()=>[...document.querySelectorAll('#app .card')];
+function shakeEl(el){if(!el)return;el.classList.remove('nope');void el.offsetWidth;el.classList.add('nope');setTimeout(()=>el.classList.remove('nope'),380)}
+function deselect(){SEL=null;applySel()}
+function tapHand(i){const c=C();if(!c)return;const k=c.hand[i];if(!k)return;const el=document.querySelector(`#hand .card[data-i="${i}"]`);
+ if(SEL&&SEL.type==='hand'&&SEL.i===i&&SEL.k===k){if(playable(k)&&cost(k)<=c.energy){SEL=null;play(i)}else shakeEl(el);return}
+ SEL={type:'hand',i,k,screen:S.screen};applySel()}
+function tapCard(el){const els=cardEls(),n=els.indexOf(el),k=el.dataset.k;
+ if(SEL&&SEL.type==='card'&&SEL.n===n&&SEL.k===k){if(!el.dataset.act){deselect();return}if(el.classList.contains('dim')){shakeEl(el);return}commitCard(el);return}
+ SEL={type:'card',n,k,screen:S.screen};applySel()}
+function commitCard(el){const act=el.dataset.act;SEL=null;applySel();new Function(act)()}
+function actLabel(el){const a=el.dataset.act||'';const pr=el.parentElement&&el.parentElement.querySelector('.price');
+ if(/^takeCard/.test(a))return 'Take this card';if(/^buyCard/.test(a))return 'Buy'+(pr?' ('+pr.textContent.trim()+')':'');if(/^removeCard/.test(a))return 'Remove this card';return a?'Choose':''}
+function dtext(k){return CT[k]?CT[k]():iconize(CARDS[k].d)}
+function detailBody(k,cv,hint,btns){const cd=CARDS[k];return `<div class="dhead"><span class="cost">${cv}</span><b class="dn">${cd.n}</b><span class="dtype">${TAGN[cd.tag]}${cd.pw?' · '+'💥'.repeat(cd.pw):''}</span><button class="dx" onclick="deselect()" aria-label="Cancel">✕</button></div>
+ <div class="dtxt">${dtext(k)}</div><div class="dgl">${glossary(k)}</div><div class="dfoot"><span class="dhint">${hint}</span>${btns||''}</div>`}
+function applySel(){document.querySelectorAll('.card.sel').forEach(e=>e.classList.remove('sel'));const old=$('detailOv');if(old)old.remove();const d=$('detail');
+ if(!SEL){if(d){d.className='detail empty';d.innerHTML='Tap a card to read it. Tap it again to play.'}return}
+ if(SEL.type==='hand'){const c=C();const el=document.querySelector(`#hand .card[data-i="${SEL.i}"]`);if(!c||!el||!d){SEL=null;return}el.classList.add('sel');const k=SEL.k,ok=playable(k),aff=cost(k)<=c.energy;
+  d.className='detail';
+  const hint=ok?(aff?'<b>Tap again to play</b>':'Not enough energy'):'Wrong phase for this card';
+  const btn=(!ok&&c.swap)?`<button class="mini" id="selSwap" onclick="swapSel()">Swap for a new card</button>`:(!ok?'<span class="small">(swap used this turn)</span>':'');
+  d.innerHTML=detailBody(k,cost(k),hint,btn);return}
+ const el=cardEls()[SEL.n];if(!el){SEL=null;return}el.classList.add('sel');const k=SEL.k;const lab=actLabel(el);const dim=el.classList.contains('dim');
+ const ov=document.createElement('div');ov.id='detailOv';ov.className='detail over';
+ ov.innerHTML=detailBody(k,CARDS[k].c,lab?(dim?'Cannot afford this':'<b>Tap again to confirm</b>'):'Tap again to close',lab?`<button class="gold mini" id="selCommit" onclick="commitCard(cardEls()[SEL.n])" ${dim?'disabled':''}>${lab}</button>`:'');
+ $('app').appendChild(ov)}
+function swapSel(){if(!SEL||SEL.type!=='hand')return;const i=SEL.i;SEL=null;swapCard(i)}
+document.addEventListener('click',e=>{if(!SEL)return;if(!e.target.closest('.card,.detail,button,.hud'))deselect()},true);
 /* fan the hand */
-const _r4=render;render=function(){_r4();const h=document.querySelector('#hand');if(!h)return;const cs=[...h.children],n=cs.length;
+const _r4=render;render=function(){_r4();
+ if(SEL&&(SEL.screen!==S.screen||(SEL.type==='hand'&&(!S.combat||C().hand[SEL.i]!==SEL.k))))SEL=null;
+ const h=document.querySelector('#hand');
+ if(h){const mine=document.querySelector('.sea .mine');if(mine&&!$('detail')){const d=document.createElement('div');d.id='detail';d.className='detail empty';mine.before(d)}}
+ applySel();if(!h)return;const cs=[...h.children],n=cs.length;
  const ov=n<=4?0:n===5?6:n===6?14:n===7?22:n===8?28:32;h.style.setProperty('--ov',ov+'px');h.classList.toggle('fan',n>=7);
  cs.forEach((c,i)=>{const m=(n-1)/2,d=i-m;const rot=n>=5?d*(n>=7?1.3:1.2):(i%2?1:-1);c.style.setProperty('--r',rot+'deg');c.style.setProperty('--dy',(n>=5?Math.abs(d)*Math.abs(d)*(n>=7?1.4:1):0)+'px')})};
 render();
 showDeck=function(){const a=$('app');a.dataset.screen='deck';
  a.innerHTML=hud()+`<div class="scr"><h2>Deck <span class="small">· tap a card to read it</span></h2><p class="small">Plus officer cards: ${officerCards().map(k=>CARDS[k].n).join(', ')||'none'}.</p><div class="cards">${S.deck.slice().sort().map(k=>cardHTML(k)).join('')}</div></div><div class="actions"><button onclick="render()">Back</button></div>`};
+/* v2.5 extra art: Nassau base, Surgeon and Boarding Master portraits */
+const _r5=render;render=function(){_r5();if(!S)return;const a=$('app');const face=(f,t)=>`<img class="mini-face" src="img/art/${f}.webp" alt="" title="${t}">`;
+ if(S.screen==='nassau'||S.screen==='title'||S.screen==='end'&&S.end&&S.end.kind!=='death'){a.querySelectorAll('img.banner').forEach(i=>i.src='img/art/bg-nassau-base.webp')}
+ if(S.screen==='tavern'){const h=$('heal');if(h&&!h.querySelector('img'))h.insertAdjacentHTML('afterbegin',face('officer-surgeon','The ship\'s surgeon'))}
+ if(S.screen==='cove'){const h=$('rest');if(h&&!h.querySelector('img'))h.insertAdjacentHTML('afterbegin',face('officer-surgeon','The ship\'s surgeon'))}
+ if(S.screen==='recruit'){const b=[...a.querySelectorAll('button')].find(x=>/Hire 5 crew/.test(x.textContent));if(b&&!b.querySelector('img'))b.insertAdjacentHTML('afterbegin',face('officer-boarding-master','Boarding master'))}};
+render();

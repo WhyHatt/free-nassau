@@ -79,7 +79,7 @@ function combatHTML(){const c=C(),e=E(),it=intent();const ph=c.phase;const W=WEA
  </div>
  <div class="cards hand" id="hand">${c.hand.map((k,i)=>{const ok=playable(k);return cardHTML(k,ok?`data-i="${i}" onclick="play(${i})"`:`data-i="${i}" onclick="swapCard(${i})"`,(ok?'':'off ')+(ok&&cost(k)>c.energy?'dim':''))}).join('')}</div>
  <div class="log" id="log" onclick="this.classList.toggle('open')" title="Tap for the full log">${c.log.map((l,i)=>`<div class="${i?'old':''}">${l}</div>`).join('')}</div>
- ${c.hand.some(k=>!playable(k))?`<div class="small hint">Grey cards don't fit this phase: tap one to swap it${c.swap?'':' (used this turn)'}.</div>`:''}`}
+ ${c.hand.some(k=>!playable(k))?`<div class="small hint">Grey cards don't fit this phase: select one to swap it${c.swap?'':' (used this turn)'}.</div>`:''}`}
 function combatFoot(){const c=C();let f=`<button id="endturn" class="endturn" onclick="endTurn()">End Turn ⏳</button>`;
  if(c.canFlee&&c.turn===1&&c.phase==='ship')f+=`<button onclick="flee()">💨 Flee</button>`;
  if(c.phase==='board'&&!c.boss)f+=`<button onclick="retreat()" title="Cut the grapples: -15 morale, no loot">✂️ Retreat</button>`;return f}

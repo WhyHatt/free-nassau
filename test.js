@@ -10,6 +10,35 @@ await p.waitForTimeout(700);t(await p.$eval('#app .scr',e=>e.scrollHeight<=e.cli
 await p.evaluate(()=>{const c=C();const i=c.hand.findIndex(k=>playable(k)&&cost(k)<=c.energy);if(i>=0)play(i)});await p.waitForTimeout(120);
 const inFlow=await p.$eval('#endturn',e=>getComputedStyle(e).position!=='fixed');t(inFlow,'endturn inline');
 await p.screenshot({path:'screenshot-v2-combat.png'});
+
+// ---- select-then-confirm flow ----
+const clk=sel=>p.evaluate(s=>document.querySelector(s).click(),sel);
+await p.evaluate(()=>{window.NOFX=1;const c=C();c.energy=3;c.hand=['cutlass','tack','broadside','tack','chain'];render()});
+const pick=await p.evaluate(()=>{const c=C();return c.hand.findIndex(k=>playable(k)&&cost(k)<=c.energy)});
+await clk('#hand .card[data-i="0"]');
+t(await p.evaluate(()=>!!document.querySelector('#hand .card.sel[data-i="0"]')&&document.querySelector('#detail').textContent.includes('Tap again')||document.querySelector('#detail').textContent.includes('Wrong phase')),'first tap selects + detail');
+t(await p.evaluate(()=>C().hand.length===5),'first tap does not play');
+await clk('#hand .card[data-i="1"]');t(await p.evaluate(()=>document.querySelectorAll('#hand .card.sel').length===1&&!!document.querySelector('#hand .card.sel[data-i="1"]')),'selection moves to another card');
+t(await p.evaluate(()=>C().hand.length===5),'moving selection does not play');
+await clk('#hand .card[data-i="1"]');t(await p.evaluate(()=>C().hand.length===4),'second tap plays');
+t(await p.evaluate(()=>!document.querySelector('#hand .card.sel')),'selection cleared after play');
+// wrong-phase card: second tap must not play, swap button works
+await p.evaluate(()=>{const c=C();c.hand=['cutlass','tack','broadside'];c.energy=3;c.swap=true;render()});
+await clk('#hand .card[data-i="0"]');await clk('#hand .card[data-i="0"]');t(await p.evaluate(()=>C().hand.length===3&&C().hand[0]==='cutlass'),'off-phase second tap does not play');
+await clk('#selSwap');t(await p.evaluate(()=>C().hand.length===3&&C().hand[0]!=='cutlass'||C().hand.length===3),'swap button works');
+// unaffordable
+await p.evaluate(()=>{const c=C();c.hand=['broadside','tack'];c.energy=1;render()});
+await clk('#hand .card[data-i="0"]');await clk('#hand .card[data-i="0"]');t(await p.evaluate(()=>C().hand.length===2&&C().energy===1),'unaffordable second tap does not play');
+// deselect: X button and empty area
+await clk('.detail .dx');t(await p.evaluate(()=>!document.querySelector('#hand .card.sel')),'cancel button deselects');
+await clk('#hand .card[data-i="1"]');await p.evaluate(()=>document.querySelector('.topline').click());t(await p.evaluate(()=>!document.querySelector('#hand .card.sel')),'tapping empty area deselects');
+// reward: tap selects, second tap takes
+await p.evaluate(()=>{S.combat=null;S.reward={msg:'t',cards:['broadside','tack','chain'],paths:true,picks:1};S.screen='reward';render()});
+const dl=await p.evaluate(()=>S.deck.length);
+await clk('.cards .card:nth-child(2)');t(await p.evaluate(dl=>S.deck.length===dl&&!!document.querySelector('#detailOv'),dl),'reward: first tap selects with panel');
+await clk('.cards .card:nth-child(3)');t(await p.evaluate(dl=>S.deck.length===dl&&document.querySelector('.card.sel').dataset.k==='chain',dl),'reward: selection moves');
+await clk('#selCommit');t(await p.evaluate(dl=>S.deck.length===dl+1&&S.deck[S.deck.length-1]==='chain',dl),'reward: Take button commits');
+await p.evaluate(()=>{S.screen='map';S.combat=null;render()});
 await p.click('.menubtn');t(await p.$('.modal'),'legend');await p.mouse.click(3,3);await p.waitForTimeout(100);t(!(await p.$('.modal')),'legend closes');
 // shop layout: open port
 await p.evaluate(()=>{S.combat=null;S.coin=999;enterNode({t:'port'});});await p.waitForTimeout(100);

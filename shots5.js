@@ -1,0 +1,11 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844}});const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.goto('file://'+process.cwd()+'/index.html');await p.evaluate(()=>{window.NOFX=1;localStorage.clear();newRun('vane');go(0,1);render()});await p.waitForTimeout(900);
+const fit=async n=>console.log(n,await p.evaluate(()=>{const s=document.querySelector('#app>.scr');return s.scrollHeight+'/'+s.clientHeight}));
+await fit('combat');
+await p.click('#hand .card:nth-child(2)');await p.waitForTimeout(200);await fit('selected');await p.screenshot({path:'screenshot-v25-selected.png'});
+await p.evaluate(()=>{const c=C();c.draw.splice(0,0,'broadside','tack','chain','raking','axes');X.draw(4);render()});await p.waitForTimeout(600);
+await p.evaluate(()=>tapHand(4));await p.waitForTimeout(200);await fit('selected9');await p.screenshot({path:'screenshot-v25-selected9.png'});
+await p.evaluate(()=>{S.combat=null;S.reward={msg:'Sunk',cards:rollCards(3),paths:true,picks:1};S.screen='reward';render()});await p.waitForTimeout(300);
+await p.click('.cards .card:nth-child(2)');await p.waitForTimeout(200);await p.screenshot({path:'screenshot-v25-reward.png'});
+await p.evaluate(()=>{S.shop=null;enterNode({t:'port'});S.coin=300;render()});await p.waitForTimeout(300);await p.click('.cardwrap:nth-child(1) .card');await p.waitForTimeout(200);await p.screenshot({path:'screenshot-v25-shop.png'});
+console.log(errs);await b.close()})();
