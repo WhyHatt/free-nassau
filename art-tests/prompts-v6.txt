@@ -1,0 +1,9 @@
+Free Nassau v6: optional art that would help most (the game works without all of it). Style: storybook painterly Golden Age, warm light, no text in image.
+1. img/art/enemy-fireship.webp, 1024x640: burning fire ship under full sail at dusk, sparks and smoke, crew leaping overboard.
+2. img/art/enemy-schooner.webp, 1024x640: fast two-masted schooner heeled over, white wake.
+3. img/art/enemy-manowar.webp, 1024x640: Royal Navy man-of-war broadside, gun ports open, grey sky.
+4. img/art/event-smuggler.webp, 1024x640: moonlit cove, lantern, longboat, barrels, shadowy figures.
+5. img/art/event-storm.webp, 1024x640: black squall line over a small ship, lightning.
+6. img/art/boss-fort.webp, 1024x640: coral-stone Spanish fort on a sandy cay, cannons on the ramparts.
+7. img/art/scene-victory.webp, 1024x1024: pirate flag over Nassau harbour at sunrise.
+8. img/art/scene-defeat.webp, 1024x1024: wrecked ship at dawn, a lone flag on the water.
