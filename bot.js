@@ -35,7 +35,7 @@ G.botRun=function(cap,opts={}){opts=opts||{};
     s+=Math.random();if(s>score){score=s;best=c}}
    if(best===null)return{kind:'stuck',act:S.act,steps,cap};go(S.row+1,best);continue}
   if(sc==='combat'){const c=C(),e=E();if(c.boss&&!snapped[c.boss]){snapped[c.boss]=1;snaps.push({b:c.boss,hp:S.hp/S.maxHp,hull:S.ship.hull/hullMax(),crew:S.crew,crewMax:crewMax(),coin:S.coin,deck:S.deck.length,ship:S.ship.type,powder:S.cargo.powder,offs:Object.keys(S.officers).length})}lastPh=c.phase;lastBoss=c.boss||0;lastEn=e.k;
-   actions++;cur.t=c.turn;cur.lastEn=c.enemy.k;
+   actions++;cur.t=c.turn;if(opts.trace)G.__lastLog=c.log.slice(0,45).reverse();cur.lastEn=c.enemy.k;
    if(c.phase==='ship'&&e.hull<=e.hullMax*.5&&!c.boss&&!c.queue.length){const safe=S.crew>=e.crew*.9&&S.hp>S.maxHp*.45;if(safe){board();continue}}
    const inc=incoming();
    const ol=orderList().filter(orderReady);

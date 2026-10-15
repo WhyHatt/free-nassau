@@ -172,8 +172,8 @@ function useOrder(id){const c=C(),o=ORDERS[id];if(!orderReady(id))return;c.undo=
  if(id==='fire'){c.fireBuff=3;log('Fire at will! Cannon cards +3 this turn.')}
  else if(id==='charge'){c.energy++;if(c.phase==='duel')X.blk(4);else X.heal(3);log('Charge!')}
  else if(id==='hard'){X.blk(8);X.shiftWind()}
- else if(id==='litfuse'){X.weak(2);const e=E();const k=Math.round(e.crew*.12);e.crew=Math.max(0,e.crew-k);X.blk(4);log(`Lit fuses: ${k} of their crew flee the smoke.`)}
- else if(id==='fairshare'){X.heal(6);X.draw(2)}
+ else if(id==='litfuse'){X.weak(1);const e=E();const k=Math.round(e.crew*.08);e.crew=Math.max(0,e.crew-k);X.blk(4);log(`Lit fuses: ${k} of their crew flee the smoke.`)}
+ else if(id==='fairshare'){X.heal(6);X.draw(2);c.energy++}
  else if(id==='noquarter'){c.nBuff=3;X.burn(4)}
  else if(id==='twinblades'){X.any(5);X.any(5);X.blk(4)}
  else if(id==='getaway'){X.blk(10);X.draw(1);if(c.phase==='ship')X.gauge()}
@@ -240,7 +240,7 @@ function prepBoard(direct){const c=C(),e=E();
   if(S.ship.hull/hullMax()<.5){c.advT-=1;log('Your battered ship gives you a poor start (Disadvantage).')}
   if(S.ship.hull>=c.hullStart*0.85){c.advT+=1;log('Clean approach: +1 Advantage.')}}
  if(off('reardon'))c.advT=clamp(c.advT+1,-2,3);
- if(S.cap==='blackbeard')e.crew=Math.round(e.crew*.9);if(S.ship.type==='frigate')e.crew=Math.round(e.crew*.9);
+ if(S.cap==='blackbeard')e.crew=Math.round(e.crew*.92);if(S.ship.type==='frigate')e.crew=Math.round(e.crew*.9);
  c.deck=c.boss===2?'gun':c.boss===3?'cabin':pick(['open','open','gun','cabin']);
  e.block=0;e.weak=0;c.phase='board';c.boardTurn1=true;c.turn=0;fx('boarding',{deck:c.deck})}
 const DECKN={open:['Open deck','A plain scrap at the rail.'],gun:['Gun deck','Cannon fire at full strength, but their melee hits 20% harder.'],cabin:['Captain\u2019s cabin','They rush your captain more often.']};

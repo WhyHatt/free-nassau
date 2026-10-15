@@ -9,7 +9,7 @@ let S=null, M=null;
 const FXQ=[];
 function fx(t,d){if(window.NOFX||FXQ.length>80)return;FXQ.push(Object.assign({t},d||{}))}
 /* Balance dials (tuned with sim.js). dmg[act]: normal-enemy damage multiplier on top of the act scale; bd/bs: boss damage / size by act. */
-const TUNE={dmg:[0,2.5,2.6,2.2],hull:1.5,crew:1.3,bd:[0,1.7,1.9,1.4],bs:[0,1.0,1.0,1.0],sc:[0,1,1.15,1.15]};
+const TUNE={dmg:[0,3.0,3.3,3.1],hull:1.8,crew:1.3,bd:[0,1.8,2.1,1.45],bs:[0,1.5,1.7,1.0],sc:[0,1,1.15,1.15]};
 /* Ships: heavier hulls give less Block from Sail cards (sail). */
 const SHIPS={
  periagua:{n:'Periagua',hull:30,crew:25,guns:2,price:0,sail:2,perk:'Tiny and nimble: +3 Block each ship turn; Sail cards +2 Block.'},
@@ -52,7 +52,7 @@ A('axes',{n:'Boarding Axes',tag:'C',a:'B',c:2,i:'🪓',p:{k:[16,22]},d:P=>`Kill 
 A('grenades',{n:'Grenadoes',tag:'C',a:'B',c:1,pw:1,i:'🧨',p:{k:[9,13]},d:P=>`Kill <b>${P.k}</b> enemy crew. Uses 1 💥.`,f:(x,P)=>x.melee(P.k)});
 A('hold',{n:'Hold the Rail',tag:'C',a:'B',c:1,i:'🛡️',p:{b:[6,9]},d:P=>`Gain <b>${P.b}</b> Block.`,f:(x,P)=>x.blk(P.b)});
 A('rally',{n:'Rally the Crew',tag:'C',a:'B',c:1,i:'📣',p:{b:[4,6],h:[3,5]},d:P=>`Gain <b>${P.b}</b> Block. Restore <b>${P.h}</b> crew.`,f:(x,P)=>{x.blk(P.b);x.heal(P.h)}});
-A('fear',{n:'Fearsome Reputation',tag:'C',a:'B',c:1,i:'💀',p:{pc:[10,15],w:[2,3]},d:P=>`Enemy crew loses <b>${P.pc}%</b> of its number and is Weak <b>${P.w}</b>.`,f:(x,P)=>{const e=x.E();x.melee(Math.ceil(e.crew*P.pc/100),{raw:1});x.weak(P.w)}});
+A('fear',{n:'Fearsome Reputation',tag:'C',a:'B',c:1,i:'💀',p:{pc:[10,15],w:[1,2]},d:P=>`Enemy crew loses <b>${P.pc}%</b> of its number and is Weak <b>${P.w}</b>.`,f:(x,P)=>{const e=x.E();x.melee(Math.ceil(e.crew*P.pc/100),{raw:1});x.weak(P.w)}});
 A('hooks',{n:'Grappling Hooks',tag:'C',a:'B',c:1,i:'🪝',p:{k:[5,7],a:[2,3]},d:P=>`At sea: gain <b>${P.a}</b> Advantage. Boarding: kill <b>${P.k}</b> crew and draw 1.`,f:(x,P)=>{if(x.C().phase==='ship')x.adv(P.a);else{x.melee(P.k);x.draw(1)}}});
 A('rage',{n:'Blood Rage',tag:'C',a:'B',c:1,x:1,i:'😤',p:{s:[3,4],l:[3,2]},d:P=>`All your damage +<b>${P.s}</b> this fight. Lose <b>${P.l}</b> crew.`,f:(x,P)=>{x.C().str+=P.s;S.crew=Math.max(0,S.crew-P.l);x.log(`The crew works itself into a rage. ${P.l} fall to their own fury.`)}});
 A('flurry',{n:'Cutlass Flurry',tag:'C',a:'B',c:1,i:'⚔️',p:{k:[3,4]},d:P=>`Kill <b>${P.k}</b> enemy crew for each card you have played this turn (including this).`,f:(x,P)=>x.melee(P.k*x.C().played)});
@@ -83,8 +83,8 @@ A('resolve',{n:'Iron Resolve',tag:'K',a:'C',c:0,x:1,i:'⚓',p:{d:[1,2]},d:P=>`Ga
 A('rousing',{n:'Rousing Speech',tag:'K',a:'C',c:1,x:1,i:'📢',p:{h:[5,8],s:[1,2]},d:P=>`Restore <b>${P.h}</b> crew. All your damage +<b>${P.s}</b> this fight.`,f:(x,P)=>{x.heal(P.h);x.C().str+=P.s}});
 A('steelnerve',{n:'Steel Nerve',tag:'K',a:'C',c:2,i:'🦾',p:{b:[14,18],h:[3,5]},d:P=>`Gain <b>${P.b}</b> Block. Heal the captain <b>${P.h}</b>.`,f:(x,P)=>{x.blk(P.b);x.healCap(P.h)}});
 /* Captain signatures */
-A('smoke',{n:'Lit Fuses in the Beard',tag:'K',a:'S',c:1,i:'🌫️',p:{b:[5,8],w:[2,3]},d:P=>`Blackbeard: gain <b>${P.b}</b> Block; enemy Weak <b>${P.w}</b>.`,f:(x,P)=>{x.blk(P.b);x.weak(P.w)}});
-A('shares',{n:"Prince's Share",tag:'K',a:'S',c:0,i:'💰',p:{h:[6,9],d:[1,2]},d:P=>`Bellamy: restore <b>${P.h}</b> crew, draw <b>${P.d}</b>.`,f:(x,P)=>{x.heal(P.h);x.draw(P.d)}});
+A('smoke',{n:'Lit Fuses in the Beard',tag:'K',a:'S',c:1,i:'🌫️',p:{b:[5,8],w:[1,2]},d:P=>`Blackbeard: gain <b>${P.b}</b> Block; enemy Weak <b>${P.w}</b>.`,f:(x,P)=>{x.blk(P.b);x.weak(P.w)}});
+A('shares',{n:"Prince's Share",tag:'K',a:'S',c:0,i:'💰',p:{h:[6,9],d:[1,2],b:[4,6]},d:P=>`Bellamy: restore <b>${P.h}</b> crew, gain <b>${P.b}</b> Block, draw <b>${P.d}</b>.`,f:(x,P)=>{x.heal(P.h);x.blk(P.b);x.draw(P.d)}});
 A('defiance',{n:'Defiance',tag:'K',a:'S',c:1,x:1,i:'🏴‍☠️',p:{b:[5,8],s:[2,3]},d:P=>`Vane: gain <b>${P.b}</b> Block. All your damage +<b>${P.s}</b> this fight.`,f:(x,P)=>{x.blk(P.b);x.C().str+=P.s}});
 A('twin',{n:'Twin Blades',tag:'K',a:'S',c:1,i:'⚔️',p:{b:[4,6]},d:P=>`Bonny & Read: deal <b>${P.b}</b> twice to the current target.`,f:(x,P)=>{x.any(P.b);x.any(P.b)}});
 A('getaway',{n:'Fast Getaway',tag:'K',a:'S',c:1,i:'💨',p:{b:[8,11]},d:P=>`Rackham: gain <b>${P.b}</b> Block, draw 1. At sea, also take the Weather Gauge.`,f:(x,P)=>{x.blk(P.b);x.draw(1);if(x.C().phase==='ship')x.gauge()}});
@@ -116,9 +116,9 @@ const POOL=Object.keys(POOLR);
 const CAPTAINS={
  blackbeard:{n:'Edward “Blackbeard” Teach',short:'Blackbeard',hp:78,crew:34,order:'litfuse',
   deck:['broadside','broadside','swivel','swivel','tack','tack','cutlass','cutlass','fear','smoke'],
-  passive:'Terror: enemy crews start boarding with 10% fewer men.',id:'Intimidation and boarding.'},
- bellamy:{n:'“Black Sam” Bellamy',short:'Bellamy',hp:66,crew:40,order:'fairshare',
-  deck:['broadside','swivel','swivel','tack','tack','cutlass','cutlass','rally','rally','shares'],
+  passive:'Terror: enemy crews start boarding with 8% fewer men.',id:'Intimidation and boarding.'},
+ bellamy:{n:'“Black Sam” Bellamy',short:'Bellamy',hp:72,crew:40,order:'fairshare',
+  deck:['broadside','broadside','swivel','tack','tack','cutlass','cutlass','cutlass','rally','shares'],
   passive:'Prince of Pirates: starts with Henry Jennings as Quartermaster; +30% silver from fights; hires cost 25% less.',id:'Crew and plunder.'},
  vane:{n:'Charles Vane',short:'Vane',hp:62,crew:34,order:'noquarter',
   deck:['broadside','broadside','chain','grape','tack','pistols','cutlass','cutlass','hold','defiance'],
@@ -164,8 +164,8 @@ const ORDERS={
  fire:{n:'Fire at will!',ph:['ship'],cd:4,i:'💥',d:'Your cannon cards deal +3 this turn.'},
  charge:{n:'Charge!',ph:['board','duel'],cd:3,i:'⚔️',d:'Gain 1 energy. Restore 3 crew (duel: gain 4 Block).'},
  hard:{n:'Hard to port!',ph:['ship'],cd:3,i:'⚓',d:'Gain 8 Block and shift the wind your way.'},
- litfuse:{n:'Lit Fuses',ph:['ship','board','duel'],cd:4,i:'🔥',d:'Blackbeard: enemy Weak 2, enemy crew -12%, gain 4 Block.',cap:'blackbeard'},
- fairshare:{n:'Fair Shares',ph:['ship','board','duel'],cd:4,i:'💰',d:'Bellamy: restore 6 crew and draw 2.',cap:'bellamy'},
+ litfuse:{n:'Lit Fuses',ph:['ship','board','duel'],cd:4,i:'🔥',d:'Blackbeard: enemy Weak 1, enemy crew -8%, gain 4 Block.',cap:'blackbeard'},
+ fairshare:{n:'Fair Shares',ph:['ship','board','duel'],cd:4,i:'💰',d:'Bellamy: restore 6 crew, draw 2 and gain 1 energy.',cap:'bellamy'},
  noquarter:{n:'No Quarter!',ph:['ship','board','duel'],cd:4,i:'🏴‍☠️',d:'Vane: all damage +3 this turn; enemy Burn 4.',cap:'vane'},
  twinblades:{n:'Twin Blades',ph:['ship','board','duel'],cd:3,i:'⚔️',d:'Bonny & Read: deal 5 twice; gain 4 Block.',cap:'bonnyread'},
  getaway:{n:'Fast Getaway',ph:['ship','board','duel'],cd:4,i:'💨',d:'Rackham: gain 10 Block, draw 1, take the Weather Gauge at sea.',cap:'rackham'},
