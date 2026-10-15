@@ -1,7 +1,7 @@
 const {chromium}=require('playwright');
 (async()=>{const b=await chromium.launch();const errs=[];let ok=0,fail=0;const t=(c,m)=>{c?ok++:(fail++,console.log('FAIL',m))};
 const p=await b.newPage({viewport:{width:390,height:844}});p.on('pageerror',e=>errs.push(e.message));p.on('console',m=>{if(m.type()==='error')errs.push(m.text())});
-await p.goto('file://'+process.cwd()+'/index.html');await p.evaluate(()=>localStorage.clear());await p.reload();
+await p.goto('file://'+process.cwd()+'/index.html');await p.evaluate(()=>localStorage.clear());await p.reload();await p.evaluate(()=>{window.NOFX=1;RM=true});
 await p.click('#new');t(await p.$('#cap-blackbeard'),'capselect');t(!(await p.$('#cap-rackham'))||await p.$eval('#cap-rackham',e=>e.disabled),'rackham locked');
 await p.click('#cap-blackbeard');t(await p.$eval('#cap-blackbeard',e=>e.classList.contains('sel')&&!!document.querySelector('.dossier')),'v4: captain medallion selects and shows dossier');await p.click('#sail');t(await p.$('.chart'),'map');await p.waitForTimeout(300);t(await p.$eval('#app .scr',e=>e.scrollHeight<=e.clientHeight+2),'map fits');await p.screenshot({path:'screenshot-v2-map.png'});t(await p.evaluate(()=>Object.keys(S.officers).length===0),'no officers '+await p.evaluate(()=>S.ship.type+JSON.stringify(S.officers)));
 await p.click('.node.avail',{force:true});t(await p.$('.card'),'combat cards');t(await p.$('#endturn'),'end turn');
@@ -16,7 +16,7 @@ const clk=sel=>p.evaluate(s=>document.querySelector(s).click(),sel);
 await p.evaluate(()=>{window.NOFX=1;const c=C();c.energy=3;c.hand=['cutlass','tack','broadside','tack','chain'];render()});
 const pick=await p.evaluate(()=>{const c=C();return c.hand.findIndex(k=>playable(k)&&cost(k)<=c.energy)});
 await clk('#hand .card[data-i="0"]');
-t(await p.evaluate(()=>!!document.querySelector('#hand .card.sel[data-i="0"]')&&document.querySelector('#detail').textContent.includes('Tap again')||document.querySelector('#detail').textContent.includes('Wrong phase')),'first tap selects + detail');
+t(await p.evaluate(()=>!!document.querySelector('#hand .card.sel[data-i="0"]')&&(document.querySelector('#detail').textContent.includes('Play')||document.querySelector('#detail').textContent.includes('Swap'))),'first tap selects + detail with Play/Swap button');
 t(await p.evaluate(()=>C().hand.length===5),'first tap does not play');
 await clk('#hand .card[data-i="1"]');t(await p.evaluate(()=>document.querySelectorAll('#hand .card.sel').length===1&&!!document.querySelector('#hand .card.sel[data-i="1"]')),'selection moves to another card');
 t(await p.evaluate(()=>C().hand.length===5),'moving selection does not play');
@@ -108,6 +108,32 @@ t(await p.evaluate(()=>{const m=document.querySelectorAll('.card .ds').length;re
 await p.evaluate(()=>{S=null;renderCapSelect()});t(await p.evaluate(()=>document.querySelectorAll('.med').length===Object.keys(CAPTAINS).length&&document.querySelector('.dossier h3')&&document.documentElement.scrollHeight<=844&&document.getElementById('app').scrollHeight<=844),'v4: captain select shows medallions and dossier, fits');
 await clk('#cap-vane');t(await p.evaluate(()=>document.querySelector('.dossier h3').textContent.includes('Vane')),'v4: dossier follows the selected medallion');
 await p.evaluate(()=>{S=null;localStorage.removeItem('fnv2run');render()});
+
+
+// ---- v5 polish ----
+await p.evaluate(()=>{S=null;newRun('vane',0);S.coin=150;S.combat=null;S.screen='combat';startFight(['rival'],'normal');const c=C();c.phase='ship';c.hand=['broadside','tack','cutlass','chain','swivel','grape','broadside','tack','chain'];c.energy=3;render()});
+t(await p.evaluate(()=>{const h=document.querySelector('#hand');if(!h.classList.contains('grid'))return false;const cs=[...h.children].map(e=>e.getBoundingClientRect());const rows=new Set(cs.map(r=>Math.round(r.top/10)));const noOverlap=cs.every((a,i)=>cs.every((b,j)=>i===j||a.right<=b.left+1||b.right<=a.left+1||a.bottom<=b.top+1||b.bottom<=a.top+1));return rows.size===2&&noOverlap&&cs.every(r=>r.width>=52&&r.height>=70&&r.right<=390&&r.left>=0)}),'v5: 9-card hand is a 2-row grid, no overlaps, every card tappable');
+t(await p.evaluate(()=>{const h=document.querySelector('#hand');const f=h.children[5].getBoundingClientRect(),l=h.children[8].getBoundingClientRect();return Math.abs((f.left+l.right)/2-195)<8}),'v5: short last row is centered');
+await clk('#hand .card[data-i="0"]');
+t(await p.evaluate(()=>{const d=document.querySelector('#detail');return !!d.querySelector('#selPlay')&&d.querySelector('#selPlay').getBoundingClientRect().height>=42&&d.querySelector('.dx').getBoundingClientRect().height>=30}),'v5: detail has a 44px Play button and a close seal');
+await clk('#selPlay');t(await p.evaluate(()=>C().hand.length===8),'v5: Play button plays the card');
+await p.evaluate(()=>{const c=C();c.hand=['broadside','chain'];c.energy=0;render()});
+t(await p.evaluate(()=>document.querySelector('#endturn').classList.contains('ready')&&/Nothing left/.test(document.querySelector('#detail').textContent)),'v5: End Turn pulses and the hint says to end the turn when nothing is playable');
+t(await p.evaluate(()=>document.querySelectorAll('#hand .card.dim').length===2),'v5: unaffordable cards are marked');
+t(await p.evaluate(()=>/Turn \d/.test(document.querySelector('#detail').textContent)),'v5: turn indicator shown');
+await p.evaluate(()=>{S.combat=null;S.reward={msg:'Plunder',cards:['broadside','tack','chain'],paths:true,picks:1};S.screen='reward';render()});
+await clk('.cards .card:nth-child(2)');
+t(await p.evaluate(()=>{const o=document.querySelector('#detailOv').getBoundingClientRect();return ['#rwShip','#rwCrew','#rwCap'].every(s=>{const e=document.querySelector(s);if(!e)return true;const r=e.getBoundingClientRect();return r.bottom<=o.top+1||r.top>=o.bottom-1})&&o.bottom<=844}),'v5: reward detail is docked in the flow and never covers the upgrade buttons');
+await p.evaluate(()=>{deselect()});t(await p.evaluate(()=>!document.querySelector('#detailOv')&&!!document.querySelector('#skip')),'v5: closing the detail brings Skip back');
+await p.evaluate(()=>{S.reward={msg:'x',cards:['broadside'],picks:1};S.screen='reward';render();RM=false;showMenu('settings')});
+await clk('#rmtoggle');t(await p.evaluate(()=>document.documentElement.classList.contains('rm')&&localStorage.getItem('fnrm')==='1'&&RM===true),'v5: reduce-motion toggle persists');
+await clk('#rmtoggle');
+await p.keyboard.press('Escape');t(await p.evaluate(()=>!document.querySelector('#modal .book,#modal .modal')&&!document.getElementById('modal').innerHTML.trim()),'v5: Escape closes the logbook');
+t(await p.evaluate(()=>getComputedStyle(document.documentElement).getPropertyValue('--seal').includes('svg')&&document.querySelectorAll('svg.seal').length>=0),'v5: wax seal art defined');
+// tap guard (real timing): a double tap on End Turn only ends one turn
+await p.evaluate(()=>{window.NOFX=0;RM=false;S.reward=null;S.combat=null;S.screen='combat';startFight(['rival'],'normal');render()});await p.waitForTimeout(400);
+const t0=await p.evaluate(()=>C().turn);await p.dblclick('#endturn');await p.waitForTimeout(150);t(await p.evaluate(t0=>C().turn===t0+1,t0),'v5: double tap on End Turn is ignored');
+await p.evaluate(()=>{window.NOFX=1;RM=true});
 
 // full bot runs + meta persistence
 await p.addScriptTag({path:'bot.js'});const r=await p.evaluate(()=>{const o=[];for(let i=0;i<8;i++)o.push(botRun('vane').kind);return o});t(r.every(k=>['death','win','extract'].includes(k)),'bot runs '+r);

@@ -43,7 +43,19 @@ const ic=(n,c='')=>`<svg class="ic ${c}" viewBox="0 0 24 24" aria-hidden="true">
 document.addEventListener('DOMContentLoaded',()=>{});
 let _cd=0;const GI={hp:'heart',hull:'ship',crew:'crew'};
 /* ---------- tiny props ---------- */
-const propSeal=(c='')=>`<svg class="seal ${c}" viewBox="0 0 48 48" aria-hidden="true"><path fill="url(#gWax)" d="M24 2c4 0 5 3 8.500 3.500S41 5 42 10s3.500 6 3 11 2 7-1 11-.5 7-5 9.500-5.500 4-9 3.500-5 2.500-9 1.500-6-3-9.500-5.500S3 31 3 26s-2-7 1-11 0-8 5-11S15 5 18.500 4.500 20 2 24 2z"/><circle cx="24" cy="24" r="14" fill="none" stroke="#5a120c" stroke-width="1.200" opacity=".7"/><g transform="translate(12 12) scale(1)" fill="#5a120c" opacity=".85"><path fill-rule="evenodd" d="M12 3.500c-4.200 0-7.200 2.700-7.200 6.600 0 2.200 1 4 2.700 5.200V19h2v-1.800h1.200V19h2.600v-1.800h1.200V19h2v-3.700c1.700-1.200 2.700-3 2.700-5.200 0-3.900-3-6.600-7.200-6.600zM9 9.500a1.800 1.800 0 1 0 0 3.600 1.800 1.800 0 0 0 0-3.600zM15 9.500a1.800 1.800 0 1 0 0 3.600 1.800 1.800 0 0 0 0-3.600z"/></g></svg>`;
+const SKULL=`<g transform="translate(20.900 21.300) scale(.93)">${ICP.skull.replace('currentColor','#f08a6c')}</g><g transform="translate(20 20.300) scale(.93)">${ICP.skull.replace('currentColor','#3a0904')}</g>`;
+function waxPath(cx,cy,r,seed,amp){const p=[],N=72;for(let i=0;i<N;i++){const a=i/N*Math.PI*2;const rr=r*(1+amp*(.55*Math.sin(3*a+seed)+.35*Math.sin(5*a+seed*2)+.5*Math.sin(11*a+seed*3)));p.push((cx+Math.cos(a)*rr).toFixed(1)+','+(cy+Math.sin(a)*rr).toFixed(1))}return 'M'+p.join('L')+'Z'}
+const SEALIN=`<defs><radialGradient id="swA" cx=".34" cy=".26" r=".9"><stop offset="0" stop-color="#e5694f"/><stop offset=".42" stop-color="#ab2e1f"/><stop offset="1" stop-color="#561109"/></radialGradient><radialGradient id="swB" cx=".7" cy=".78" r=".95"><stop offset="0" stop-color="#d04a33"/><stop offset=".5" stop-color="#8d2216"/><stop offset="1" stop-color="#4f0f08"/></radialGradient></defs>
+<ellipse cx="33.500" cy="37" rx="27" ry="25.500" fill="#000" opacity=".3"/>
+<path d="${waxPath(32,32,27,.6,.045)}" fill="url(#swA)" stroke="#45100a" stroke-width="1"/>
+<path d="${waxPath(32,32,24.500,1.9,.03)}" fill="none" stroke="#ff9d80" stroke-width="1.300" opacity=".32"/>
+<path d="${waxPath(32,32,22.500,.2,.02)}" fill="none" stroke="#3c0a05" stroke-width=".8" opacity=".5"/>
+<circle cx="32" cy="32" r="17.500" fill="url(#swB)" stroke="#45100a" stroke-width="1.200"/>
+<circle cx="32.600" cy="32.600" r="16.200" fill="none" stroke="#ff9d80" stroke-width=".8" opacity=".4"/>
+${SKULL}
+<ellipse cx="21" cy="14.500" rx="10" ry="4.600" transform="rotate(-32 21 14.500)" fill="#fff" opacity=".26"/><ellipse cx="45" cy="47" rx="6" ry="2.400" transform="rotate(-32 45 47)" fill="#ffb59a" opacity=".16"/>`;
+const propSeal=(c='')=>`<svg class="seal ${c}" viewBox="0 0 64 64" aria-hidden="true">${SEALIN}</svg>`;
+try{document.documentElement.style.setProperty('--seal0','url("data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">${SEALIN.replace(SKULL,'')}</svg>`)+'")');document.documentElement.style.setProperty('--seal','url("data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">${SEALIN}</svg>`)+'")')}catch(e){}
 const propCandle=`<svg class="candle" viewBox="0 0 40 70" aria-hidden="true"><defs><radialGradient id="gFl" cx=".5" cy=".7" r=".6"><stop offset="0" stop-color="#fff6c8"/><stop offset=".45" stop-color="#ffc24a"/><stop offset="1" stop-color="#e8641a" stop-opacity="0"/></radialGradient><linearGradient id="gCw" x1="0" x2="1"><stop offset="0" stop-color="#f4dfb0"/><stop offset=".6" stop-color="#d9b878"/><stop offset="1" stop-color="#9c7a44"/></linearGradient></defs>
  <ellipse cx="20" cy="62" rx="17" ry="6" fill="#1a0e06"/><ellipse cx="20" cy="60" rx="15" ry="5" fill="#6e4f1c"/><ellipse cx="20" cy="58" rx="12" ry="3.600" fill="#c9a24a"/>
  <path d="M11 58V26c0-3 18-3 18 0v32c0 3-18 3-18 0z" fill="url(#gCw)"/><path d="M13 30c2 6-1 10 1 16M26 28c-1 7 2 10 0 18" stroke="#fff3d0" stroke-width="1.400" fill="none" opacity=".6"/><ellipse cx="20" cy="26" rx="9" ry="2.200" fill="#f8e8c0"/>
@@ -63,21 +75,52 @@ hud=function(){const cp=CAPTAINS[S.cap];
  <div class="gauges">${gauge('',S.hp,S.maxHp,'g-hp','Captain HP. At 0 the run ends.')}${gauge('',S.ship.hull,hullMax(),'g-hull',ship().n+' hull. '+ship().perk)}${gauge('',S.crew,crewMax(),'g-crew','Crew aboard. They fight when you board.')}</div>
  <div class="strip"><span class="coin" data-tip="Silver: buys everything, and counts as your score when you sail home" title="Silver">${ic('coin')}${S.coin}</span>${cargo}<span class="offs">${offs}</span></div></div>`};
 
-/* carved-miniature ship for the chart (side view, wood + stitched sails) */
-function miniShip(k,flip){const L=SHIPLOOK[k]||SHIPLOOK.sloop;const big=L.big,sm=L.small;const m=L.m;const mx=m===1?[82]:m===2?[64,102]:[50,82,114];
- const hx0=sm?30:big?10:18,hx1=sm?132:big?152:144;const deck=74;
- let s=`<svg viewBox="0 0 160 110" class="shipsvg mini ${flip?'flip':''}" aria-hidden="true"><ellipse cx="82" cy="96" rx="${(hx1-hx0)/2+6}" ry="6" fill="#1a0e04" opacity=".38"/>`;
- mx.forEach((x,i)=>{const h=(sm?34:50)+(big?6:0)-(i===mx.length-1&&m>1?7:0);const sw=sm?15:big?21:18;
-  s+=`<line x1="${x}" y1="${deck}" x2="${x}" y2="${deck-h-5}" stroke="#2a1608" stroke-width="2.4"/>`;
-  for(let j=0;j<(sm?1:2);j++){const top=deck-h+j*(h/2)-1,bh=h/2-2;const bil=4+j*1.5;
-   s+=`<path d="M${x-sw} ${top} Q${x} ${top+bil} ${x+sw} ${top} Q${x+sw+bil} ${top+bh/2} ${x+sw-1} ${top+bh} Q${x} ${top+bh+bil+2} ${x-sw+1} ${top+bh} Q${x-sw-bil+1} ${top+bh/2} ${x-sw} ${top} Z" fill="#e6d4a6" stroke="#4a3418" stroke-width="1"/>
-   <path d="M${x-sw/2} ${top+1} Q${x-sw/2+1} ${top+bh/2} ${x-sw/2} ${top+bh}M${x+sw/2} ${top+1} Q${x+sw/2+1} ${top+bh/2} ${x+sw/2} ${top+bh}" stroke="#8a6c3c" stroke-width=".6" fill="none"/>
-   <path d="M${x+sw*.4} ${top} Q${x+sw+bil} ${top+bh/2} ${x+sw*.4} ${top+bh+2} Z" fill="#b89a60" opacity=".4"/>`}
-  if(i===mx.length-1||m===1)s+=`<path d="M${x} ${deck-h-5} l14 3 l-14 4 z" fill="${L.flag==='#111'||L.flag==='#222'||L.flag==='#1d1d1d'?'#1a1410':L.flag}"/>`});
- s+=`<path d="M${hx1-8} ${deck-2} L${hx1+16} ${deck-20}" stroke="#2a1608" stroke-width="2.2"/><path d="M${mx[0]-6} ${deck-30} L${hx1+16} ${deck-20}M${mx[mx.length-1]+8} ${deck-34} L${hx0+2} ${deck+2}" stroke="#2a1608" stroke-width=".6" opacity=".7"/>`;
- s+=`<path d="M${hx0} ${deck-3} L${hx1} ${deck-3} Q${hx1-4} ${deck+18} ${hx1-22} ${deck+22} L${hx0+22} ${deck+22} Q${hx0+4} ${deck+16} ${hx0} ${deck-3} Z" fill="url(#gWood)" stroke="#1a0e04" stroke-width="1.5"/>`;
- s+=`<path d="M${hx0+2} ${deck+4} Q80 ${deck+9} ${hx1-2} ${deck+4}M${hx0+6} ${deck+11} Q80 ${deck+16} ${hx1-6} ${deck+11}" stroke="#2a1608" stroke-width=".8" fill="none" opacity=".7"/><path d="M${hx0} ${deck-3} L${hx1} ${deck-3}" stroke="#c9a24a" stroke-width="1.6"/>`;
- const ports=sm?2:big?6:4;for(let i=0;i<ports;i++){const px=hx0+18+i*((hx1-hx0-40)/Math.max(1,ports-1));s+=`<rect x="${px-2.5}" y="${deck+5}" width="5" height="4" rx="1" fill="#120a04"/>`}
+/* detailed side-view ship: shaded hull with planking, ports and stern lights; billowed, seamed sails; rigging, flag, bow wave */
+function miniShip(k,flip){const L=SHIPLOOK[k]||SHIPLOOK.sloop;const big=L.big,sm=L.small,m=L.m;const mx=sm?[84]:m===1?[84]:m===2?[66,104]:[50,84,118];
+ const hx0=sm?34:big?8:16,hx1=sm?130:big?150:142,deck=76,mid=(hx0+hx1)/2;const sc=L.stripe||'#c9a24a';const flag=['#111','#222','#1d1d1d'].includes(L.flag)?'#1a1410':L.flag;
+ const f=v=>v.toFixed(1);
+ let s=`<svg viewBox="0 0 160 110" class="shipsvg mini ${flip?'flip':''}" aria-hidden="true"><defs>
+ <linearGradient id="shH" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff2c8" stop-opacity=".38"/><stop offset=".35" stop-color="#fff" stop-opacity="0"/><stop offset=".8" stop-color="#000" stop-opacity=".38"/><stop offset="1" stop-color="#000" stop-opacity=".62"/></linearGradient>
+ <linearGradient id="shS" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fffdf2" stop-opacity=".55"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#5a3c14" stop-opacity=".5"/></linearGradient>
+ <linearGradient id="shM" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3a2210"/><stop offset=".45" stop-color="#9a6e3c"/><stop offset="1" stop-color="#2a1608"/></linearGradient>
+ <radialGradient id="shL" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffe9a0"/><stop offset="1" stop-color="#ffb030" stop-opacity="0"/></radialGradient></defs>`;
+ /* water: ink ripples and soft shadow */
+ s+=`<ellipse cx="${f(mid+2)}" cy="96" rx="${f((hx1-hx0)/2+10)}" ry="6.500" fill="#1a0e04" opacity=".3"/>`;
+ s+=`<path d="M${hx0-12} 95q6-3 12 0t12 0M${hx1-18} 97q6-3 12 0t12 0M${hx0+14} 100q7-3.500 14 0t14 0t14 0t14 0" fill="none" stroke="#2e1d0c" stroke-width="1" opacity=".5" stroke-linecap="round"/>`;
+ /* masts + sails (behind hull top edge) */
+ const top0=sm?42:big?14:20;
+ mx.forEach((x,i)=>{const last=i===mx.length-1&&mx.length>1;const mh=(sm?40:big?62:52)-(last?8:0)-(i===0&&mx.length===3?-4:0);const my=deck-mh-6;const sw=sm?16:big?22:19;
+  s+=`<rect x="${x-1.500}" y="${my-7}" width="3" height="${mh+15}" fill="url(#shM)" stroke="#1a0e04" stroke-width=".4"/>`;
+  const rows=sm?1:big||m===3?(mx.length>1?2:2):2;const gap=(mh-6)/rows;
+  for(let j=0;j<rows;j++){const y1=my+4+j*gap,y2=y1+gap-3.5,bu=3.600+j*1.200,w2=sw*(1-j*.14);
+   s+=`<line x1="${f(x-w2-3)}" y1="${f(y1)}" x2="${f(x+w2+3)}" y2="${f(y1)}" stroke="#2a1608" stroke-width="2" stroke-linecap="round"/>`;
+   const p=`M${f(x-w2)} ${f(y1)} L${f(x+w2)} ${f(y1)} Q${f(x+w2+bu)} ${f((y1+y2)/2)} ${f(x+w2-1)} ${f(y2)} Q${f(x)} ${f(y2+bu)} ${f(x-w2+1)} ${f(y2)} Q${f(x-w2-bu*.6)} ${f((y1+y2)/2)} ${f(x-w2)} ${f(y1)} Z`;
+   s+=`<path d="${p}" fill="${L.sail}" stroke="#4a3418" stroke-width=".8"/><path d="${p}" fill="url(#shS)"/>`;
+   s+=`<path d="M${f(x-w2*.5)} ${f(y1+1)}Q${f(x-w2*.5+1.500)} ${f((y1+y2)/2)} ${f(x-w2*.5)} ${f(y2+.5)}M${f(x+w2*.1)} ${f(y1+1)}Q${f(x+w2*.1+2)} ${f((y1+y2)/2)} ${f(x+w2*.1)} ${f(y2+1)}M${f(x+w2*.6)} ${f(y1+1)}Q${f(x+w2*.6+2.500)} ${f((y1+y2)/2)} ${f(x+w2*.6)} ${f(y2)}M${f(x-w2+1)} ${f(y1+(y2-y1)*.5)}Q${f(x)} ${f(y1+(y2-y1)*.5+bu*.8)} ${f(x+w2-1)} ${f(y1+(y2-y1)*.5)}" fill="none" stroke="#6a5028" stroke-width=".5" opacity=".5"/>`;
+   s+=`<rect x="${f(x-w2)}" y="${f(y1)}" width="${f(w2*2)}" height="2.600" fill="#3a2410" opacity=".22"/>`}
+  if(i===mx.length-1||mx.length===1){const fy=my-9;
+   s+=`<path d="M${x} ${fy+1}q5-3 9.500 0t9.500 0v6q-4.700 3-9.500 0t-9.500 0z" fill="${flag}" stroke="#120a04" stroke-width=".6"/>`;
+   if(L.jack&&flag==='#1a1410')s+=`<circle cx="${x+9.500}" cy="${fy+4.200}" r="1.900" fill="#efe6cf"/><path d="M${x+7} ${fy+7}l5-5M${x+12} ${fy+7}l-5-5" stroke="#efe6cf" stroke-width=".7"/>`;
+   else if(L.stripe)s+=`<path d="M${x} ${fy+4}h19" stroke="${L.stripe}" stroke-width="1.400"/>`}
+  });
+ /* bowsprit, jib and rigging */
+ const jt=deck-(sm?24:big?38:31);
+ s+=`<path d="M${hx1-8} ${deck-8}L${hx1+17} ${deck-19}" stroke="#2a1608" stroke-width="2.200" stroke-linecap="round"/>`;
+ if(!sm){const fm=mx[mx.length-1];s+=`<path d="M${hx1+14} ${deck-18.500}L${fm+2} ${jt}L${fm+2} ${deck-12}Z" fill="${L.sail}" stroke="#4a3418" stroke-width=".7"/><path d="M${hx1+14} ${deck-18.500}L${fm+2} ${jt}L${fm+2} ${deck-12}Z" fill="url(#shS)"/>`}
+ s+=`<g stroke="#1e1208" stroke-width=".5" opacity=".7" fill="none">`;mx.forEach((x,i)=>{const ty=deck-(sm?36:big?58:48);s+=`<path d="M${x} ${ty}L${x-12} ${deck-6}M${x} ${ty}L${x+12} ${deck-6}M${x} ${ty+8}L${x-8} ${deck-6}M${x} ${ty+8}L${x+8} ${deck-6}"/>`});
+ s+=`<path d="M${mx[mx.length-1]} ${deck-(sm?36:big?58:48)}L${hx1+17} ${deck-19}M${mx[0]} ${deck-(sm?36:big?58:48)}L${hx0+6} ${deck-9}"/></g>`;
+ /* hull */
+ const sh=`M${hx0} ${deck-9}L${hx0+20} ${deck-9}L${hx0+22} ${deck-3}Q${f(mid)} ${deck+1} ${hx1-14} ${deck-4}L${hx1-5} ${deck-8}L${hx1+2} ${deck-9}Q${hx1-2} ${deck+16} ${hx1-24} ${deck+20}L${hx0+22} ${deck+20}Q${hx0+3} ${deck+14} ${hx0} ${deck-9}Z`;
+ s+=`<path d="${sh}" fill="${L.hull}" stroke="#120a04" stroke-width="1.300" stroke-linejoin="round"/><path d="${sh}" fill="url(#shH)"/>`;
+ s+=`<g fill="none" stroke-linecap="round"><path d="M${hx0+3} ${deck-1}Q${f(mid)} ${deck+5} ${hx1-6} ${deck-1}M${hx0+5} ${deck+8}Q${f(mid)} ${deck+13} ${hx1-10} ${deck+7}M${hx0+12} ${deck+15}Q${f(mid)} ${deck+18} ${hx1-17} ${deck+14}" stroke="#000" stroke-width=".7" opacity=".38"/><path d="M${hx0+3} ${deck}Q${f(mid)} ${deck+6} ${hx1-6} ${deck}M${hx0+5} ${deck+9}Q${f(mid)} ${deck+14} ${hx1-10} ${deck+8}" stroke="#fff" stroke-width=".5" opacity=".14"/>
+  <path d="M${hx0+1} ${deck-6}L${hx0+20} ${deck-6}L${hx0+22} ${deck-1}Q${f(mid)} ${deck+3} ${hx1-14} ${deck-2}L${hx1-5} ${deck-6}L${hx1+1} ${deck-7}" stroke="${sc}" stroke-width="1.700" opacity=".95"/><path d="M${hx0} ${deck-9}L${hx0+20} ${deck-9}L${hx0+22} ${deck-3}Q${f(mid)} ${deck+1} ${hx1-14} ${deck-4}L${hx1-5} ${deck-8}L${hx1+2} ${deck-9}" stroke="#e3c47a" stroke-width="1.100" opacity=".85"/></g>`;
+ const ports=sm?0:big?6:m===1?3:4;for(let i=0;i<ports;i++){const px=hx0+30+i*((hx1-hx0-58)/Math.max(1,ports-1));
+  s+=`<rect x="${f(px-2.800)}" y="${deck+3}" width="5.600" height="4.600" rx="1" fill="#0c0603" stroke="#e3c47a" stroke-width=".4" opacity=".95"/><rect x="${f(px+.8)}" y="${deck+4.600}" width="3.800" height="1.800" rx=".8" fill="#6a6a66"/>`}
+ if(!sm){for(let i=0;i<3;i++)s+=`<rect x="${hx0+3+i*5.600}" y="${deck-7.500}" width="3.600" height="3.200" rx=".6" fill="#ffd978" stroke="#2a1608" stroke-width=".5"/>`;
+  s+=`<circle cx="${hx0+10}" cy="${deck-6}" r="9" fill="url(#shL)" opacity=".45"/><path d="M${hx0} ${deck-9}l-3 2v9l3 2z" fill="#2a1608" opacity=".8"/>`}
+ else s+=`<path d="M${hx0+10} ${deck-9}L${hx1-14} ${deck-9}" stroke="#2a1608" stroke-width="1.300" opacity=".6"/>`;
+ /* bow wave and waterline */
+ s+=`<path d="M${hx1-6} ${deck+16}q8-1 13-7q-1 8-9 12q-10 3-20 0q9 1 16-5z" fill="#f4ecd6" stroke="#2e1d0c" stroke-width=".7" opacity=".92"/><path d="M${hx0+14} ${deck+21}Q${f(mid)} ${deck+25} ${hx1-22} ${deck+21}" fill="none" stroke="#f4ecd6" stroke-width="2.200" stroke-linecap="round" opacity=".75"/><path d="M${hx0+14} ${deck+21}Q${f(mid)} ${deck+25} ${hx1-22} ${deck+21}" fill="none" stroke="#2e1d0c" stroke-width=".6" opacity=".5" transform="translate(0 1.800)"/>`;
  return s+'</svg>'}
 
 /* ---------- ink threat arcs ---------- */
@@ -134,7 +177,7 @@ function mapHTML(){const R=S.map.length;let nodes='',path='',gold='';
 const NODEG={fight:'swords',elite:'skull',event:'q',port:'anchor',shipwright:'hammer',recruit:'recruit',cove:'island',treasure:'chest',boss:'crown'};
 function mapScreen(){const a=$('app');const R=S.map.length;
  a.innerHTML=hud()+`<div class="scr mapscr"><div class="maphead"><h2>${ACTS[S.act].n}</h2><span class="leg" title="Leg">${ic('rose')} ${S.row+1}/${R}</span></div>${S.msg?`<p class="msg">${S.msg}</p>`:''}${mapHTML()}</div>
- <div class="actions maprow"><div class="plate"><span class="pl-ic">${propCompass}</span><span class="pl-t">Choose your heading<small>each leg eats 1 ration · hold a mark to learn it</small></span></div><button class="side" onclick="showMenu('deck')">Deck ${S.deck.length}</button></div>`;a.dataset.screen='map'}
+ <div class="actions maprow"><div class="plate"><span class="pl-ic">${propCompass}</span><span class="pl-t">Choose your heading<small>1 ration per leg · hold a mark for info</small></span></div><button class="side" onclick="showMenu('deck')">Deck ${S.deck.length}</button></div>`;a.dataset.screen='map'}
 /* ---------- logbook drawer: Crew, Supplies, Deck, Legend, Settings ---------- */
 const BKTABS=[['crew','skull','Crew'],['supplies','powder','Supplies'],['deck','cards','Deck'],['legend','scroll','Legend'],['settings','gear','Settings']];
 let BK='crew';
