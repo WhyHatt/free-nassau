@@ -67,10 +67,10 @@ const CARDS={
 const POOL=['broadside','swivel','chain','grape','raking','tack','crowd','weather','fireship','cutlass','pistols','axes','hold','rally','grenades','pistolshot','resolve'];
 
 const CAPTAINS={
- blackbeard:{n:'Edward "Blackbeard" Teach',short:'Blackbeard',hp:78,img:'img/captain-placeholder.jpg',crew:34,
+ blackbeard:{n:'Edward “Blackbeard” Teach',short:'Blackbeard',hp:78,img:'img/captain-placeholder.jpg',crew:34,
   deck:['broadside','broadside','swivel','swivel','tack','tack','cutlass','cutlass','fear','smoke'],
   passive:'Terror: enemy crews start boarding with 10% fewer men.',id:'Intimidation and boarding.'},
- bellamy:{n:'"Black Sam" Bellamy',short:'Bellamy',hp:66,img:'img/captain-placeholder.jpg',crew:40,
+ bellamy:{n:'“Black Sam” Bellamy',short:'Bellamy',hp:66,img:'img/captain-placeholder.jpg',crew:40,
   deck:['broadside','swivel','swivel','tack','tack','cutlass','cutlass','rally','rally','shares'],
   passive:'Prince of Pirates: starts with Henry Jennings as Quartermaster; +30% silver from fights; hires cost 25% less.',id:'Crew and plunder.'},
  vane:{n:'Charles Vane',short:'Vane',hp:62,img:'img/vane.jpg',crew:34,
@@ -79,7 +79,7 @@ const CAPTAINS={
  bonnyread:{n:'Anne Bonny & Mary Read',short:'Bonny & Read',hp:66,img:'img/captain-placeholder.jpg',crew:34,
   deck:['swivel','swivel','broadside','tack','tack','cutlass','cutlass','pistols','parry','twin'],
   passive:'Two blades: Captain cards deal +2 damage; +1 energy in duels.',id:'Hand-to-hand and duels.'},
- rackham:{n:'"Calico Jack" Rackham',short:'Rackham',hp:68,img:'img/captain-placeholder.jpg',crew:34,unlock:1,
+ rackham:{n:'“Calico Jack” Rackham',short:'Rackham',hp:68,img:'img/captain-placeholder.jpg',crew:34,unlock:1,
   deck:['swivel','swivel','broadside','crowd','pistols','tack','cutlass','cutlass','hold','getaway'],
   passive:'Fast raider: sail cards give +3 Block; can flee normal fights on turn 1.',id:'Speed and evasion (unlock).'},
 };

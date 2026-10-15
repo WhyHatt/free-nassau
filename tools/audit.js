@@ -7,6 +7,7 @@ const HANDS={1:['broadside'],5:['broadside','tack','cutlass','swivel','chain'],7
 (async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:W,height:H},deviceScaleFactor:1});const errs=[];p.on('pageerror',e=>errs.push(e.message));p.on('console',m=>{if(m.type()==='error')errs.push(m.text())});
 await p.goto('file://'+process.cwd()+'/index.html');await p.evaluate(()=>{localStorage.clear()});await p.reload();
 await p.evaluate(()=>{window.NOFX=1;M.maxNot=2;M.unlocked.rackham=1});
+if(process.env.CLEAN)await p.evaluate(()=>{RM=true});
 const metrics=()=>p.evaluate(()=>{const out=[];const vis=e=>{const r=e.getBoundingClientRect();const cs=getComputedStyle(e);return r.width>0&&r.height>0&&cs.visibility!=='hidden'&&cs.display!=='none'&&r.bottom>0&&r.top<innerHeight+1};
  const scr=document.querySelector('#app .scr');if(scr&&scr.scrollHeight>scr.clientHeight+2)out.push('SCROLL '+(scr.scrollHeight-scr.clientHeight));
  if(document.documentElement.scrollWidth>innerWidth+1)out.push('HSCROLL');if(document.getElementById('app').scrollHeight>innerHeight+1)out.push('APPTALL '+document.getElementById('app').scrollHeight);

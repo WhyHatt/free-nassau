@@ -19,7 +19,7 @@ const hintFor=()=>{const c=S&&S.combat;if(!c||S.screen!=='combat')return 'Tap a 
  const can=c.hand.some(k=>playable(k)&&cost(k)<=c.energy),off=c.hand.some(k=>!playable(k));
  const ph={ship:'Ship battle',board:'Boarding',duel:'Duel'}[c.phase];
  return `<div class="tl"><span class="tn">Turn ${c.turn}</span><span class="tp">${ph} · your move</span></div><p>${can?'Tap a card to read it, then play it.':'Nothing left to play. End your turn.'}${off?(c.swap?' Grey cards swap once a turn.':''):''}</p>`};
-function dbody(k,cv,btn,note){const cd=CARDS[k];return `<div class="dmain"><div class="dhead"><span class="cost">${cv}</span><b class="dn">${cd.n}</b><span class="dtype">${TAGN[cd.tag]}${cd.pw?' · '+'💥'.repeat(cd.pw):''}</span></div>
+function dbody(k,cv,btn,note){const cd=CARDS[k];return `<div class="dmain"><div class="dhead${cd.n.length>15?' long':''}"><span class="cost">${cv}</span><b class="dn">${cd.n}</b><span class="dtype">${TAGN[cd.tag]}${cd.pw?' · '+'💥'.repeat(cd.pw):''}</span></div>
  <div class="dtxt">${dtext(k)}</div>${note?`<div class="dnote">${note}</div>`:`<div class="dgl">${glossary(k)}</div>`}</div>
  <div class="dside"><button class="dx" onclick="deselect()" aria-label="Close"><span>✕</span></button>${btn||''}</div>`}
 let lastSel='';
