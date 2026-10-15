@@ -172,7 +172,7 @@ showDeck=function(){showMenu('deck')};
 render();
 /* looser hand fan than v2.4 so names stay readable */
 const _r6=render;render=function(){_r6();const h=document.querySelector('#hand');if(!h)return;const n=h.children.length;
- h.style.setProperty('--ov',(n<=5?0:n===6?4:n===7?10:n===8?15:19)+'px');
+ h.style.setProperty('--ov',(n<=5?0:n===6?4:n===7?10:n===8?15:19)+'px');h.classList.toggle('crowd',n>=7);
  [...h.children].forEach((c,i)=>{const d=i-(n-1)/2;c.style.setProperty('--r',(n>=3?d*.9:(i%2?.8:-.8))+'deg');c.style.setProperty('--dy',(n>=5?d*d*.7:0)+'px')})};
 render();
 

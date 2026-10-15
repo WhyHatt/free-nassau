@@ -320,3 +320,8 @@ button.endturn{min-width:0;width:100%;font-size:22px;min-height:52px;margin:0;le
 #app[data-screen=remove] .cards .card{width:23.5%;max-width:none;min-height:106px}
 #app[data-screen=remove] .cards .card .vig,#app[data-screen=remove] .cards .card .ctype{display:none}
 #app[data-screen=remove] .cards .card .ds{font-size:10.5px;padding:1px 3px;line-height:1.1}#app[data-screen=remove] .cards .card .nm{font-size:12px;min-height:0;margin:2px 1px}
+
+.hand.crowd .card .ds,.hand.crowd .card .cfoot,.hand.crowd .card .ctype{display:none}
+.hand.crowd .card .vig{display:flex;width:34px;height:26px;margin:4px auto 0;font-size:15px}
+.hand.crowd .card .nm{font-size:11px;min-height:2.2em;margin:2px 1px 0;line-height:1}
+.hand.crowd .card.sel .ds{display:block}

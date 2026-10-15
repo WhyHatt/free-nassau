@@ -1,0 +1,10 @@
+const {chromium}=require('playwright');
+(async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844},deviceScaleFactor:2});const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.goto('file://'+process.cwd()+'/index.html');await p.evaluate(()=>{localStorage.clear()});await p.reload();
+const shot=async n=>{await p.waitForTimeout(450);await p.screenshot({path:'/tmp/s-'+n+'.png'})};
+await p.evaluate(()=>{window.NOFX=1;newRun('blackbeard',0);S.act=3;S.row=5;S.coin=212;S.hp=40;S.ship.hull=22;S.crew=18});
+await p.evaluate(()=>{startFight(['hunter'],'normal');const e=E();e.weak=2;e.burn=3;e.block=6;C().hand=['broadside','tack','cutlass','swivel','chain','hold','grape','pistols','axes'];C().energy=2;C().block=5;C().advT=2;render()});await shot('x-nine');
+await p.evaluate(()=>{S.screen='map';S.combat=null;S.row=8;S.act=3;startFight(['horn'],'boss');render()});await shot('x-boss');
+await p.evaluate(()=>{const c=C();c.phase='duel';render()});await shot('x-duel');
+await p.evaluate(()=>{S.combat=null;S.act=1;startFight(['merchant'],'normal');render()});await shot('x-merchant');
+console.log(errs.join('\n')||'ok');await b.close()})();
