@@ -54,12 +54,21 @@ function play(q){if(!q.length)return;if(window.NOFX){q.length=0;return}const s=s
    case 'victory':run(()=>{SFX.play('coins')});break}});
  q.length=0}
 /* the fight screen lingers for a beat so you see her go down / strike her colours */
-const _r=render;render=function(){let ghost=false;const app=document.getElementById('app');
+/* ---------- one-time coach tips (skippable, stored in M.tips) ---------- */
+const TIPS={ship:['Ship vs ship','Tap a card to read it, then Play (or turn on Quick play in Settings). Your Order button is free once a turn. At half enemy hull you can Board her for full loot. Press End Turn when done.',()=>S.screen==='combat'&&S.combat.phase==='ship'],
+ board:['Boarding','Crew cards and your crew fight now. Your ship cards still work at half strength. Win Advantage and keep your crew alive: at 0 enemy crew the ship is yours.',()=>S.screen==='combat'&&S.combat.phase==='board'],
+ recruit:['Officers','Officers give a permanent bonus while they are fit; one per role. A wound benches them until you rest at a cove or port.',()=>S.screen==='recruit'],
+ extract:['Sail home?','Taking your plunder home keeps 75% of its value as Banked Silver and your trophies. Pushing on pays more, but death loses the trophies.',()=>S.screen==='extract'],
+ cove:['Careening cove','Choose one job: patch the ship, rest the captain and officers, or drill the crew to improve a card.',()=>S.screen==='cove']};
+function tips(){if(window.NOFX||!M.set.tips||!S||!S.cap||document.getElementById('coach'))return;M.tips=M.tips||{};
+ for(const k in TIPS){if(M.tips[k])continue;let ok=false;try{ok=TIPS[k][2]()}catch(e){}if(!ok)continue;M.tips[k]=1;saveMeta();
+  const d=document.createElement('div');d.id='coach';d.className='coach';d.innerHTML=`<b>${TIPS[k][0]}</b><p>${TIPS[k][1]}</p><button onclick="this.parentElement.remove()">Got it</button><button class="off" onclick="M.set.tips=0;saveMeta();this.parentElement.remove()">No more tips</button>`;document.body.appendChild(d);return}}
+ const _r=render;render=function(){let ghost=false;const app=document.getElementById('app');
  if(app&&!calm()&&spd()>0&&FXQ.some(f=>f.t==='victory')&&document.getElementById('foe')&&S&&S.screen!=='combat'){const sunk=FXQ.some(f=>f.t==='sink');FXQ.splice(0,FXQ.length,...FXQ.filter(f=>f.t!=='sink'));const clone=app.cloneNode(true);_r();document.body.appendChild(clone);clone.id='app';const r=app.getBoundingClientRect();clone.classList.add('ghostapp');Object.assign(clone.style,{position:'fixed',left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px',zIndex:44,pointerEvents:'none',margin:0});clone.querySelectorAll('[id]').forEach(n=>n.removeAttribute('id'));
   const a=clone.querySelector('.eart');if(sunk&&a){a.classList.add('sinking');const b=a.getBoundingClientRect();for(let i=0;i<10;i++)el('splash',cx(b)+(Math.random()*70-35),cy(b)+14,900,'',{'--dx':(Math.random()*60-30)+'px','--dy':(-20-Math.random()*40)+'px'});shakeBy(16);SFX.play('thud');bigText('SUNK!','sunk')}else{bigText('SHE STRIKES HER COLOURS!','board');SFX.play('clash')}
   setTimeout(()=>{clone.style.transition='opacity .35s';clone.style.opacity=0;setTimeout(()=>clone.remove(),380)},1100*spd());
   const q=FXQ.splice(0,FXQ.length);requestAnimationFrame(()=>play(q));return}
- _r();if(FXQ.length){const q=FXQ.splice(0,FXQ.length);requestAnimationFrame(()=>play(q))}};
+ _r();setTimeout(tips,600);if(FXQ.length){const q=FXQ.splice(0,FXQ.length);requestAnimationFrame(()=>play(q))}};
 document.addEventListener('keydown',e=>{if(cine&&(e.key==='Escape'||e.key===' '))closeCine()});
 render();
 })();
