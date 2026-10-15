@@ -1,16 +1,17 @@
 {
  "cap": "vane",
  "not": 0,
- "taps": 276,
+ "taps": 753,
  "screens": {
-  "map": 13,
-  "combat": 135,
-  "reward": 5,
-  "prize": 4,
-  "recruit": 1,
+  "map": 27,
+  "combat": 382,
+  "reward": 10,
+  "prize": 5,
+  "recruit": 5,
   "event": 2,
-  "cove": 2,
-  "abandon": 1,
+  "cove": 3,
+  "extract": 2,
+  "port": 1,
   "end": 1
  },
  "fights": [
@@ -18,48 +19,48 @@
    "act": 1,
    "row": 0,
    "en": "rival",
-   "turns": 1,
-   "taps": 18,
-   "dhull": 0,
-   "dhp": 0,
-   "dcrew": 0
-  },
-  {
-   "act": 1,
-   "row": 2,
-   "en": "salvager",
-   "turns": 0,
-   "taps": 11,
-   "dhull": 0,
-   "dhp": 0,
-   "dcrew": 0
-  },
-  {
-   "act": 1,
-   "row": 3,
-   "en": "salvager",
    "turns": 2,
    "taps": 23,
    "dhull": 0,
-   "dhp": 0,
-   "dcrew": 2
-  },
-  {
-   "act": 1,
-   "row": 7,
-   "en": "rival",
-   "turns": 2,
-   "taps": 22,
-   "dhull": 12,
    "dhp": 0,
    "dcrew": 3
   },
   {
    "act": 1,
-   "row": 8,
-   "en": "salvager",
+   "row": 2,
+   "en": "privateer",
+   "turns": 3,
+   "taps": 32,
+   "dhull": 2,
+   "dhp": 0,
+   "dcrew": 0
+  },
+  {
+   "act": 1,
+   "row": 4,
+   "en": "privateer",
    "turns": 2,
    "taps": 27,
+   "dhull": 8,
+   "dhp": 2,
+   "dcrew": 6
+  },
+  {
+   "act": 1,
+   "row": 6,
+   "en": "privateer",
+   "turns": 2,
+   "taps": 18,
+   "dhull": 26,
+   "dhp": 0,
+   "dcrew": 5
+  },
+  {
+   "act": 1,
+   "row": 7,
+   "en": "salvager",
+   "turns": 1,
+   "taps": 20,
    "dhull": 0,
    "dhp": 0,
    "dcrew": 0
@@ -68,25 +69,85 @@
    "act": 1,
    "row": 10,
    "en": "sqA",
-   "turns": 12,
-   "taps": 90,
-   "dhull": 27,
+   "turns": 11,
+   "taps": 97,
+   "dhull": 28,
    "dhp": 2,
-   "dcrew": 18
+   "dcrew": 15
+  },
+  {
+   "act": 2,
+   "row": 0,
+   "en": "salvager",
+   "turns": 4,
+   "taps": 36,
+   "dhull": 6,
+   "dhp": 2,
+   "dcrew": 1
+  },
+  {
+   "act": 2,
+   "row": 5,
+   "en": "galleon",
+   "turns": 5,
+   "taps": 39,
+   "dhull": 8,
+   "dhp": 0,
+   "dcrew": 7
+  },
+  {
+   "act": 2,
+   "row": 7,
+   "en": "fort",
+   "turns": 9,
+   "taps": 71,
+   "dhull": 0,
+   "dhp": 37,
+   "dcrew": 7
+  },
+  {
+   "act": 3,
+   "row": 0,
+   "en": "hunter",
+   "turns": 7,
+   "taps": 57,
+   "dhull": 36,
+   "dhp": 2,
+   "dcrew": 0
+  },
+  {
+   "act": 3,
+   "row": 2,
+   "en": "guarda",
+   "turns": 9,
+   "taps": 75,
+   "dhull": 16,
+   "dhp": 4,
+   "dcrew": 8
+  },
+  {
+   "act": 3,
+   "row": 5,
+   "en": "hunter",
+   "turns": 7,
+   "taps": 65,
+   "dhull": 18,
+   "dhp": 0,
+   "dcrew": 2
   }
  ],
  "overflow": [],
  "events": [
-  "Storm on the Horizon",
-  "The 1715 Fleet Wrecks"
+  "The 1715 Fleet Wrecks",
+  "An Officer Without a Ship"
  ],
- "decisions": 13,
+ "decisions": 27,
  "shots": 0,
  "result": {
   "kind": "death",
-  "act": 1,
-  "banked": 13
+  "act": 3,
+  "banked": 19
  },
  "errs": [],
- "steps": 164
+ "steps": 438
 }

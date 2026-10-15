@@ -1,0 +1,136 @@
+{
+ "cap": "bonnyread",
+ "not": 0,
+ "taps": 705,
+ "screens": {
+  "map": 27,
+  "combat": 352,
+  "reward": 8,
+  "prize": 3,
+  "recruit": 4,
+  "event": 4,
+  "cove": 3,
+  "extract": 2,
+  "shipwright": 1,
+  "port": 1,
+  "end": 1
+ },
+ "fights": [
+  {
+   "act": 1,
+   "row": 0,
+   "en": "rival",
+   "turns": 2,
+   "taps": 31,
+   "dhull": 2,
+   "dhp": 0,
+   "dcrew": 0
+  },
+  {
+   "act": 1,
+   "row": 2,
+   "en": "salvager",
+   "turns": 1,
+   "taps": 22,
+   "dhull": 0,
+   "dhp": 0,
+   "dcrew": 0
+  },
+  {
+   "act": 1,
+   "row": 3,
+   "en": "rival",
+   "turns": 1,
+   "taps": 18,
+   "dhull": 0,
+   "dhp": 0,
+   "dcrew": 0
+  },
+  {
+   "act": 1,
+   "row": 8,
+   "en": "merchant",
+   "turns": 0,
+   "taps": 11,
+   "dhull": 0,
+   "dhp": 0,
+   "dcrew": 0
+  },
+  {
+   "act": 1,
+   "row": 10,
+   "en": "sqA",
+   "turns": 13,
+   "taps": 119,
+   "dhull": 42,
+   "dhp": 8,
+   "dcrew": 23
+  },
+  {
+   "act": 2,
+   "row": 0,
+   "en": "salvager",
+   "turns": 1,
+   "taps": 15,
+   "dhull": 0,
+   "dhp": 0,
+   "dcrew": 0
+  },
+  {
+   "act": 2,
+   "row": 4,
+   "en": "galleon",
+   "turns": 7,
+   "taps": 61,
+   "dhull": 14,
+   "dhp": 0,
+   "dcrew": 0
+  },
+  {
+   "act": 2,
+   "row": 5,
+   "en": "galleon",
+   "turns": 10,
+   "taps": 94,
+   "dhull": 34,
+   "dhp": 0,
+   "dcrew": 4
+  },
+  {
+   "act": 2,
+   "row": 7,
+   "en": "fort",
+   "turns": 6,
+   "taps": 52,
+   "dhull": 0,
+   "dhp": 36,
+   "dcrew": 0
+  },
+  {
+   "act": 3,
+   "row": 0,
+   "en": "cutter",
+   "turns": 8,
+   "taps": 72,
+   "dhull": 11,
+   "dhp": 2,
+   "dcrew": 0
+  }
+ ],
+ "overflow": [],
+ "events": [
+  "A Drifting Wreck",
+  "An Officer Without a Ship",
+  "Storm on the Horizon",
+  "Navy Press Gang"
+ ],
+ "decisions": 27,
+ "shots": 0,
+ "result": {
+  "kind": "death",
+  "act": 3,
+  "banked": 5
+ },
+ "errs": [],
+ "steps": 406
+}
