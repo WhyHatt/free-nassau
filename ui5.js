@@ -177,3 +177,32 @@ const _r6=render;render=function(){_r6();const h=document.querySelector('#hand')
 render();
 
 document.body.insertAdjacentHTML('beforeend',`<div id="candle">${propCandle}</div>`);
+/* ---------- emoji -> engraved icons (cards, buttons, headings) ---------- */
+const EMO={'🪙':'coin','💥':'powder','🍖':'rations','🔧':'kits','⛵':'ship','👥':'crew','❤':'heart','🛡':'shield','🔥':'flame','⭐':'star','🃏':'cards','👑':'crown','☠':'skull','❓':'q','⚔':'swords','⚓':'anchor','🏝':'island','🛠':'hammer','🔨':'hammer','🩺':'heart','🗑':'skull','🎯':'target','🗡':'sword','💪':'bolt','🧭':'rose','📜':'scroll','🌬':'wind','🏘':'anchor','📖':'scroll','🏆':'crown','🔫':'broad'};
+const EMORE=new RegExp('('+Object.keys(EMO).join('|')+')\\uFE0F?','gu');
+function emo(root){if(!root)return;const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);const hit=[];let n;while(n=w.nextNode()){if(EMORE.test(n.nodeValue)&&!(n.parentElement&&n.parentElement.closest('.vig,script,style')))hit.push(n);EMORE.lastIndex=0}
+ hit.forEach(t=>{const html=t.nodeValue.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(EMORE,(m,e)=>ic(EMO[e]));const sp=document.createElement('span');sp.className='emo';sp.innerHTML=html;t.replaceWith(sp)})}
+const _as5=applySel;applySel=function(){_as5();emo($('detail'));emo($('detailOv'))};
+/* ---------- table props on empty-table screens ---------- */
+const propDividers=`<svg class="dividers" viewBox="0 0 60 110" aria-hidden="true"><defs><linearGradient id="gSteel" x1="0" x2="1"><stop offset="0" stop-color="#e8cc7c"/><stop offset="1" stop-color="#8a6420"/></linearGradient></defs><path d="M26 14L6 104l4 2 22-86zM34 14l20 90-4 2-22-86z" fill="url(#gSteel)" stroke="#3a2208" stroke-width="1.200"/><path d="M12 62Q30 70 48 62" fill="none" stroke="#3a2208" stroke-width="1.600"/><circle cx="30" cy="13" r="8" fill="url(#gBrass)" stroke="#3a2208" stroke-width="1.400"/><circle cx="30" cy="13" r="3" fill="#3a2208"/></svg>`;
+const propCoins=`<svg class="coins" viewBox="0 0 60 40" aria-hidden="true"><g fill="url(#gBrass)" stroke="#3a2208" stroke-width="1.200"><ellipse cx="18" cy="30" rx="14" ry="6"/><ellipse cx="18" cy="26" rx="14" ry="6"/><ellipse cx="18" cy="22" rx="14" ry="6"/><ellipse cx="44" cy="31" rx="13" ry="5.500" transform="rotate(-8 44 31)"/><ellipse cx="38" cy="14" rx="9" ry="9" transform="rotate(-20 38 14)"/></g><circle cx="38" cy="14" r="5" fill="none" stroke="#3a2208" stroke-width=".8"/></svg>`;
+const TPROPS=['event','cove','extract','abandon','prize','recruit','reward','shipwright'];
+function tableProps(){const a=$('app');a.querySelectorAll('.tprops').forEach(e=>e.remove());if(!S||!TPROPS.includes(S.screen))return;
+ a.insertAdjacentHTML('beforeend',`<div class="tprops" aria-hidden="true"><span class="tp-compass">${propCompass}</span><span class="tp-div">${propDividers}</span><span class="tp-coin">${propCoins}</span></div>`)}
+const _r7=render;render=function(){_r7();const a=$('app');tableProps();emo(a)};
+/* ---------- captain select: medallions on the chart + dossier ---------- */
+let CSEL='blackbeard';
+function deckChips(c){const cnt={};c.deck.forEach(k=>cnt[k]=(cnt[k]||0)+1);return Object.keys(cnt).map(k=>`<span class="chip tag${CARDS[k].tag}"><i>${CARDS[k].c}</i>${CARDS[k].n}${cnt[k]>1?` <b>×${cnt[k]}</b>`:''}</span>`).join('')}
+renderCapSelect=function(){const keys=Object.keys(CAPTAINS);const lock=k=>CAPTAINS[k].unlock&&!M.unlocked[k];if(!CAPTAINS[CSEL]||lock(CSEL))CSEL=keys.find(k=>!lock(k));
+ const c=CAPTAINS[CSEL],locked=lock(CSEL);
+ $('app').dataset.screen='capselect';
+ $('app').innerHTML=`<div class="scr capscr"><h2>Choose your captain</h2>
+ <div class="caps">${keys.map(k=>{const cc=CAPTAINS[k];return `<button class="med ${k===CSEL?'sel':''} ${lock(k)?'locked':''}" id="cap-${k}" ${lock(k)?'disabled':''} onclick="CSEL='${k}';renderCapSelect()" aria-label="${cc.short}"><span class="mr"><img src="${cc.img}" alt=""></span><b>${cc.short}</b>${lock(k)?`<span class="lk">${ic('skull')}</span>`:''}</button>`}).join('')}</div>
+ <div class="dossier"><div class="dh"><div><h3>${c.n}</h3><i>${c.id}</i></div>${propSeal('dseal')}</div>
+ <p class="dp">${c.passive}</p>
+ <div class="dstats"><span>${ic('heart')} ${c.hp}</span><span>${ic('crew')} ${c.crew}</span><span>${ic('ship')} Sloop</span></div>
+ <div class="ddeck">${deckChips(c)}</div></div>
+ ${notPicker()}</div>
+ <div class="actions"><button id="back" onclick="S=null;render()">Back</button><button id="sail" class="gold" ${locked?'disabled':''} onclick="newRun('${CSEL}')">${locked?'Locked':'Take the helm'}</button></div>`;emo($('app'))};
+setNot=function(d){M.selNot=clamp((M.selNot||0)+d,0,M.maxNot||0);saveMeta();renderCapSelect()};
+render();

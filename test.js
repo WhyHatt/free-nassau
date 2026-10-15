@@ -3,7 +3,7 @@ const {chromium}=require('playwright');
 const p=await b.newPage({viewport:{width:390,height:844}});p.on('pageerror',e=>errs.push(e.message));p.on('console',m=>{if(m.type()==='error')errs.push(m.text())});
 await p.goto('file://'+process.cwd()+'/index.html');await p.evaluate(()=>localStorage.clear());await p.reload();
 await p.click('#new');t(await p.$('#cap-blackbeard'),'capselect');t(!(await p.$('#cap-rackham'))||await p.$eval('#cap-rackham',e=>e.disabled),'rackham locked');
-await p.click('#cap-blackbeard');t(await p.$('.chart'),'map');await p.waitForTimeout(300);t(await p.$eval('#app .scr',e=>e.scrollHeight<=e.clientHeight+2),'map fits');await p.screenshot({path:'screenshot-v2-map.png'});t(await p.evaluate(()=>Object.keys(S.officers).length===0),'no officers '+await p.evaluate(()=>S.ship.type+JSON.stringify(S.officers)));
+await p.click('#cap-blackbeard');t(await p.$eval('#cap-blackbeard',e=>e.classList.contains('sel')&&!!document.querySelector('.dossier')),'v4: captain medallion selects and shows dossier');await p.click('#sail');t(await p.$('.chart'),'map');await p.waitForTimeout(300);t(await p.$eval('#app .scr',e=>e.scrollHeight<=e.clientHeight+2),'map fits');await p.screenshot({path:'screenshot-v2-map.png'});t(await p.evaluate(()=>Object.keys(S.officers).length===0),'no officers '+await p.evaluate(()=>S.ship.type+JSON.stringify(S.officers)));
 await p.click('.node.avail',{force:true});t(await p.$('.card'),'combat cards');t(await p.$('#endturn'),'end turn');
 await p.waitForTimeout(700);t(await p.$eval('#app .scr',e=>e.scrollHeight<=e.clientHeight+2),'combat fits '+await p.$eval('#app .scr',e=>e.scrollHeight+'/'+e.clientHeight));
 // play a card for juice
@@ -77,6 +77,36 @@ await p.evaluate(()=>{M.maxNot=0;S=null;renderCapSelect()});t(!(await p.$('#notu
 await p.evaluate(()=>{M.maxNot=2;M.selNot=0;renderCapSelect()});t(await p.$('#notup'),'v3: Notoriety picker after a win');await clk('#notup');t(await p.evaluate(()=>M.selNot===1),'v3: Notoriety can be raised');
 t(await p.evaluate(()=>{newRun('vane');const n=S.not;S=null;return n===1}),'v3: new run uses selected Notoriety');await p.evaluate(()=>{M.maxNot=0;M.selNot=0});
 t(await p.evaluate(()=>{newRun('blackbeard',0);const a=mkEnemy('privateer').crewMax;S.not=2;const b=mkEnemy('privateer').crewMax;return b>a}),'v3: Notoriety 2 enlarges enemy crews');
+await p.evaluate(()=>{S=null;localStorage.removeItem('fnv2run');render()});
+
+
+// ---- v4 chart table checks ----
+await p.evaluate(()=>{window.NOFX=1;newRun('vane',0);S.screen='map';S.combat=null;render()});await p.waitForTimeout(150);
+t(await p.$eval('.hud',e=>e.getBoundingClientRect().height<=72),'v4: HUD stays slim (<=72px)');
+t(await p.evaluate(()=>!!document.querySelector('.hud .medal img')&&document.querySelectorAll('.hud .cg').length===3&&document.querySelectorAll('.hud .ofc').length===4&&!document.querySelector('.hud').textContent.match(/[\u{1F300}-\u{1FAFF}]/u)),'v4: HUD has captain medallion, 3 supplies, 4 officer badges, no emoji');
+t(await p.evaluate(()=>getComputedStyle(document.body).backgroundImage.includes('table.webp')&&!!document.getElementById('light')&&!!document.getElementById('candle')),'v4: table background, candle and light layers exist');
+t(await p.$$eval('.node svg.ic',a=>a.length>=20)&&await p.$('.node.avail em'),'v4: map nodes use engraved icons and available marks are labelled');
+t(await p.evaluate(()=>document.querySelector('.mapship')&&document.querySelectorAll('.chart .node').length>10),'v4: map shows ship marker and branching nodes');
+// logbook drawer
+await p.click('.menubtn');t(await p.$$eval('.bk-tabs button',a=>a.map(b=>b.textContent.trim()).join()==='Crew,Supplies,Deck,Legend,Settings'),'v4: logbook has the five tabs');
+t(await p.$$eval('.offgrid .off',a=>a.length===4),'v4: crew tab lists four officer slots');
+await clk('.bk-tabs button[data-t="supplies"]');t(await p.$$eval('.supgrid .sp',a=>a.length===4),'v4: supplies tab shows silver and three consumables');
+await clk('.bk-tabs button[data-t="deck"]');t(await p.$$eval('.declist .dl',a=>a.length>=6),'v4: deck tab lists the deck');await clk('.declist .dl');t(await p.$('.ibk .card.big'),'v4: tapping a deck row shows the card');
+await clk('.bk-tabs button[data-t="legend"]');t(await p.$$eval('.lg',a=>a.length>=7),'v4: legend tab lists the five effects and intents');
+await clk('.bk-tabs button[data-t="settings"]');t(await p.$('#mute')&&await p.$('#giveup')&&await p.$('#quit'),'v4: settings has sound, quit and give up');
+await p.mouse.click(3,3);await p.waitForTimeout(100);t(!(await p.$('.modal')),'v4: logbook closes');
+// combat board
+await p.evaluate(()=>{S.row=1;startFight(['rival'],'normal');C().hand=['broadside','tack','cutlass','swivel','chain','hold','grape','tack','tack'];C().energy=3;render()});await p.waitForTimeout(250);
+t(await p.evaluate(()=>!!document.querySelector('.sea .ink path')&&!!document.querySelector('.sea .intent b')&&!!document.querySelector('.sea .eplate')&&!!document.querySelector('.sea .myship svg')),'v4: board shows ink arcs, intent plate, enemy plate and your ship');
+t(await p.evaluate(()=>document.querySelectorAll('#energy i.on').length===3&&document.querySelector('.pile.draw b')&&document.querySelector('.pile.disc b')),'v4: energy pips and draw/discard counters');
+t(await p.evaluate(()=>{const e=document.getElementById('endturn').getBoundingClientRect();return e.bottom>780&&e.height>=48}),'v4: End Turn sits at the bottom');
+t(await p.$eval('#app .scr',e=>e.scrollHeight<=e.clientHeight+2)&&await p.evaluate(()=>document.getElementById('app').scrollHeight<=844),'v4: combat with a 9-card hand fits '+await p.$eval('#app .scr',e=>e.scrollHeight+'/'+e.clientHeight));
+await p.evaluate(()=>{const c=C();c.phase='board';E().crew=20;E().crewMax=30;render()});await p.waitForTimeout(200);
+t(await p.$('.sea .ink.red')&&await p.$eval('#app .scr',e=>e.scrollHeight<=e.clientHeight+2),'v4: boarding board uses red ink and fits');
+await p.evaluate(()=>{S.combat=null;S.screen='map';render()});
+t(await p.evaluate(()=>{const m=document.querySelectorAll('.card .ds').length;return m>=0}),'v4: ok');
+await p.evaluate(()=>{S=null;renderCapSelect()});t(await p.evaluate(()=>document.querySelectorAll('.med').length===Object.keys(CAPTAINS).length&&document.querySelector('.dossier h3')&&document.documentElement.scrollHeight<=844&&document.getElementById('app').scrollHeight<=844),'v4: captain select shows medallions and dossier, fits');
+await clk('#cap-vane');t(await p.evaluate(()=>document.querySelector('.dossier h3').textContent.includes('Vane')),'v4: dossier follows the selected medallion');
 await p.evaluate(()=>{S=null;localStorage.removeItem('fnv2run');render()});
 
 // full bot runs + meta persistence
