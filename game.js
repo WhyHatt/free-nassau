@@ -31,7 +31,7 @@ function newRun(cap,nl,doc){const C0=CAPTAINS[cap];const b=M.buildings;
  S.cargo.powder+=b.powder*3; if(cap==='vane')S.cargo.powder+=3;
  S.crew+=b.tavern*6;S.cargo.rations+=b.tavern*2;
  S.ship.hull=hullMax();S.crew=Math.min(S.crew,crewMax());
- S.map=genMap(1);M.runs++;saveMeta();save();render()}
+ S.map=genMap(1);M.runs++;saveMeta();save();fx('act',{act:1});render()}
 const ship=()=>SHIPS[S.ship.type];
 const hullMax=()=>ship().hull+15*S.ship.upg.hull+(off('shea')?10:0)+(S.trophies.includes('pennant')?8:0);
 const crewMax=()=>ship().crew;
@@ -301,7 +301,7 @@ function endRun(kind){const v=payoutValue();const pct=kind==='death'?.25:kind===
  const bc=M.byCaptain[S.cap]=M.byCaptain[S.cap]||{runs:0,wins:0};bc.runs++;
  if(kind==='death')M.deaths++;else{if(kind==='win'){M.wins++;bc.wins++;M.maxNot=Math.min(NOTMAX,Math.max(M.maxNot||0,(S.not||0)+1))}else M.extracts++;S.trophies.forEach(t=>{if(!M.trophies.includes(t))M.trophies.push(t)});if(!M.unlocked.rackham){M.unlocked.rackham=1;S.unlockMsg='New captain unlocked: "Calico Jack" Rackham!'}}
  (M.log=M.log||[]).unshift({cap:S.cap,kind,act:S.act,fights:S.stats.fights,coin:banked,ren:gain,not:S.not||0,t:Date.now()});M.log=M.log.slice(0,15);
- S.end={kind,banked,act:S.act,trophies:kind==='death'?[]:S.trophies.slice(),ren:gain,rankBefore:rb,rankAfter:ra,total:M.renown,stats:Object.assign({},S.stats),deck:S.deck.length,ship:S.ship.type,by:S.combat?S.combat.enemy.n:(S.capturedMsg||'')};
+ fx('end',{kind});S.end={kind,banked,act:S.act,trophies:kind==='death'?[]:S.trophies.slice(),ren:gain,rankBefore:rb,rankAfter:ra,total:M.renown,stats:Object.assign({},S.stats),deck:S.deck.length,ship:S.ship.type,by:S.combat?S.combat.enemy.n:(S.capturedMsg||'')};
  S.combat=null;S.screen='end';saveMeta();save();render()}
 function nextAct(){S.act++;S.bossFails=0;ren(3);S.map=genMap(S.act);S.row=-1;S.col=-1;S.screen='map';
  S.msg=`${ACTS[S.act].n}. ${S.act===3?'Benjamin Hornigold, pardoned and hunting his old friends, waits at the end.':'New waters, harder prey.'}`;fx('act',{act:S.act});save();render()}

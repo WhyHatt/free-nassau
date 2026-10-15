@@ -7,7 +7,7 @@ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 let S=null, M=null;
 /* FX event queue: the engine emits, the UI plays. Capped, off in tests. */
 const FXQ=[];
-function fx(t,d){if(window.NOFX||FXQ.length>80)return;FXQ.push(Object.assign({t},d||{}))}
+function fx(t,d){if(window.NOFX||window.__prev||FXQ.length>80)return;FXQ.push(Object.assign({t},d||{}))}
 /* Balance dials (tuned with sim.js). dmg[act]: normal-enemy damage multiplier on top of the act scale; bd/bs: boss damage / size by act. */
 const TUNE={dmg:[0,3.0,3.3,3.1],hull:1.8,crew:1.3,bd:[0,1.8,2.1,1.45],bs:[0,1.5,1.7,1.0],sc:[0,1,1.15,1.15]};
 /* Ships: heavier hulls give less Block from Sail cards (sail). */
