@@ -1,0 +1,19 @@
+# 8. Open Questions for Ren
+## 8.1 New in v6 (please weigh in; each has a default I chose)
+• Both-phase cards: cards now work in either phase at different strength, instead of being locked to a phase. Default: yes. If you want strict phase-locked cards back, the swap button and a "draw only playable cards" first hand are the alternatives.
+• Quick play: should the default stay select-then-confirm (my default) with Quick play as an opt-in, or should new players start in Quick play?
+• Run length target of 20 to 30 minutes with about 11 fights: right for your phone sessions, or do you want shorter runs?
+• Music: the shanty-style score is generated in code. Do you want to commission or generate recorded music later?
+• Dice: the optional tavern dice minigame is still unbuilt. Do you want it as a Nassau tavern diversion?
+• Hornigold checkpoint: the parley between the boarding and the duel heals part of your captain's HP. Is that too generous?
+• Real-history events: which should be authored beats (Woodes Rogers' arrival, the 1715 fleet, Vane's fireship, Blackbeard's Charleston blockade)?
+• Art: the painted art is reused heavily; the file art-tests/prompts-v6.txt lists the images that would help most (enemy ships, captains, cards, boss intros).
+## 8.2 Carried over from v3, with status
+• The Tavern node, dice game and Fence were cut and Coin and Silver merged: still cut (not needed; revisit the dice game only if you want it).
+• Act III as a cliff (about 60% of runs end at Hornigold): addressed in v6 by deaths spread across acts, shorter bosses and a checkpoint.
+• Taps from select-then-confirm and long bosses: addressed by Quick play, Undo, auto end turn and shorter bosses.
+• About twelve cards that were "gain N Block" variants: addressed by the card pool redesign.
+• Low ration pressure: partially addressed (shorter acts with the same eating rate, the Storm and Wreck nodes cost supplies); check the sim.
+• Surgeon and Boarding Master: built as real roles in v6.
+• Reused ship art: still open (see art prompts).
+• Notoriety 5 very hard (3% bot wins): kept as a mastery tier.

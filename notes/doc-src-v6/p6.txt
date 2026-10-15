@@ -1,0 +1,40 @@
+# 6. Decision Log
+Every decision, newest section last, stated once. "Ren" means decisions Ren made or confirmed; "Grok Bot" means calls I made under Ren's delegation of the v6 overhaul (Oct 15, 2026), which Ren is welcome to overrule.
+## 6.1 From Ren's v1 feedback (Oct 14, 2026)
+• Keep: the mechanics, the art, and the 3-wide map with forward and diagonal moves.
+• Wanted: a legend for status effects tucked into a menu; End Turn as a normal button at the bottom of the page, not floating; fewer fights and better rewards. All were delivered in v1.1.
+## 6.2 From Ren's Round 2 feedback and decisions (Oct 14, 2026)
+• Make the game general: drop the story characters; any named figures are real, recognizable historical pirates.
+• Pull more from the reference games (Inscryption especially, plus Slay the Spire, Balatro, Dicey Dungeons). Choices should matter more than luck; a touch too easy.
+• Cargo needs a purpose (or fold into plunder). Open to meta progression and difficulty options.
+• Player character: choose a real historical captain at the start, each with their own starting deck. Final boss: Benjamin Hornigold. History is light flavor plus a few real events as choices.
+• Chance: dice are not the core. The design should not copy Dicey Dungeons. (Later: no core dice mechanic; an optional tavern dice minigame as flavor only.)
+• Ship-focused game with an active crew. Ship battles in two phases: ship against ship, then crew boarding, with the phase-one result giving an advantage. Also crew-only fights, rare captain-alone moments, and varied boss encounters.
+• Three upgrade paths (ship, crew and officers, captain) compete for the same rewards.
+• Crew tier 1 is a few named officers with titles and role abilities: injured, never killed, one per role, candidate officers per role, and the recruit nodes show which role they offer. Crew tier 2 is a number that can die and be replenished.
+• The captain is the strongest combatant in both phases; the run ends only when the captain's HP hits 0. Ship, crew and officer losses hurt but do not end the run.
+• Damage carries over between fights; nothing tops off.
+• Ships can be upgraded and swapped mid-run; upgrades raise resale value. The ladder is mostly "bigger is better" with minor trade-offs. Everything can be upgraded.
+• Launch captains: Blackbeard, Bellamy, Vane, Bonny and Read. Rackham and Bonnet are later unlocks. Runs start with only the captain, a basic ship and basic crew, with no officers. Officers are recruited in-run.
+• Sink or board in normal fights (bosses are scripted). One shared combat system for both phases with Ship, Crew and Captain tags.
+• Hull at 0 is Abandon Ship (severe but recoverable). "Take your plunder and sail home" is offered only at extraction points after each act boss. Act-boss trophies are kept if you sail home or win and lost if you die.
+• Meta progression (win record, unlocks, Nassau base) and a Notoriety ladder were confirmed as wanted.
+## 6.3 Visual and interface decisions (Ren)
+• Storybook painterly art with engraved sea-chart touches, captain's-desk framing, phone portrait. Nassau is a large established port; female characters' outfits are modest; no Ren or James likenesses.
+• Card play is select-then-confirm. The chart-table look (v4) is kept.
+• Ren's v3 feedback: the game was too busy. Morale was cut, food and water merged into Rations, and every resource, stat and keyword was audited (see 7.3).
+## 6.4 Decisions made during v3 to v5 (Grok Bot under delegation, reported to Ren)
+• One currency (Silver) and three supplies (powder, rations, repair kits). Keywords cut from 8 to 5. Nodes cut from 10 to 8: Fence, Tavern and its dice game, and Wreck were cut. Weather is four states.
+• The Surgeon moved into ports and the cove became a choose-one (careen the ship or rest ashore).
+• Notoriety 0 to 5 implemented in a light form.
+## 6.5 v6 decisions (Grok Bot under delegation, Oct 15, 2026)
+• D-v6-1: Keep select-then-confirm as the default, and add a Quick play setting plus a one-card Undo. Reason: honors Ren's request while answering the tap-economy critique.
+• D-v6-2: Cards become playable in both phases (different strength). Reason: dead draws (R2-3). Flagged because it reinterprets the Ship, Crew and Captain tag rule (see 4.5).
+• D-v6-3: Four doctrines (starter deck variants) per captain. Reason: StS2 same-y starts, Monster Train clan starts.
+• D-v6-4: Captain Orders as one free, cooldown-limited action per turn. Reason: R2-8.
+• D-v6-5: Six officer roles (Surgeon and Boarding Master become real). Reason: they were listed in Ren's candidate roles and were cosmetic.
+• D-v6-6: A four-lane map with acts of 7, 6 and 6 rows plus the boss; new node types Smuggler's cove, Wreck, Storm. Reason: R2-5 and run length.
+• D-v6-7: Renown banked at 100% on every ending, driving Ranks and unlocks; banked silver stays 25, 75 and 125% and funds Nassau. Reason: R2-7, Hades and Loop Hero findings. Extraction payouts are unchanged (locked).
+• D-v6-8: Hornigold stays three stages but gets a checkpoint and lower HP. Reason: R2-1, R2-6.
+• D-v6-9: Procedural music rather than recorded music, because the game has no audio assets and must stay one small static site. Reason: audio findings. Recorded music is an open question.
+• D-v6-10: Tavern dice minigame remains unbuilt. Reason: not needed for pacing, and it is still optional flavor per the locked decision.

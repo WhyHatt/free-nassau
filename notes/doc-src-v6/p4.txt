@@ -1,0 +1,55 @@
+# 4. v6 Overhaul Plan
+Status: written before the build (Oct 15, 2026). Section 4.6 is updated with the measured results when v6 ships. Priority tags: P0 must ship, P1 should ship, P2 if time allows.
+## 4.1 Goals
+• Goal 1, the run is decided across all three acts, not at Hornigold (R2-1, R2-5). P0.
+• Goal 2, deck building matters as much as the hull you bought (R2-2, R2-3). P0.
+• Goal 3, a phone session is 20 to 30 minutes with far fewer taps and no dead moments (R2-6). P0.
+• Goal 4, every fight looks and sounds like a pirate battle, with wow moments at boss intros, sinkings, boardings, extraction and victory (Critiques 1, 2, 7; R2-12). P0 for the combat set pieces, P1 for music.
+• Goal 5, the captain commands: Orders, wind and crew are levers in every turn (R2-8). P0.
+• Goal 6, new players are taught in play, and everyone can read the game (Critique 8; R2-9, R2-11). P0 for tutorial and readability, P1 for the full accessibility set.
+• Goal 7, progress is felt: a clear Nassau and Renown track and a Captain's Log after every run (Critique 9; R2-7). P1.
+• Goal 8, the phone cannot lose your progress: offline play, install, save export (R2-10). P1.
+## 4.2 Design by design: what changes, why, and how
+• Cards (P0). Every card works in both phases, so there are no dead draws: Ship cards in boarding become "fire from the rigging" at half strength, and Crew cards played at sea ready the boarding party and give +1 Advantage (once per turn). The pool grows from 32 to about 56 cards in four archetypes (Gunnery, Boarding, Seamanship, Cunning), each with enablers and payoffs. Every card has an upgraded "+" version. Why: R2-2 and R2-3, and the Dicey Dungeons and Slay the Spire findings on pick cost and dominant strategies. Rejected: a smaller change (a swap button only), because the dead draw is still a draw spent.
+• Deck-building economy (P0). Upgrade a card at ports and as the third choice at coves. Dismiss a card at ports (price rises). Doctrines at the start of a run (Gunnery, Boarding, Seamanship, Cunning) swap three starter cards and bias reward offers toward the doctrine. A "Take the heavy plunder" option after boardings gives more silver but adds a Ballast card. Why: makes thinning, upgrading and archetype commitment real decisions.
+• Ships (P0). Bigger hulls carry real costs: Sail cards give less Block on heavy ships and a ship's size changes how often a fight starts with the Weather Gauge. Upgrade costs rise. Why: R2-2, ship tier was the real lever.
+• Captain Orders (P0). One free order per turn, each with a cooldown: a captain signature (Blackbeard's Smoke and Fire, Bellamy's Fair Shares, Vane's No Quarter, Bonny and Read's Twin Blades, Rackham's Fast Getaway), Fire at will (ship) or Charge (boarding), and Hard to port (ship, shifts the wind). Why: R2-8, the captain should act, not just pass cards, and it is the Cobalt Core and Pirates! lesson that the player needs verbs.
+• Wind and positioning (P0). The per-fight weather stays (locked). The Weather Gauge becomes the single positioning axis: Sail cards and Hard to port can take it, enemy Come about moves can take it back. Why: Black Flag cut wind complexity, and Cobalt Core shows one axis is enough.
+• Enemies (P0). From 15 to about 26 types with a trait each: Plated (reduces each hull hit), Fireship (rams when nearly sunk), Runs (flees on a timer and loses you the loot), Grappler (forces boarding on turn 4). Each has two or three readable loadouts (picked and shown at the start). The intent rail shows three moves. Boarding gets three "deck" variants (Open deck, Gun deck, Captain's cabin) that change the intent cycle. Why: R2-4 and the Cobalt Core and Slay the Spire findings.
+• Map (P0). Four lanes with real forks; acts of 7, 6 and 6 rows plus the boss. New nodes: Smuggler's cove (black market), Wreck (salvage gamble), Storm (brave a squall fight for more loot). Guaranteed: one elite per act, a port or cove before the first elite. Why: R2-5, FTL and Slay the Spire findings, and the run-length target.
+• Bosses and Hornigold (P0). All three stages stay (locked), but they are shorter and have an authored intro. A checkpoint (a short parley scene and a partial heal) sits between Hornigold's boarding and his duel. Why: R2-1, R2-6 and R2-12.
+• Officers (P0). Surgeon and Boarding Master become real roles, so six roles with two candidates each (12 officers), each with a unique card and passive. Why: Critique list and R2-8; removing them was the alternative.
+• Events (P1). From 12 to about 24 events across the acts, with the real-history ones (Rogers arrives, the 1715 fleet) as authored beats.
+• Tap economy (P0). Quick play (one tap) as a setting and a one-card Undo; auto end turn when no card can be played (a setting, on by default); FX speed 1x, 2x and skip plus a fast-forward button; merged reward and loot screens; "Collect all" on treasure. Why: R2-6 and the mobile UX findings.
+• Combat feedback (P0). A serialised event queue drives a cannon volley (muzzle flash, smoke, balls arcing), hit sparks, crew figures fighting and falling in boarding, a sinking sequence, crit and kill escalation, big coloured numbers, screen shake with a slider, Reduce motion respected. Why: Critique 2, R2-12, and the Vlambeer and Balatro findings.
+• Presentation moments (P0). Act title cards, boss intros, a victory scene sailing into Nassau, a defeat scene, extraction. Built from the existing painted art with SVG and CSS effects (no new art is required).
+• Audio (P1). A generative shanty-style music engine with four moods and stingers, a larger SFX set, volume sliders for music and effects, and pause when the page is hidden.
+• Onboarding (P0). A guided Maiden voyage first fight, one-time contextual tips, an easy early enemy pool and a Captain's Manual.
+• Readability and accessibility (P0/P1). Remove the zoom lock; text size S, M, L; 44 px primary targets; a colour-blind palette and icon-coded tracks; the menu and primary actions in the lower half with a left or right hand toggle; an incoming-damage preview ("after Block: 4 hull") and a "why this much damage" breakdown on card inspect; verbs printed under intents.
+• Meta (P1). Renown, banked at 100% on every ending, drives Ranks (titles) that unlock cards, officers, doctrines and nodes. Banked silver still builds Nassau; the base grows from 3 to 5 buildings (add Market and Infirmary). A Captain's Log after every run. Notoriety stays 0 to 5 and is presented as a wanted poster that shows the payout multiplier.
+• Phone resilience (P1). Web manifest, service worker (offline), persistent storage request, self-hosted fonts, an export and import save code, autosave on page hide.
+## 4.3 Success metrics and targets (bot at Notoriety 0 unless noted)
+• Win rate per base captain: 20 to 35%, captains within 10 points of each other. Baseline v5: about 29% overall (Blackbeard 24, Bellamy 33, Vane 32, Bonny and Read 34 at v3).
+• Cards matter: a bot that never takes a card wins at least 10 points less than the normal bot. Baseline: 6 points.
+• No card appears in more than 60% of winning decks, and every reward card is picked at least 5% of the time it is offered.
+• Spread of deaths: no more than 35% of all runs end at Hornigold, and the Act I and II bosses and elites each end at least 5%. Baseline: 60% at Hornigold.
+• Run length: about 10 to 12 fights and 22 stops; a timed human-speed playtest of 20 to 30 minutes with FX at 1x. Baseline: 13.6 fights, about 30+ minutes (estimate).
+• Tap budget: median full-run taps at most 450 with select-then-confirm and at most 350 with Quick play, measured with the Playwright playtest. Baseline: median about 820.
+• Quality gates: test.js passes, no page scrolling on combat, map and every menu at 390x844, 360x740 and 430x932, no console errors, save resume works on every screen, first-run tutorial completes.
+## 4.4 Milestones (each deployed only when the tests and playtests pass)
+• M1, rules and content: both-phase cards, upgrades, 56 cards, doctrines, orders, enemies with traits, map v2, officers, events, boss shortening. Tests and sim updated.
+• M2, UI: intent rail, orders tray, settings (quick play, auto end, text size, FX speed), undo, damage preview, new screens.
+• M3, meta and onboarding: Renown, ranks, Captain's Log, Nassau screen, tutorial and tips.
+• M4, feel: FX queue, set pieces, music and SFX, accessibility palette.
+• M5, resilience: manifest, service worker, fonts, export and import.
+• M6, balance and polish: bot and human-style playtests, tuning, extra polish cycles, screenshots, final doc update.
+## 4.5 Locked decisions touched, and the reasoning
+• Select-then-confirm card play: kept as the default; Quick play is an opt-in setting. Not changed.
+• Two-phase combat with Ship, Crew and Captain tags: kept; tags now steer colour and bonuses, and cards are playable in both phases with different strength. This changes how the tag works, not that it exists. Flagged for Ren.
+• Officers one per role: kept; roles grow from four to six (Surgeon, Boarding Master), as the original decisions listed them as candidates.
+• Extraction points and trophies: kept exactly.
+• Dice: not reintroduced. Tavern dice minigame: still not built (optional flavor only).
+• Cargo "fewer, each distinct": kept at powder, rations and repair kits.
+• Hornigold in three stages: kept, shortened and given a checkpoint.
+## 4.6 Results (filled in when v6 ships)
+• To be completed after the build: measured win rates per captain, deaths by act, run length, taps per run, test status, and which plan items shipped, slipped or changed.

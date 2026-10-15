@@ -1,0 +1,16 @@
+# Appendix C. Idea Backlog (from the v2 outline and early plans, not built)
+## C.1 Captains and officers
+• Stede Bonnet, the Gentleman Pirate (unlock): an economy and learning deck that buys ships and upgrades cheaper but starts with weaker crew skill; a deliberately quirky hard-mode captain.
+• More officer candidates over time (the original plan was a pool of candidates per role that grows with unlocks), and officers that level up through two tiers.
+## C.2 Encounters
+• Crew-only fights (shore raids, tavern brawls, mutinies) and rare captain-alone moments (duels, an ambush ashore). A second Act II or Act III boss drawn from a pool.
+• Real events as authored beats: Woodes Rogers' arrival at Nassau (1718), the 1715 treasure-fleet wreck salvage, Vane's fireship gambit, Blackbeard's Charleston blockade (ransom for medicine).
+## C.3 Meta and difficulty
+• Notoriety rungs not built: more elites, +1 enemy gun, upkeep +50%, damaged start, 25% less careening repair, officers injured more easily, Hornigold with a fourth stage. Optional challenge toggles for bonus renown: Single Ship (no swaps), Dry Hold, Iron Captain (half captain HP), Pressed Men (60% crew).
+• Nassau buildings not built: Chapel or Infirmary (officers heal faster), Fort (unlocks challenge toggles), Chart House (start each act with a map), Market (+1 card choice at ports). A "Pure" toggle that disables base bonuses for leaderboard-style runs. Mistress Alannah (original, light) can run the Market as a non-emotional NPC.
+• Deathcards (Inscryption): a lost run's captain becomes a card or ghost ship in later runs. Daily seeded runs.
+## C.4 Systems
+• Hidden nodes revealed by maps and documents. Crew drills (Gun, Boarding, Sail) as upgradable abilities. A pressing-prisoners option after a win.
+• Cargo that could return: Rum (a one-time boost or a mutiny calmer) if morale ever returns; Maps and Documents as keys.
+## C.5 Original v1.1 targets (superseded, for the record)
+• Card reward odds with a rare pity offset, event pity, shop price bands, relic frequency, and the 8-phase roadmap (polish, card upgrades, ship art, acts 2 and 3, cargo, Nassau meta, sound, difficulty). Everything except relics and daily runs has since been built or replaced.

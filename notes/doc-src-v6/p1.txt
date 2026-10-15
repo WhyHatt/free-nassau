@@ -1,0 +1,39 @@
+#T Free Nassau: Design Document
+#S A Golden Age pirate roguelike deck builder for phones. Living doc v2.0, reorganized Oct 15, 2026. Play: https://whyhatt.github.io/free-nassau/ . Repo: https://github.com/WhyHatt/free-nassau
+# Contents
+• 1. Vision, Pillars and Locked Decisions
+• 2. Current Design (single source of truth)
+• 3. Research Findings (v6 research round)
+• 4. v6 Overhaul Plan
+• 5. Critiques and Prioritized Roadmap
+• 6. Decision Log
+• 7. Version History
+• 8. Open Questions for Ren
+• Appendix A. Art Style Guide
+• Appendix B. Reference Notes from the v1 and v2 Research
+How to read this doc: sections 1 and 2 are the truth about the game right now. Sections 3 and 4 explain why v6 changes it. Section 5 keeps the critiques that drove v6. Sections 6 and 7 are history. Raw research notes with every source live in the repo under notes/research-v6/.
+# 1. Vision, Pillars and Locked Decisions
+## 1.1 Vision
+• You captain a pirate ship out of Nassau, the large, established free port of the Bahamas, in the Golden Age of Piracy (about 1713 to 1718). One run is one voyage across three seas, each ending in a boss, and the last boss is Benjamin Hornigold.
+• The game is general. There is no named player character: you pick a real historical pirate captain, each with their own starting deck and abilities. History is worn lightly, with a few real events offered as choices.
+• You are the captain: you fire the guns, lead the boarding, give the orders, hire the officers, and decide when to take your plunder and sail home. The game should feel like that fantasy on every turn, not only on the map.
+## 1.2 Pillars
+• Captain's choices: every node, card pick and purchase is a real trade-off (risk against reward, now against later).
+• Skill over luck: chance comes only from card draw, readable randomized enemy loadouts and intents, visible per-fight wind and weather, and risky events. Everything is shown before you commit.
+• Attrition is the challenge: hull, crew and captain damage persist between fights, so winning efficiently matters as much as winning.
+• One resource, one job: silver is the money; each supply (powder, rations, repair kits) has exactly one clear job.
+• Readable on a phone: portrait 390x844, big numbers, icon-first cards, full information about the next enemy moves.
+• Nassau grows: runs feed a meta layer (win record, unlocks, base upgrades, rising difficulty).
+• Free and portable: a static web page on GitHub Pages that works on any phone and offline.
+## 1.3 Locked-in Decisions (made by Ren; change only with a flagged reason)
+• Setting and tone: the game is general (no Ren or James characters). Real historical pirates only. Light history. Storybook painterly art with the chart-table UI. Nassau is a large established port. Female characters' outfits are modest.
+• Structure: 3 acts, each with a boss. The last boss is Benjamin Hornigold in three stages: ship battle, boarding, then a captain-vs-captain duel.
+• Captains: launch captains are Blackbeard, Bellamy, Vane, and Bonny and Read. Rackham is an unlock. The player picks a captain at the start of a run. Hornigold is the final boss, so he is not playable.
+• Combat: two-phase combat (ship first, then boarding) from one deck whose cards carry Ship, Crew and Captain tags. Damage persists between fights; nothing tops off.
+• Chance: no core dice mechanic. An optional tavern dice minigame may return as flavor only. Sources of chance are card draw, readable randomized enemy loadouts and intents, visible per-fight weather, and risky events. The game should be skill-based rather than luck-heavy.
+• Crew and officers: officers are earned in-run, never given for free, one per role; they are injured, not killed. Crew is a number that can die. The captain's death ends the run.
+• Ships: a ladder with upgrades and trade-in, bigger is better with minor trade-offs. Everything can be upgraded: ships, officers, crew skills and cards.
+• Supplies: cargo is distinct, with fewer goods that each have a job (the v3 simplification).
+• Extraction: "Take your plunder and sail home" is offered only at extraction points (after each act boss), never "pardon". Act-boss trophies are kept if you sail home or win, and lost on death.
+• Meta: win record, unlocks and Nassau base boosts, plus a Notoriety difficulty ladder.
+• Interface: card play is select-then-confirm by default (Ren's request). End Turn sits in a normal spot at the bottom, never floating. The chart-table look is kept.
