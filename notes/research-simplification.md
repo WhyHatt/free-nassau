@@ -16,3 +16,6 @@ Sources are linked; each note is the takeaway I used for pruning.
 3. A resource or meter must change a decision the player makes at least once per run; morale, rum, charts and hold space did not.
 4. Nodes must not duplicate each other (Fence, Tavern and Wreck were folded into Port, Cove and Events).
 5. Enemy patterns: attack, crew attack, aimed shot, brace. No buff intent.
+
+## Result
+Resources 11 → 4 (silver, powder, rations, repair kits). Keywords 8 → 5. Nodes 10 → 8 (Fence, Tavern, Wreck cut). See v3-audit.md and playtest-findings.md.

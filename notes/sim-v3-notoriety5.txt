@@ -1,0 +1,27 @@
+Notoriety 5: 4/160 wins (3%)
+outcomes { 'death act3': 55, 'death act1': 35, 'death act2': 66, win: 4 }
+blackbeard 0/40 = 0%  deaths a1:3 a2:21 a3:16
+bellamy    3/40 = 8%  deaths a1:11 a2:1 a3:25
+vane       1/40 = 3%  deaths a1:11 a2:27 a3:1
+bonnyread  0/40 = 0%  deaths a1:10 a2:17 a3:13
+ship losses per run 1.69 | fights per run 11.5
+ship losses by act:enemy {"2:galleon":11,"1:privateer":9,"1:sqB":71,"2:privateer":10,"2:capitana":9,"3:hunter":14,"3:horn":61,"2:guarda":21,"1:patrol":32,"3:privateer":4,"3:warship":3,"2:rival":5,"1:sqA":8,"1:merchant":1,"2:salvager":2,"1:salvager":1,"3:guarda":4,"1:rival":2,"3:cutter":2,"3:galleon":1}
+death rows { a3r7: 54, a1r10: 35, a2r7: 66, a3r0: 1 }
+death where {
+  'a3 BOSShorn duel': 18,
+  'a1 BOSSsqB ship': 30,
+  'a2 BOSSfort board': 66,
+  'a3 BOSShorn ship': 30,
+  'a3 BOSShorn board': 6,
+  'a1 BOSSsqA ship': 5,
+  'a3 hunter ship': 1
+}
+boss1 lost     n=35 hp 96% hull 93% crew 15/32 coin 73 deck 13.5 powder 1.3 offs 2.1
+boss1 passed   n=125 hp 94% hull 95% crew 20/41 coin 77 deck 12.7 powder 2.1 offs 2.1
+boss2 lost     n=66 hp 75% hull 76% crew 1/35 coin 68 deck 12.7 powder 1.2 offs 2.6
+boss2 passed   n=59 hp 84% hull 87% crew 23/42 coin 115 deck 13.1 powder 2.6 offs 2.9
+boss3 lost     n=54 hp 76% hull 75% crew 17/37 coin 129 deck 13.5 powder 1.4 offs 3.4
+boss3 passed   n=4 hp 87% hull 73% crew 61/75 coin 337 deck 14.3 powder 4.0 offs 3.8
+card lift (pp vs average, n>=6%): shares:40:5 axes:27:4 fireship:34:3 rally:59:2 hold:52:1 pistolshot:24:1 ... twin:40:-3 grenades:27:-3 weather:19:-3 resolve:24:-3 crowd:27:-3 raking:23:-3
+officer win%: jennings:7%(61) pruitt:6%(51) pilot:2%(56) hands:2%(58) shea:0%(58) hatch:5%(59) penhallow:6%(53) purser:0%(49)
+pageerrors []

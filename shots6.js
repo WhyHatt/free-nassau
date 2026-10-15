@@ -1,5 +1,12 @@
-const {chromium}=require('playwright');(async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844}});const errs=[];p.on('pageerror',e=>errs.push(e.message));
-await p.goto('file://'+process.cwd()+'/index.html');await p.evaluate(()=>{window.NOFX=1;localStorage.clear();M.banked=200;S={screen:'nassau'};render()});await p.waitForTimeout(300);await p.screenshot({path:'screenshot-v25-nassau.png'});
-await p.evaluate(()=>{newRun('vane');enterNode({t:'tavern'});render()});await p.waitForTimeout(200);const f=async n=>console.log(n,await p.evaluate(()=>{const s=document.querySelector('#app>.scr');return s.scrollHeight+'/'+s.clientHeight}));await f('tavern');await p.screenshot({path:'screenshot-v25-tavern.png'});
-await p.evaluate(()=>{enterNode({t:'recruit',role:'gunner'});render()});await p.waitForTimeout(200);await f('recruit');await p.evaluate(()=>{enterNode({t:'cove'});render()});await f('cove');
-console.log(errs);await b.close()})();
+const {chromium}=require('playwright');
+(async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844},deviceScaleFactor:2});
+await p.goto('file://'+process.cwd()+'/index.html');await p.evaluate(()=>{localStorage.clear()});await p.reload();
+await p.evaluate(()=>{window.NOFX=1;M.maxNot=2;newRun('vane',0)});
+// map after a couple of legs
+await p.evaluate(()=>{S.row=2;S.col=1;S.map.slice(0,3).forEach(r=>r.forEach(n=>n.done=n.t!=='empty'?1:0));S.coin=134;S.cargo.powder=6;S.cargo.rations=5;S.cargo.kits=2;S.screen='map';render()});await p.waitForTimeout(500);await p.screenshot({path:'screenshot-v3-map.png'});
+await p.evaluate(()=>{S.row=1;startFight(['rival'],'normal');E().hull=17;C().hand=['broadside','tack','cutlass','swivel','chain','hold'];C().energy=3;render()});await p.waitForTimeout(500);
+await p.evaluate(()=>document.querySelector('#hand .card[data-i="3"]').click());await p.waitForTimeout(300);await p.screenshot({path:'screenshot-v3-combat.png'});
+await p.evaluate(()=>{S.combat=null;S.shop=null;S.coin=140;S.hp=40;S.ship.hull=30;enterNode({t:'port'})});await p.waitForTimeout(500);await p.screenshot({path:'screenshot-v3-port.png'});
+await p.evaluate(()=>{S.combat=null;enterNode({t:'cove'})});await p.waitForTimeout(400);await p.screenshot({path:'screenshot-v3-cove.png'});
+await p.evaluate(()=>{S=null;renderCapSelect();});await p.waitForTimeout(300);
+await b.close()})();
