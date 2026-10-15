@@ -92,5 +92,10 @@ renderLogbook=function(){const caps=Object.keys(M.byCaptain).map(k=>`<tr><td>${C
  ${caps?`<table class="lt"><tr><th></th><th>Wins</th><th>Runs</th></tr>${caps}</table>`:''}
  <h3>Trophy room</h3><p>${M.trophies.length?M.trophies.map(t=>Object.values(ACTS).find(a=>a.trophy.id===t).trophy.n).join(', '):'No trophies yet. Beat an act boss and get home alive.'}</p>
  ${log?`<h3>Recent voyages</h3><ul>${log}</ul>`:''}</div><div class="actions"><button id="back" onclick="S=null;render()">Back</button></div>`};
+/* resilience: offline service worker, persistent storage, autosave when the app is backgrounded */
+if('serviceWorker' in navigator&&/^https?:/.test(location.protocol)&&!window.NOFX)navigator.serviceWorker.register('sw.js').catch(()=>{});
+try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){}
+const flush=()=>{try{if(S&&S.cap&&S.screen!=='end')save();saveMeta()}catch(e){}};
+document.addEventListener('visibilitychange',()=>{if(document.hidden)flush()});addEventListener('pagehide',flush);
 applySettings();render();
 })();

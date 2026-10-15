@@ -40,3 +40,14 @@
 .unl{margin:6px 0 0 16px;padding:0;font-size:13px}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0}.stats div{background:rgba(0,0,0,.3);border:1px solid #6b4a1e;border-radius:6px;text-align:center;padding:6px 2px}.stats b{display:block;font-size:20px;color:#e8c76a}.stats small{font-size:11px;opacity:.8}
 .bld h3 small{opacity:.7}.lt{width:100%;border-collapse:collapse;font-size:14px;margin:6px 0}.lt td,.lt th{padding:3px 6px;border-bottom:1px solid #4a3216;text-align:left}
+/* safe areas, text size, colour-blind palette */
+body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+html.ts1 .card .ds,html.ts1 .detail,html.ts1 .scr p,html.ts1 .msg,html.ts1 .choices small,html.ts1 .lg,html.ts1 .sm,html.ts1 .dnow,html.ts1 #log,html.ts1 .evopt{font-size:calc(1em + 1.5px)}
+html.ts2 .card .ds,html.ts2 .detail,html.ts2 .scr p,html.ts2 .msg,html.ts2 .choices small,html.ts2 .lg,html.ts2 .sm,html.ts2 .dnow,html.ts2 #log,html.ts2 .evopt{font-size:calc(1em + 3px)}
+html.ts1 .gb span,html.ts1 .ord span,html.ts1 .node em{font-size:12.5px}html.ts2 .gb span,html.ts2 .ord span,html.ts2 .node em{font-size:14px}
+html.cb .gb i{background:#D55E00!important}
+html.cb .g-hull .gb i{background:repeating-linear-gradient(45deg,#E69F00 0 5px,#b87c00 5px 8px)!important}
+html.cb .g-crew .gb i{background:radial-gradient(circle,#0b4d75 1.2px,transparent 1.6px) 0 0/6px 6px,#56B4E9!important}
+html.cb .g-hp .gb i{background:#D55E00!important}
+html.cb .net{outline:2px solid #0072B2}
+html.cb .node.avail{box-shadow:0 0 0 3px #56B4E9}
